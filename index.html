@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Art 101 Group</title>
+	<style>
+		:root {
+			font-family: Georgia, "Times New Roman", serif;
+			color: #202020;
+			background: #f4efe6;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			min-height: 100vh;
+			margin: 0;
+			display: grid;
+			place-items: center;
+		}
+
+		main {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			padding: 2rem;
+			text-align: center;
+		}
+
+		h1 {
+			margin: 0;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+
+		.group-title {
+			font-size: clamp(2.5rem, 6vw, 4rem);
+		}
+
+		.member-list {
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.member {
+			min-height: 6rem;
+		}
+
+		h2 {
+			margin: 0;
+			font-size: clamp(2rem, 5vw, 3.25rem);
+			font-weight: 500;
+			line-height: 1.2;
+		}
+
+		.bio {
+			max-width: 34rem;
+			margin: 0.5rem 0 0;
+			font-size: 1rem;
+			line-height: 1.5;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<h1 class="group-title">Moomin</h1>
+		<div class="member-list">
+			<section class="member">
+				<h2>Marc</h2>
+				<p class="bio">I am a DMA major</p>
+			</section>
+			<section class="member">
+				<h2>Ruby</h2>
+				<p class="bio">Hi! I'm Ruby, a DMA major. I'm a dog person and enjoy reading webcomics in my freetime.</p>
+			</section>
+			<section class="member">
+				<h2>Winston</h2>
+				<p class="bio">I am a music tech major, and I could not survive without caffeine</p>
+			</section>
+		</div>
+	</main>
+</body>
+</html>
