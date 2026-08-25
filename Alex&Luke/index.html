@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Luke and Alex's Website</title>
+	<style>
+		:root { --ink: #080808; }
+		* { box-sizing: border-box; }
+		html, body { margin: 0; min-height: 100%; }
+		body {
+			min-height: 100vh;
+			overflow: hidden;
+			display: grid;
+			place-items: center;
+			background: #f4f0e8;
+			color: var(--ink);
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.stage {
+			position: relative;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+			isolation: isolate;
+		}
+		.color {
+			position: absolute;
+			border-radius: 50%;
+			filter: saturate(130%);
+			mix-blend-mode: multiply;
+			animation: flight 10s ease-in-out infinite alternate;
+		}
+		.one { width: 42vw; height: 42vw; min-width: 260px; min-height: 260px; background: #ff365c; top: -14%; left: -8%; transform: rotate(18deg); }
+		.two { width: 35vw; height: 35vw; min-width: 230px; min-height: 230px; background: #27d9ff; right: -5%; top: 8%; animation-delay: -3s; }
+		.three { width: 44vw; height: 44vw; min-width: 280px; min-height: 280px; background: #ffd52e; left: 20%; bottom: -28%; animation-delay: -6s; }
+		.four { width: 23vw; height: 23vw; min-width: 170px; min-height: 170px; background: #8b4dff; right: 17%; bottom: -5%; animation-delay: -1s; }
+		.stripe {
+			position: absolute;
+			width: 150%; height: 12vh;
+			left: -25%; top: 43%;
+			background: #49e37b;
+			transform: rotate(-13deg);
+			mix-blend-mode: multiply;
+			animation: drift 8s ease-in-out infinite alternate;
+		}
+		.frame {
+			position: absolute;
+			inset: 4vw;
+			border: 2px solid var(--ink);
+			pointer-events: none;
+		}
+		.label {
+			position: absolute;
+			top: 2.3rem;
+			left: 4vw;
+			font-size: .72rem;
+			letter-spacing: .25em;
+			text-transform: uppercase;
+			font-weight: 700;
+		}
+		h1 {
+			position: absolute;
+			z-index: 2;
+			margin: 0;
+			top: 50%;
+			left: 50%;
+			width: min(90vw, 900px);
+			text-align: center;
+			font-size: clamp(3rem, 9vw, 9rem);
+			line-height: .84;
+			letter-spacing: -.09em;
+			font-weight: 900;
+			text-wrap: balance;
+			transform: translate(-50%, -50%) rotate(-2deg);
+			text-shadow: 5px 5px 0 rgba(255,255,255,.45);
+		}
+		.corner { position: absolute; z-index: 2; right: 4vw; bottom: 2.3rem; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
+		@keyframes flight { to { translate: 5vw -4vh; rotate: 12deg; } }
+		@keyframes drift { to { translate: 3vw 5vh; rotate: -8deg; } }
+		@media (prefers-reduced-motion: reduce) { .color, .stripe { animation: none; } }
+	</style>
+</head>
+<body>
+	<main class="stage">
+		<div class="color one"></div>
+		<div class="color two"></div>
+		<div class="color three"></div>
+		<div class="color four"></div>
+		<div class="stripe"></div>
+		<div class="frame"></div>
+		<div class="label">Est. in motion / 2025</div>
+		<h1>Luke and Alex's Website</h1>
+		<div class="corner">A shared digital space</div>
+	</main>
+</body>
+</html>
