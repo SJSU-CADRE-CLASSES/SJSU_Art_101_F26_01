@@ -253,7 +253,7 @@
 </head>
 <body>
   <div class="fullscreen-notice" id="fullscreen-notice">
-    <p class="fullscreen-notice-text">For best experince use full-screen mode.</p>
+    <p class="fullscreen-notice-text"></p>
   </div>
   <div class="greeting">Greetings Exile 1. Welcome to Eirr-1a.</div>
   <div class="report-controls">
@@ -276,7 +276,9 @@
     const reportControls = document.querySelector(".report-controls");
     const greeting = document.querySelector(".greeting");
     const fullscreenNotice = document.querySelector("#fullscreen-notice");
+    const fullscreenNoticeText = document.querySelector(".fullscreen-notice-text");
     const greetingMessage = greeting.textContent.trim();
+    const fullscreenMessage = "For best experince use full-screen mode.";
     const isReturnVisit = new URLSearchParams(window.location.search).get("returned") === "1";
     const report = `ADJUTANT LOG // PLANETARY ANALYSIS REPORT
 
@@ -315,6 +317,21 @@ End of Adjunct communication sequence.`;
     let reportSequenceTimers = [];
     let greetingCleared = false;
     let reportHalfway = false;
+
+    const typeFullscreenNotice = (characterIndex = 0) => {
+      if (characterIndex >= fullscreenMessage.length) {
+        setTimeout(() => {
+          fullscreenNotice.classList.add("is-faded");
+          setTimeout(typeGreeting, 1000);
+        }, 2000);
+        return;
+      }
+
+      const character = fullscreenMessage[characterIndex];
+      fullscreenNoticeText.textContent += character;
+      const delay = /[.!?]/.test(character) ? 2000 : 60;
+      setTimeout(() => typeFullscreenNotice(characterIndex + 1), delay);
+    };
 
     const revealEnterButton = () => {
       if (greetingCleared && reportHalfway) {
@@ -363,10 +380,7 @@ End of Adjunct communication sequence.`;
       reportControls.classList.add("is-visible");
       greetingCleared = true;
     } else {
-      setTimeout(() => {
-        fullscreenNotice.classList.add("is-faded");
-      }, 5000);
-      setTimeout(typeGreeting, 8000);
+      typeFullscreenNotice();
     }
 
     reportButton.addEventListener("click", () => {
