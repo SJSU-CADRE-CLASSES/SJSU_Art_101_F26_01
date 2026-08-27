@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Among Us</title>
+</head>
+<body>
+  <h1>WHICH ONE IS THE IMPOSTER AMONG US</h1>
+
+  <a id="random-link" href="index.html">
+    <img src="crewme.jpg" alt="Among Us crew member">
+  </a>
+
+  <script>
+    document.getElementById("random-link").addEventListener("click", function (event) {
+      var roll = Math.floor(Math.random() * 900);
+
+      if (roll < 9) {
+        event.preventDefault();
+        window.location.href = "imdead.html";
+      } else if (roll < 109) {
+        event.preventDefault();
+        window.location.href = "youwin.html";
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Art 101 | Console Studio</title>
+  <style>
+    :root {
+      --ink: #202124;
+      --paper: #f6f1e8;
+      --coral: #e85d4a;
+      --blue: #3867d6;
+      --gold: #f2c14e;
+      --line: rgba(32, 33, 36, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(242, 193, 78, .45) 0 8rem, transparent 8.1rem),
+        linear-gradient(135deg, #f6f1e8 0%, #eee7dc 48%, #dfe8f5 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 28px 24px 56px; }
+
+    header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--coral);
+      font: 700 .78rem/1.2 Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 { max-width: 650px; margin: 0; font-size: clamp(3.2rem, 9vw, 7.2rem); line-height: .88; letter-spacing: -.06em; }
+    .clock { min-width: 150px; padding-top: 4px; font: 700 1rem/1.4 Arial, sans-serif; text-align: right; }
+    .clock span { display: block; color: var(--coral); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    main { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; padding-top: 42px; }
+    .intro { max-width: 520px; }
+    .intro p { font-size: 1.35rem; line-height: 1.35; }
+    .intro a { color: var(--blue); font-weight: bold; }
+
+    .artboard {
+      position: relative;
+      min-height: 440px;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      background: #fffaf2;
+      box-shadow: 12px 12px 0 var(--ink);
+    }
+
+    .artboard::before { content: "FORM / COLOR / CHANCE"; position: absolute; top: 18px; left: 20px; font: 700 .7rem Arial, sans-serif; letter-spacing: .16em; }
+    .shape { position: absolute; transition: transform .5s ease; }
+    .shape:hover { transform: rotate(12deg) scale(1.08); }
+    .circle { width: 190px; height: 190px; top: 78px; left: 16%; border-radius: 50%; background: var(--coral); }
+    .square { width: 150px; height: 150px; right: 12%; bottom: 48px; background: var(--blue); transform: rotate(-14deg); }
+    .triangle { width: 0; height: 0; left: 44%; bottom: 70px; border-right: 82px solid transparent; border-bottom: 142px solid var(--gold); border-left: 82px solid transparent; transform: rotate(8deg); }
+    .line { width: 70%; height: 12px; top: 52%; left: 10%; background: var(--ink); transform: rotate(-27deg); }
+    .caption { position: absolute; right: 18px; bottom: 16px; font: 700 .72rem Arial, sans-serif; }
+
+    .notes { align-self: end; padding-top: 16px; border-top: 2px solid var(--ink); }
+    .notes h2 { margin: 0 0 12px; font-size: 1.4rem; }
+    .notes ul { margin: 0; padding-left: 20px; font-size: 1.05rem; line-height: 1.7; }
+    footer { margin-top: 54px; font: .75rem Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+
+    @media (max-width: 720px) {
+      .page { padding: 20px 16px 40px; }
+      header { gap: 18px; }
+      .clock { min-width: 92px; font-size: .8rem; }
+      main { grid-template-columns: 1fr; gap: 36px; padding-top: 30px; }
+      .artboard { min-height: 360px; box-shadow: 7px 7px 0 var(--ink); }
+      .circle { width: 145px; height: 145px; }
+      .square { width: 115px; height: 115px; }
+      .triangle { border-right-width: 62px; border-bottom-width: 108px; border-left-width: 62px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div>
+        <p class="eyebrow">SJSU Art 101 / Console Studio</p>
+        <h1>Make the page<br>your medium.</h1>
+      </div>
+      <div class="clock" id="clock" aria-live="polite"><span>Local time</span>--:--:--</div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="prompt-title">
+        <p class="eyebrow">Today's prompt</p>
+        <h2 id="prompt-title">Look closely. Change one thing.</h2>
+        <p>This small page is a canvas for experiments in color, form, and chance. Open the browser console, try a line of JavaScript, then watch the composition respond.</p>
+        <p><a href="console-examples.md">Open the console examples</a></p>
+        <div class="notes">
+          <h2>Studio notes</h2>
+          <ul>
+            <li>Every element is part of the composition.</li>
+            <li>Accidents are useful information.</li>
+            <li>Refresh to return to the original study.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="artboard" aria-label="Abstract composition">
+        <div class="shape circle"></div>
+        <div class="shape square"></div>
+        <div class="shape triangle"></div>
+        <div class="shape line"></div>
+        <div class="caption">Study no. 01</div>
+      </section>
+    </main>
+
+    <footer>Interactive web sketch / Fall 2026</footer>
+  </div>
+
+  <script>
+    const clock = document.querySelector("#clock");
+    const updateClock = () => {
+      clock.lastChild.textContent = new Date().toLocaleTimeString();
+    };
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
