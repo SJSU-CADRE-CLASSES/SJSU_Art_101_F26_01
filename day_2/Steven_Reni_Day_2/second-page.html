@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Second Page</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap");
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: #000;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Rajdhani, Arial, sans-serif;
+    }
+
+    body::before {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(100vw, 3840px);
+      height: min(100vh, 2160px);
+      content: "";
+      background: url("Ship edit 2.png") center / cover no-repeat;
+      transform: translate(-50%, -50%);
+    }
+
+    .ship-hover-zone {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(100vw, 3840px);
+      height: min(100vh, 2160px);
+      z-index: 1;
+      clip-path: polygon(7% 90%, 16% 78%, 27% 70%, 31% 58%, 43% 48%, 56% 43%, 67% 45%, 82% 51%, 98% 68%, 100% 87%, 84% 78%, 68% 65%, 56% 61%, 44% 73%, 25% 86%);
+      transform: translate(-50%, -50%);
+    }
+
+    .headlight-glow {
+      position: absolute;
+      width: 16%;
+      height: 12%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(190, 240, 255, 0.85), transparent 70%);
+      opacity: 0;
+      transition: opacity 220ms ease;
+      transform: rotate(-17deg);
+    }
+
+    .left-headlight-glow {
+      top: 57%;
+      left: 28%;
+    }
+
+    .right-headlight-glow {
+      top: 46%;
+      left: 49%;
+      background: radial-gradient(ellipse at center, rgba(190, 240, 255, 0.75), transparent 70%);
+    }
+
+    .return-button {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
+      padding: 0.5rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #fff;
+      font: 600 1rem Rajdhani, Arial, sans-serif;
+      text-decoration: none;
+      animation: return-button-outline 1800ms ease-in-out infinite;
+      transition: border-color 160ms ease;
+    }
+
+    .return-button:hover,
+    .return-button:focus-visible {
+      border-color: #fff;
+      outline: none;
+    }
+
+    @keyframes return-button-outline {
+      0%,
+      100% {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #fff;
+      }
+    }
+
+    .ship-hover-zone:hover .headlight-glow {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <a class="return-button" href="index.html?returned=1">Return to orbit</a>
+  <div class="ship-hover-zone" aria-label="Spaceship hover area">
+    <span class="headlight-glow left-headlight-glow"></span>
+    <span class="headlight-glow right-headlight-glow"></span>
+  </div>
+</body>
+</html>

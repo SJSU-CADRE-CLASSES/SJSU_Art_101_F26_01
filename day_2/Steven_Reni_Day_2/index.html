@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planet</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap");
+
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: #000;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .greeting {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1;
+      max-width: calc(100vw - 2rem);
+      color: #fff;
+      font: 600 20pt Rajdhani, Arial, sans-serif;
+      text-align: right;
+    }
+
+    .enter-button {
+      position: fixed;
+      right: 1rem;
+      top: 1rem;
+      z-index: 1;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #fff;
+      font: 600 1rem Rajdhani, Arial, sans-serif;
+      text-decoration: none;
+      opacity: 0;
+      pointer-events: none;
+      animation: enter-button-border 1800ms ease-in-out infinite;
+      transition: opacity 1s ease, transform 160ms ease;
+    }
+
+    .enter-button.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .enter-button:hover,
+    .enter-button:focus-visible {
+      transform: scale(1.1);
+    }
+
+    @keyframes enter-button-border {
+      0%,
+      100% {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #fff;
+      }
+    }
+
+    .report-button {
+      padding: 0.5rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font: 600 1rem Rajdhani, Arial, sans-serif;
+      text-align: left;
+      animation: report-button-outline 1800ms ease-in-out infinite;
+      transition: border-color 160ms ease;
+    }
+
+    .report-controls {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .report-controls.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .report-button.has-been-pressed {
+      animation: none;
+      border-color: transparent;
+    }
+
+    @keyframes report-button-outline {
+      0%,
+      100% {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #fff;
+      }
+    }
+
+    .report-button:hover,
+    .report-button:focus-visible {
+      border-color: #fff;
+      outline: none;
+    }
+
+    .report-panel {
+      position: fixed;
+      top: 4.5rem;
+      left: 1rem;
+      z-index: 2;
+      width: min(46rem, calc(100vw - 2rem));
+      max-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.82);
+      color: #fff;
+      opacity: 0;
+      scrollbar-color: #fff transparent;
+      scrollbar-width: thin;
+      transition: max-height 500ms ease, opacity 300ms ease;
+    }
+
+    .report-panel::-webkit-scrollbar {
+      width: 2px;
+      height: 2px;
+      -webkit-appearance: none;
+    }
+
+    .report-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .report-panel::-webkit-scrollbar-thumb {
+      background: #fff !important;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .report-panel::-webkit-scrollbar-button {
+      display: none;
+      height: 0;
+      width: 0;
+      -webkit-appearance: none;
+    }
+
+    .report-panel.is-open {
+      max-height: calc(100vh - 6rem);
+      overflow-y: auto;
+      opacity: 1;
+    }
+
+    .report-text {
+      margin: 0;
+      padding: 1rem;
+      white-space: pre-wrap;
+      font: 0.95rem/1.5 Rajdhani, Arial, sans-serif;
+    }
+
+    .report-status {
+      margin: 0;
+      padding: 1rem;
+      font: 600 1rem Rajdhani, Arial, sans-serif;
+      text-align: center;
+    }
+
+    .report-status::after {
+      display: inline-block;
+      width: 1.5em;
+      content: ".";
+      animation: report-dots 900ms steps(1, end) infinite;
+      text-align: left;
+    }
+
+    .report-status:empty::after {
+      display: none;
+    }
+
+    @keyframes report-dots {
+      0% {
+        content: ".";
+      }
+
+      33% {
+        content: "..";
+      }
+
+      66%,
+      100% {
+        content: "...";
+      }
+    }
+
+    .fullscreen-notice {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      background: #000;
+      color: #fff;
+      opacity: 1;
+      text-align: center;
+      transition: opacity 1s ease;
+    }
+
+    .fullscreen-notice-text {
+      margin: 0;
+      font: 600 3rem Rajdhani, Arial, sans-serif;
+    }
+
+    .fullscreen-notice.is-faded {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(100vw, 3840px);
+      height: min(100vh, 2160px);
+      content: "";
+      background: url("Planet_6.png") center / cover no-repeat;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="fullscreen-notice" id="fullscreen-notice">
+    <p class="fullscreen-notice-text">For best experince use full-screen mode.</p>
+  </div>
+  <div class="greeting">Greetings Exile 1. Welcome to Eirr-1a.</div>
+  <div class="report-controls">
+    <button class="report-button" type="button" aria-expanded="false" aria-controls="report-panel">
+      Planetary Analysis Report
+    </button>
+  </div>
+  <section class="report-panel" id="report-panel" aria-hidden="true">
+    <p class="report-status"></p>
+    <pre class="report-text"></pre>
+  </section>
+  <a class="enter-button" href="second-page.html">Begin landing sequence</a>
+
+  <script>
+    const reportButton = document.querySelector(".report-button");
+    const reportPanel = document.querySelector(".report-panel");
+    const reportStatus = document.querySelector(".report-status");
+    const reportText = document.querySelector(".report-text");
+    const enterButton = document.querySelector(".enter-button");
+    const reportControls = document.querySelector(".report-controls");
+    const greeting = document.querySelector(".greeting");
+    const fullscreenNotice = document.querySelector("#fullscreen-notice");
+    const greetingMessage = greeting.textContent.trim();
+    const isReturnVisit = new URLSearchParams(window.location.search).get("returned") === "1";
+    const report = `ADJUTANT LOG // PLANETARY ANALYSIS REPORT
+
+DESIGNATION: Eirr-1a
+
+COORDINATES: Sector 07-Gamma
+
+Initial Observations:
+
+Adjutant online. Designation updated to Eirr-1a. Environmental readouts indicate extreme mineral saturation across all surveyed surface sectors.
+
+Chronological Geological Log:
+
+- Era I: Accretion and Crustal Formation
+
+Planetary formation data indicates an unusually high concentration of native copper (Cu) and chalcopyrite (CuFeS2) within the mantle of Eirr-1a. Tectonic activity across early mantle plates established prominent high-altitude ranges composed of unoxidized native copper deposits, iron oxides, and dense quartzites. Atmospheric conditions were hyper-saline with negligible free oxygen.
+
+- Era II: The Hydrological Epoch
+
+Cometary impacts introduced substantial aqueous volumes (H2O), initiating planetary-scale ocean formation. Contact between liquid solvent and continental crust dissolved massive surface copper reserves. The interaction created vast ocean basins dominated by suspended copper(II) sulfate (CuSO4) and basic copper carbonates, yielding a persistent, vivid malachite-green coloration across all liquid bodies on Eirr-1a.
+
+- Era III: Atmospheric Oxygenation and Oxidation
+
+Volcanic outgassing introduced atmospheric free oxygen. Exposure to oxygen and atmospheric moisture altered the exposed continental mountain ranges. The surface layer of raw copper ore underwent rapid chemical alteration, forming a dense, protective crust of cuprite (Cu2O) and iron oxide complexes. This process imparted a harsh, reflective orange hue to all high-altitude topography.
+
+- Era IV: Current Ecological Equilibrium
+
+Surface moisture evaporating from the green oceans reacts with atmospheric sulfur dioxide, generating mild acidic precipitation across Eirr-1a. Rain events continuously strip exposed cuprite layers, maintaining the sharp contrast between the oxidized orange mountain peaks and the verdigris-tinted hydrosphere. Biological viability remains low due to heavy metal toxicity in the water table.
+
+Summary Directive:
+
+Environmental conditions on Eirr-1a are hostile to unprotected infantry. Specialized filtering apparatus is required for prolonged surface operations. Structural mining operations recommended to harvest surface mineral deposits.
+
+End of Adjunct communication sequence.`;
+    let typingTimer;
+    let reportSequenceTimers = [];
+    let greetingCleared = false;
+    let reportHalfway = false;
+
+    const revealEnterButton = () => {
+      if (greetingCleared && reportHalfway) {
+        enterButton.classList.add("is-visible");
+      }
+    };
+
+    const clearReportTimers = () => {
+      reportSequenceTimers.forEach((timer) => clearTimeout(timer));
+      reportSequenceTimers = [];
+      clearInterval(typingTimer);
+    };
+
+    greeting.textContent = "";
+    const typeGreeting = (characterIndex = 0) => {
+      if (characterIndex >= greetingMessage.length) {
+        setTimeout(() => {
+          reportControls.classList.add("is-visible");
+        }, 1000);
+        setTimeout(eraseGreeting, 5000);
+        return;
+      }
+
+      const character = greetingMessage[characterIndex];
+      greeting.textContent += character;
+      const delay = /[.!?]/.test(character) ? 2000 : 60;
+      setTimeout(() => typeGreeting(characterIndex + 1), delay);
+    };
+
+    const eraseGreeting = (characterIndex = greetingMessage.length) => {
+      if (characterIndex <= 0) {
+        greeting.textContent = "";
+        greetingCleared = true;
+        revealEnterButton();
+        return;
+      }
+
+      const character = greetingMessage[characterIndex - 1];
+      greeting.textContent = greetingMessage.slice(0, characterIndex - 1);
+      const delay = /[.!?]/.test(character) ? 1500 : 45;
+      setTimeout(() => eraseGreeting(characterIndex - 1), delay);
+    };
+
+    if (isReturnVisit) {
+      fullscreenNotice.classList.add("is-faded");
+      reportControls.classList.add("is-visible");
+      greetingCleared = true;
+    } else {
+      setTimeout(() => {
+        fullscreenNotice.classList.add("is-faded");
+      }, 5000);
+      setTimeout(typeGreeting, 8000);
+    }
+
+    reportButton.addEventListener("click", () => {
+      const isOpen = reportPanel.classList.toggle("is-open");
+      reportButton.setAttribute("aria-expanded", String(isOpen));
+      reportPanel.setAttribute("aria-hidden", String(!isOpen));
+      reportButton.classList.add("has-been-pressed");
+
+      clearReportTimers();
+      if (!isOpen) {
+        reportStatus.textContent = "";
+        reportText.textContent = "";
+        return;
+      }
+
+      reportStatus.textContent = "Scanning";
+      reportText.textContent = "";
+
+      reportSequenceTimers.push(setTimeout(() => {
+        reportStatus.textContent = "Bulding Report";
+      }, 3000));
+
+      reportSequenceTimers.push(setTimeout(() => {
+        reportStatus.textContent = "Stacking Mineral Drones";
+      }, 6000));
+
+      reportSequenceTimers.push(setTimeout(() => {
+        reportStatus.textContent = "";
+        let characterIndex = 0;
+        typingTimer = setInterval(() => {
+          reportText.textContent += report[characterIndex];
+          characterIndex += 1;
+          if (characterIndex >= report.length / 2) {
+            reportHalfway = true;
+            revealEnterButton();
+          }
+          if (characterIndex >= report.length) {
+            clearInterval(typingTimer);
+          }
+        }, 7);
+      }, 9000));
+    });
+  </script>
+</body>
+</html>
