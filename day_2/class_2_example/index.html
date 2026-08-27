@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Through a Tiny Exhibition</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <p>Four small web experiments</p>
+    <h1>Tiny Exhibition</h1>
+    <nav>
+      <a href="#pieces">Pieces</a>
+      <a href="second.html">About</a>
+    </nav>
+  </header>
+
+  <!-- On desktop, these articles sit in a fixed 3D "stage." -->
+  <main class="stage" id="pieces">
+    <article class="card card-one">
+      <a class="card-title" href="second.html">A Quiet Window</a>
+      <div class="art window" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <p class="card-credit">One / Light</p>
+    </article>
+
+    <article class="card card-two">
+      <a class="card-title" href="second.html">Notes From Outside</a>
+      <pre class="art ascii" aria-hidden="true">     .  *       .
+  *       _____
+        /      /\
+   .   /______/  \
+       |      |  |
+       |  []  |  |
+ ~~~~~~|______| /~~~~~~</pre>
+      <p class="card-credit">Two / Memory</p>
+    </article>
+
+    <article class="card card-three">
+      <a class="card-title" href="second.html">Eight Tones</a>
+      <div class="art bars" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p class="card-credit">Three / Sound</p>
+    </article>
+
+    <article class="card card-four">
+      <a class="card-title" href="second.html">Keep Looking</a>
+      <p class="art statement">A webpage can be a room, a poem, a tool, or a walk.</p>
+      <p class="card-credit">Four / The Web</p>
+    </article>
+  </main>
+
+  <!-- JavaScript changes this link to match the nearest card. -->
+  <a class="floating-link" href="second.html">Open piece →</a>
+
+  <footer class="site-footer">
+    <p>You reached the end.</p>
+    <h2>Tiny Exhibition</h2>
+    <a href="#top">Back to top</a>
+  </footer>
+</body>
+</html>
