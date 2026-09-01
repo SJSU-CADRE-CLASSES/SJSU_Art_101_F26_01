@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <style>
+        .delayed-link {
+            /* Hide the link initially */
+            opacity: 0; 
+            pointer-events: none; /* Prevent clicking while hidden */
+            
+            /* Apply the animation named 'fadeIn' lasting 0.5 seconds */
+            animation: fadeIn 0.5s forwards;
+            
+            /* Change 3s to however many seconds you want to wait */
+            animation-delay: 5s; 
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                pointer-events: auto; /* Enable clicking when visible */
+            }
+        }
+    </style>
+</head>
+<body>
+    <p><h1>I have figured out your food! Your food is....</h1></p>
+
+    <a class="delayed-link">A food that you like to eat!</a>
+    <p></p>
+    <a href="index.html" class="button-link">Let me guess another food!</a>
+</body>
+</html>
