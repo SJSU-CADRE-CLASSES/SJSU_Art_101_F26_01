@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="story-container">
+        <h1 id="ending-title">THE END</h1>
+        <p id="ending-text">Loading your fate...</p>
+        <div class="choices">
+            <a href="index.html" class="choice-btn">go go go</a>
+        </div>
+    </div>
+
+    <script>
+        // Read the choice from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const choice = urlParams.get('choice');
+        
+        const titleEl = document.getElementById('ending-title');
+        const textEl = document.getElementById('ending-text');
+
+        if (choice === 'light') {
+            titleEl.textContent = "wow bro wow.";
+            textEl.textContent = "he started crying. he then sued and won a million dollars.";
+        } else if (choice === 'dark') {
+            titleEl.textContent = "congratufreakinlations.";
+            textEl.textContent = "u tripped. he caught up. but then something amazing happened that would change your life forever. a million dollars.";
+            
+        }
+    </script>
+</body>
+</html>

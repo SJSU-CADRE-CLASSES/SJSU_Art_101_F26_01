@@ -1,0 +1,53 @@
+body {
+    background-color: #0d0d0d;
+    background-image: url(c23aa909f52b813ecf34b108de5d58d0.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #b30000; /* Blood red text */
+    font-family: 'Creepster', cursive, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.story-container {
+    max-width: 600px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    box-shadow: 0 0 20px rgba(179, 0, 0, 0.2);
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.choices {
+    margin-top: 30px;
+}
+
+.choice-btn {
+    display: inline-block;
+    background-color: #330000;
+    color: #ff3333;
+    border: 1px solid #ff3333;
+    padding: 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.choice-btn:hover {
+    background-color: #ff3333;
+    color: #0d0d0d;
+    box-shadow: 0 0 15px #ff3333;
+}
