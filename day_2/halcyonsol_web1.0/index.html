@@ -378,11 +378,8 @@
         /* Once floor 8 is reached, familiar floors become unstable. */
         .elevator-container.awakened .cabin-walls {
             background-size: auto 100%;
-            background-position: var(--chaos-x, 50%) var(--chaos-y, 50%);
-            filter:
-                hue-rotate(var(--chaos-hue, 0deg))
-                saturate(var(--chaos-saturation, 1))
-                contrast(var(--chaos-contrast, 1));
+            background-position: center;
+            filter: none;
         }
 
         .elevator-container.awakened .cabin-walls.final-field {
@@ -392,20 +389,6 @@
 
         .elevator-container.awakened .cabin-walls.final-field::before {
             display: none;
-        }
-
-        .elevator-container.awakened .cabin-walls::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            pointer-events: none;
-            opacity: 0.32;
-            background:
-                repeating-linear-gradient(0deg, transparent 0 13px, rgba(125, 0, 18, 0.2) 14px 15px),
-                radial-gradient(ellipse at var(--chaos-x, 50%) var(--chaos-y, 50%), transparent 15%, rgba(40, 0, 8, 0.45) 100%);
-            mix-blend-mode: color-burn;
-            animation: awakened-glitch 2.7s steps(2, end) infinite;
         }
 
         .elevator-container.awakened .doors-container {
@@ -431,13 +414,6 @@
             to { transform: translateX(2px); filter: saturate(1.12); }
         }
 
-        @keyframes awakened-glitch {
-            0%, 84%, 100% { transform: translate(0, 0); opacity: 0.2; }
-            86% { transform: translate(-7px, 2px); opacity: 0.48; }
-            90% { transform: translate(5px, -1px); opacity: 0.3; }
-            94% { transform: translate(-2px, 0); opacity: 0.42; }
-        }
-
         @keyframes hallway-drift {
             0% {
                 transform: translateX(-5px) rotate(-0.35deg) scale(1.012);
@@ -451,8 +427,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .cabin-walls.hallway-sway::after,
-            .elevator-container .cabin-walls,
-            .elevator-container.awakened .cabin-walls::before {
+            .elevator-container .cabin-walls {
                 animation: none;
             }
 
@@ -710,7 +685,6 @@
         let currentFloor = 1;
         let isMoving = false;
         let hasAwakened = false;
-        let corruptionCount = 0;
         let hasKey = false;
         let doorUnlocked = false;
         let furnaceLit = false;
@@ -844,7 +818,6 @@
             currentFloor = 1;
             isMoving = false;
             hasAwakened = false;
-            corruptionCount = 0;
             hasKey = false;
             doorUnlocked = false;
             furnaceLit = false;
@@ -885,19 +858,6 @@
                 cabinWalls.style.backgroundImage = `url('${activeImage}')`;
             } else {
                 cabinWalls.style.backgroundImage = 'none';
-            }
-
-            if (hasAwakened) {
-                corruptionCount++;
-                const hue = ((currentFloor * 37 + corruptionCount * 29) % 150) - 75;
-                const horizontalShift = 42 + ((currentFloor * 11 + corruptionCount * 7) % 17);
-                const verticalShift = 42 + ((currentFloor * 5 + corruptionCount * 13) % 17);
-
-                cabinWalls.style.setProperty('--chaos-hue', `${hue}deg`);
-                cabinWalls.style.setProperty('--chaos-x', `${horizontalShift}%`);
-                cabinWalls.style.setProperty('--chaos-y', `${verticalShift}%`);
-                cabinWalls.style.setProperty('--chaos-saturation', `${1.15 + (corruptionCount % 4) * 0.16}`);
-                cabinWalls.style.setProperty('--chaos-contrast', `${1.08 + (currentFloor % 3) * 0.12}`);
             }
 
             // The distant hallway subtly shifts while the foreground stays still.
