@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escape Activated</title>
+    <style>
+        :root {
+            --red: #d11a1a;
+            --dark: #070707;
+            --green: #7efc7a;
+            --cyan: #31d7ff;
+            --pink: #ff7ae6;
+            --yellow: #ffe66d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.08),
+                rgba(255,255,255,0.08) 1px,
+                transparent 1px,
+                transparent 4px
+            );
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .topbar {
+            background: var(--red);
+            padding: 18px 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 2;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 18px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .alert {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 70px);
+            flex-direction: column;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .status {
+            color: var(--yellow);
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            animation: flicker 0.2s infinite alternate;
+        }
+
+        .title {
+            position: relative;
+            font-size: clamp(2.5rem, 8vw, 8rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--green);
+            text-shadow: 4px 0 var(--pink), -4px 0 var(--cyan), 0 0 25px rgba(126,252,122,0.8);
+            animation: glitch 1.4s infinite alternate;
+        }
+
+        .title::before,
+        .title::after {
+            content: "SYSTEM ERROR";
+            position: absolute;
+            inset: 0;
+            opacity: 0.85;
+        }
+
+        .title::before {
+            color: var(--pink);
+            transform: translate(-5px, 2px);
+            clip-path: inset(0 0 48% 0);
+            animation: glitchBefore 1.4s infinite linear alternate-reverse;
+        }
+
+        .title::after {
+            color: var(--cyan);
+            transform: translate(5px, -2px);
+            clip-path: inset(52% 0 0 0);
+            animation: glitchAfter 1.2s infinite linear alternate;
+        }
+
+        .progress {
+            margin-top: 30px;
+            width: min(500px, 80vw);
+            height: 18px;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+            animation: loading 3s ease-in-out infinite;
+        }
+
+        .button {
+            margin-top: 28px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: white;
+            background: linear-gradient(135deg, var(--red), #ff5f5f);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(209, 26, 26, 0.8);
+            animation: pulse 1s infinite alternate;
+        }
+
+        .button:hover {
+            filter: brightness(1.2);
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-2px, 1px); }
+            20% { transform: translate(2px, -1px); }
+            30% { transform: translate(-4px, 2px); }
+            40% { transform: translate(4px, -2px); }
+            50% { transform: translate(-2px, 1px); }
+            60% { transform: translate(3px, 2px); }
+            70% { transform: translate(-1px, -2px); }
+            80% { transform: translate(2px, 1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes glitchBefore {
+            0% { clip-path: inset(0 0 62% 0); }
+            20% { clip-path: inset(26% 0 32% 0); }
+            40% { clip-path: inset(54% 0 12% 0); }
+            60% { clip-path: inset(12% 0 58% 0); }
+            80% { clip-path: inset(70% 0 6% 0); }
+            100% { clip-path: inset(38% 0 26% 0); }
+        }
+
+        @keyframes glitchAfter {
+            0% { clip-path: inset(42% 0 28% 0); }
+            20% { clip-path: inset(74% 0 4% 0); }
+            40% { clip-path: inset(14% 0 58% 0); }
+            60% { clip-path: inset(52% 0 18% 0); }
+            80% { clip-path: inset(8% 0 68% 0); }
+            100% { clip-path: inset(60% 0 8% 0); }
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            20% { opacity: 0.9; }
+            25% { opacity: 1; }
+            50% { opacity: 0.7; }
+            70% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <a href="index.html">Main Menu</a>
+        <a href="second.html">Sparky</a>
+        <a href="video.html">Release the Toons</a>
+        <a href="escape-activated.html">Escape</a>
+    </nav>
+
+    <div class="alert">
+        <div class="status">System Alert</div>
+        <div class="title">System Error</div>
+
+        <div class="progress">
+            <div class="progress-bar"></div>
+        </div>
+
+        <button class="button" onclick="window.location.href='escape-final.html'">Activate Escape</button>
+    </div>
+</body>
+</html>
