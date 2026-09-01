@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>The Forest</title>
+	<style>
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			margin: 0;
+			color: white;
+			text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+			background-color: #111;
+			background-image: url("japan road.jpg");
+			background-position: center center;
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+
+		#dont-look-back {
+			position: fixed;
+			top: var(--popup-y, 50%);
+			left: var(--popup-x, -20vw);
+			width: 14vw;
+			padding: 0;
+			border: 0;
+			background: transparent;
+			color: rgba(255, 255, 255, 0.65);
+			font-size: 0.75rem;
+			font-family: inherit;
+			letter-spacing: 0.15em;
+			line-height: 2;
+			text-align: center;
+			text-transform: uppercase;
+			transform: translate(-50%, -50%);
+			cursor: pointer;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.3s ease;
+		}
+
+		body.clicked #dont-look-back {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.black-transition {
+			position: fixed;
+			inset: 0;
+			background: black;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.8s ease;
+			z-index: 20;
+		}
+
+		body.transitioning .black-transition {
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	do you know where you are?
+	<button id="dont-look-back" type="button">don't look back</button>
+	<div class="black-transition"></div>
+	<script>
+		const message = document.getElementById("dont-look-back");
+		let hasAppeared = false;
+
+		function startTransition(event) {
+			event.stopPropagation();
+			document.body.classList.add("transitioning");
+			setTimeout(function () {
+				window.location.href = "second.html";
+			}, 800);
+		}
+
+		document.body.addEventListener("click", (event) => {
+			if (hasAppeared || event.target === message) {
+				return;
+			}
+
+			const horizontalPadding = window.innerWidth * 0.07;
+			const x = Math.max(horizontalPadding, Math.min(event.clientX, window.innerWidth - horizontalPadding));
+
+			document.body.style.setProperty("--popup-x", `${x}px`);
+			document.body.style.setProperty("--popup-y", `${event.clientY}px`);
+			hasAppeared = true;
+			document.body.classList.add("clicked");
+		});
+
+		message.addEventListener("click", startTransition);
+	</script>
+</body>
+</html>
