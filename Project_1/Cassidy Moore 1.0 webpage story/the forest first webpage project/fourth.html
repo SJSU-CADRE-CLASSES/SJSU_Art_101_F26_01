@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Four</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    body {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: inherit;
+      color: white;
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      font-size: 1rem;
+      line-height: 1.6;
+      background: #050505;
+      cursor: pointer;
+    }
+
+    .content {
+      position: relative;
+      text-align: center;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+      animation: flicker 0.18s steps(2, end) infinite alternate;
+    }
+
+    .black-transition {
+      position: fixed;
+      inset: 0;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      transition: opacity 0.8s ease;
+    }
+
+    body.transitioning .black-transition {
+      opacity: 1;
+    }
+
+    .content::before,
+    .content::after {
+      content: "…";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .content::before {
+      color: rgba(255, 255, 255, 0.8);
+      transform: translate(-2px, 1px);
+      clip-path: inset(0 0 48% 0);
+      animation: glitch-a 1.4s steps(2, end) infinite alternate;
+    }
+
+    .content::after {
+      color: rgba(180, 220, 255, 0.6);
+      transform: translate(2px, -1px);
+      clip-path: inset(52% 0 0 0);
+      animation: glitch-b 1.2s steps(2, end) infinite alternate;
+    }
+
+    @keyframes glitch-a {
+      0%, 100% { transform: translate(0, 0); opacity: 0.75; }
+      20% { transform: translate(-3px, 1px); }
+      40% { transform: translate(2px, -2px); }
+      60% { transform: translate(-2px, 2px); }
+      80% { transform: translate(3px, -1px); }
+    }
+
+    @keyframes glitch-b {
+      0%, 100% { transform: translate(0, 0); opacity: 0.45; }
+      25% { transform: translate(4px, 1px); }
+      50% { transform: translate(-3px, -2px); }
+      75% { transform: translate(2px, 2px); }
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.95; }
+      50% { opacity: 0.75; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="content">…</div>
+  <div class="black-transition"></div>
+
+  <script>
+    document.addEventListener("click", function () {
+      document.body.classList.add("transitioning");
+      setTimeout(function () {
+        window.location.href = "fifth.html";
+      }, 800);
+    });
+  </script>
+</body>
+</html>

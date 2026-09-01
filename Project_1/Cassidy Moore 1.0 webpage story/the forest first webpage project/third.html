@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>it's too late now</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    body {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url("foggy3.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      font-family: inherit;
+      color: white;
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      user-select: none;
+    }
+
+    .black-transition {
+      position: fixed;
+      inset: 0;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+      z-index: 10;
+    }
+
+    body.transitioning .black-transition {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">it's too late now</div>
+  <div class="black-transition"></div>
+
+  <script>
+    document.addEventListener("click", function () {
+      document.body.classList.add("transitioning");
+
+      setTimeout(function () {
+        window.location.href = "fourth.html";
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
