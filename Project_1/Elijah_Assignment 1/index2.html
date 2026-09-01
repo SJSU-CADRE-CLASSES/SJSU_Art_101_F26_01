@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>try again?</title>
+  </head>
+  <body>
+    <h1>tryagain?</h1>
+    <a href="#" id="bartLink">
+      <img src="bart.png" alt="Bart image" />
+    </a>
+
+    <script>
+      const bartLink = document.getElementById('bartLink');
+      const websites = [
+        'index2.html',
+        'index3.html'
+      ];
+      const rareWebsite = 'https://www.google.com';
+
+      bartLink.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (Math.random() < 0.01) {
+          window.location.href = rareWebsite;
+          return;
+        }
+
+        const randomSite = websites[Math.floor(Math.random() * websites.length)];
+        window.location.href = randomSite;
+      });
+    </script>
+  </body>
+</html>
