@@ -279,7 +279,9 @@
     const fullscreenNoticeText = document.querySelector(".fullscreen-notice-text");
     const greetingMessage = greeting.textContent.trim();
     const fullscreenMessage = "For best experince use full-screen mode.";
-    const isReturnVisit = new URLSearchParams(window.location.search).get("returned") === "1";
+    const navigationEntry = performance.getEntriesByType("navigation")[0];
+    const isReload = navigationEntry && navigationEntry.type === "reload";
+    const isReturnVisit = new URLSearchParams(window.location.search).get("returned") === "1" && !isReload;
     const report = `ADJUTANT LOG // PLANETARY ANALYSIS REPORT
 
 DESIGNATION: Eirr-1a
@@ -378,7 +380,7 @@ End of Adjunct communication sequence.`;
     if (isReturnVisit) {
       fullscreenNotice.classList.add("is-faded");
       reportControls.classList.add("is-visible");
-      greetingCleared = true;
+      typeGreeting();
     } else {
       typeFullscreenNotice();
     }
