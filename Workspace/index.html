@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workspace</title>
+    <style>
+      :root {
+        --bg: #f8f1ea;
+        --paper: #fffdfb;
+        --accent: #7d4a33;
+        --accent-2: #d7b29d;
+        --text: #2d221f;
+        --muted: #6d5b54;
+        --shadow: rgba(58, 38, 29, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, var(--bg), #f0e1d6);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 42px 20px 80px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: clamp(2.1rem, 5vw, 4rem);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .header p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        background: var(--paper);
+        border: 1px solid rgba(125, 74, 51, 0.14);
+        border-radius: 18px;
+        padding: 18px 16px 20px;
+        min-height: 150px;
+        box-shadow: 0 12px 24px var(--shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 30px rgba(58, 38, 29, 0.16);
+      }
+
+      .tag {
+        display: inline-block;
+        background: var(--accent-2);
+        color: var(--accent);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.7rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="header">
+        <h1>Workspace</h1>
+        <p>Art 101 project directory</p>
+      </header>
+
+      <main class="grid">
+        <a class="card" href="Andrew/">
+          <span class="tag">Student</span>
+          <h2>Andrew</h2>
+          <p>Open Andrew’s project folder.</p>
+        </a>
+
+        <a class="card" href="JonJon/">
+          <span class="tag">Student</span>
+          <h2>JonJon</h2>
+          <p>Open JonJon’s project folder.</p>
+        </a>
+
+        <a class="card" href="Luke/">
+          <span class="tag">Student</span>
+          <h2>Luke</h2>
+          <p>Open Luke’s project folder.</p>
+        </a>
+
+        <a class="card" href="Ruby/">
+          <span class="tag">Student</span>
+          <h2>Ruby</h2>
+          <p>Open Ruby’s project folder.</p>
+        </a>
+
+        <a class="card" href="Steve/">
+          <span class="tag">Student</span>
+          <h2>Steve</h2>
+          <p>Open Steve’s project folder.</p>
+        </a>
+
+        <a class="card" href="Winston/">
+          <span class="tag">Student</span>
+          <h2>Winston</h2>
+          <p>Open Winston’s project folder.</p>
+        </a>
+      </main>
+    </div>
+  </body>
+</html>

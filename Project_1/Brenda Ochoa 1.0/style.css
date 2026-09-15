@@ -1,0 +1,19 @@
+.image-button {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.image-button img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.image-button:hover img {
+  opacity: 0.8;
+  transform: scale(1.05);
+}

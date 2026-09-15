@@ -1,0 +1,40 @@
+body {
+     background-color: sandybrown;
+     font-family: Arial, sans-serif;
+}
+h1 {
+    color: navy;
+}
+p {
+    color: darkgreen;
+}
+
+.red {
+    position: absolute;
+    top: 450px;
+    right: 450px;
+    background-color: red;
+    width: 500px;
+    height: 100px;
+
+}
+
+.eye_one {
+    position: absolute;
+    top: 250px;
+    left: 1100px;
+    background-color: blue;
+    width: 100px;
+    height: 100px;
+
+}
+
+.eye_two {
+    position: absolute;
+    top: 280px;
+    left: 850px;
+    background-color: green;
+    width: 100px;
+    height: 100px;
+
+}

@@ -1,139 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Art 101 | Console Studio</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ART 101 Intro to Creative Code, Fall 2026.">
+  <title>ART 101 — Intro to Creative Code</title>
   <style>
-    :root {
-      --ink: #202124;
-      --paper: #f6f1e8;
-      --coral: #e85d4a;
-      --blue: #3867d6;
-      --gold: #f2c14e;
-      --line: rgba(32, 33, 36, .18);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 8% 12%, rgba(242, 193, 78, .45) 0 8rem, transparent 8.1rem),
-        linear-gradient(135deg, #f6f1e8 0%, #eee7dc 48%, #dfe8f5 100%);
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    .page { max-width: 1120px; margin: 0 auto; padding: 28px 24px 56px; }
-
-    header {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .eyebrow {
-      margin: 0 0 12px;
-      color: var(--coral);
-      font: 700 .78rem/1.2 Arial, sans-serif;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    h1 { max-width: 650px; margin: 0; font-size: clamp(3.2rem, 9vw, 7.2rem); line-height: .88; letter-spacing: -.06em; }
-    .clock { min-width: 150px; padding-top: 4px; font: 700 1rem/1.4 Arial, sans-serif; text-align: right; }
-    .clock span { display: block; color: var(--coral); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
-
-    main { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; padding-top: 42px; }
-    .intro { max-width: 520px; }
-    .intro p { font-size: 1.35rem; line-height: 1.35; }
-    .intro a { color: var(--blue); font-weight: bold; }
-
-    .artboard {
-      position: relative;
-      min-height: 440px;
-      overflow: hidden;
-      border: 2px solid var(--ink);
-      background: #fffaf2;
-      box-shadow: 12px 12px 0 var(--ink);
-    }
-
-    .artboard::before { content: "FORM / COLOR / CHANCE"; position: absolute; top: 18px; left: 20px; font: 700 .7rem Arial, sans-serif; letter-spacing: .16em; }
-    .shape { position: absolute; transition: transform .5s ease; }
-    .shape:hover { transform: rotate(12deg) scale(1.08); }
-    .circle { width: 190px; height: 190px; top: 78px; left: 16%; border-radius: 50%; background: var(--coral); }
-    .square { width: 150px; height: 150px; right: 12%; bottom: 48px; background: var(--blue); transform: rotate(-14deg); }
-    .triangle { width: 0; height: 0; left: 44%; bottom: 70px; border-right: 82px solid transparent; border-bottom: 142px solid var(--gold); border-left: 82px solid transparent; transform: rotate(8deg); }
-    .line { width: 70%; height: 12px; top: 52%; left: 10%; background: var(--ink); transform: rotate(-27deg); }
-    .caption { position: absolute; right: 18px; bottom: 16px; font: 700 .72rem Arial, sans-serif; }
-
-    .notes { align-self: end; padding-top: 16px; border-top: 2px solid var(--ink); }
-    .notes h2 { margin: 0 0 12px; font-size: 1.4rem; }
-    .notes ul { margin: 0; padding-left: 20px; font-size: 1.05rem; line-height: 1.7; }
-    footer { margin-top: 54px; font: .75rem Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-
-    @media (max-width: 720px) {
-      .page { padding: 20px 16px 40px; }
-      header { gap: 18px; }
-      .clock { min-width: 92px; font-size: .8rem; }
-      main { grid-template-columns: 1fr; gap: 36px; padding-top: 30px; }
-      .artboard { min-height: 360px; box-shadow: 7px 7px 0 var(--ink); }
-      .circle { width: 145px; height: 145px; }
-      .square { width: 115px; height: 115px; }
-      .triangle { border-right-width: 62px; border-bottom-width: 108px; border-left-width: 62px; }
-    }
+    :root{--paper:#f7f7f4;--ink:#111;--line:#111}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(#aaa .55px,transparent .55px);background-size:5px 5px;font:15px/1.5 "Courier New",Courier,monospace}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a:hover,a:focus-visible{background:var(--ink);color:var(--paper);outline:0}.shell{max-width:1200px;margin:auto;padding:18px 20px 52px}.bar{display:flex;justify-content:space-between;gap:16px;padding:8px 10px;color:var(--paper);background:var(--ink);font-size:.78rem;letter-spacing:.04em}.mast{display:grid;grid-template-columns:1fr auto;gap:24px;padding:38px 0 26px;border-bottom:3px solid var(--line)}.kicker,.label{margin:0;font-size:.76rem;font-weight:bold;letter-spacing:.1em;text-transform:uppercase}h1{max-width:900px;margin:8px 0 0;font-size:clamp(2.5rem,7vw,6.7rem);line-height:.83;letter-spacing:-.09em}.mark{align-self:end;width:130px;height:130px;display:grid;place-items:center;color:var(--paper);background:var(--ink);font-size:1rem;line-height:1.15;text-align:center;transform:rotate(4deg)}.nav{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line)}.nav a{padding:10px 13px;border-right:1px solid var(--line);font-size:.8rem;text-decoration:none}.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:42px;padding-top:36px}section{scroll-margin-top:20px}.head{display:flex;gap:12px;align-items:baseline;margin:0 0 15px;font-size:1.1rem}.head:before{content:">";font-weight:bold}.lead{max-width:780px;margin:0 0 36px;font-size:clamp(1.25rem,2.1vw,1.85rem);line-height:1.23;letter-spacing:-.04em}.signal{margin:0 0 38px;padding:14px 16px;border:2px solid var(--line);background:var(--paper);box-shadow:7px 7px 0 var(--ink);font-size:.9rem}.signal strong{display:block;margin-bottom:5px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}.links{display:flex;flex-wrap:wrap;gap:8px;margin:0}.links a{padding:7px 9px;border:1px solid var(--line);font-size:.82rem;text-decoration:none}.links a:before{content:"[ "}.links a:after{content:" ]"}.copy{max-width:780px;margin-bottom:42px}.copy p{margin:0 0 14px}.outcomes{padding:0;margin:0 0 42px;list-style:none;border-top:1px solid var(--line)}.outcomes li{padding:12px 0;border-bottom:1px solid var(--line)}.outcomes b{display:inline-block;min-width:4.2em}.side{align-self:start;border:2px solid var(--line);background:var(--paper)}.side h2{margin:0;padding:9px 12px;color:var(--paper);background:var(--ink);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}.side dl{margin:0;padding:12px}.side div{padding:9px 0;border-bottom:1px dotted var(--line)}.side div:last-child{border:0}.side dt{font-size:.7rem;font-weight:bold;letter-spacing:.09em;text-transform:uppercase}.side dd{margin:2px 0 0}.schedule{width:100%;border-collapse:collapse;border-top:3px solid var(--line);font-size:.9rem}.schedule th,.schedule td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.schedule th{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase}.schedule th:first-child{width:22%}.schedule th:last-child{width:15%}.schedule tbody tr:hover{color:var(--paper);background:var(--ink)}.schedule a{font-weight:bold}.due{white-space:nowrap;font-size:.8rem}footer{display:flex;justify-content:space-between;gap:16px;margin-top:52px;padding-top:12px;border-top:3px solid var(--line);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase}@media(max-width:760px){.shell{padding:10px 13px 36px}.mast{padding-top:26px}.mark{width:75px;height:75px;font-size:.7rem}.layout{grid-template-columns:1fr;gap:30px}.side{grid-row:1}.schedule thead{display:none}.schedule,.schedule tbody,.schedule tr,.schedule td{display:block;width:100%}.schedule td{padding:5px 8px;border:0}.schedule tr{padding:9px 0;border-bottom:1px solid var(--line)}.schedule td:first-child{font-weight:bold}.schedule td:last-child{padding-bottom:7px}.bar span:last-child{display:none}footer{display:block}}
   </style>
 </head>
-<body>
-  <div class="page">
-    <header>
-      <div>
-        <p class="eyebrow">SJSU Art 101 / Console Studio</p>
-        <h1>Make the page<br>your medium.</h1>
-      </div>
-      <div class="clock" id="clock" aria-live="polite"><span>Local time</span>--:--:--</div>
-    </header>
-
-    <main>
-      <section class="intro" aria-labelledby="prompt-title">
-        <p class="eyebrow">Today's prompt</p>
-        <h2 id="prompt-title">Look closely. Change one thing.</h2>
-        <p>This small page is a canvas for experiments in color, form, and chance. Open the browser console, try a line of JavaScript, then watch the composition respond.</p>
-        <p><a href="console-examples.md">Open the console examples</a></p>
-        <div class="notes">
-          <h2>Studio notes</h2>
-          <ul>
-            <li>Every element is part of the composition.</li>
-            <li>Accidents are useful information.</li>
-            <li>Refresh to return to the original study.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="artboard" aria-label="Abstract composition">
-        <div class="shape circle"></div>
-        <div class="shape square"></div>
-        <div class="shape triangle"></div>
-        <div class="shape line"></div>
-        <div class="caption">Study no. 01</div>
-      </section>
-    </main>
-
-    <footer>Interactive web sketch / Fall 2026</footer>
-  </div>
-
-  <script>
-    const clock = document.querySelector("#clock");
-    const updateClock = () => {
-      clock.lastChild.textContent = new Date().toLocaleTimeString();
-    };
-    updateClock();
-    setInterval(updateClock, 1000);
-  </script>
-</body>
-</html>
+<body><div class="shell">
+  <div class="bar"><span>ART101.SJSU.EDU // COURSE INDEX</span><span>STATUS: FALL 2026 / ONLINE</span></div>
+  <header class="mast"><div><p class="kicker">San José State University / Department of Art &amp; Art History</p><h1>ART 101<br>INTRO TO<br>CREATIVE CODE</h1></div><div class="mark" aria-hidden="true">FALL<br>2026<br>///</div></header>
+  <nav class="nav" aria-label="Course navigation"><a href="#about">about</a><a href="#outcomes">learning outcomes</a><a href="#readings">readings</a><a href="#schedule">schedule</a><a href="https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01">github ↗</a></nav>
+  <div class="layout"><main>
+    <section id="about"><p class="lead">Experimental applications in creative coding as an art practice — programming interactivity, generative graphics, data visualization, and the strange social lives of interfaces.</p>
+      <div class="signal"><strong>Transmission / course links</strong><p class="links"><a href="https://docs.google.com/forms/d/e/1FAIpQLSew23f-bRfl5uRnPO9dmefPhY8Vmz7_NGbMKSP_-u52YNbg-g/viewform?usp=sf_link">anonymous feedback ↗</a><a href="https://pad.riseup.net/p/Z3IRupC5wjjnpcBC-S1p-keep">etherpad ↗</a><a href="https://docs.google.com/presentation/d/12KYin63lQs_EOhPp6ZIELwJxTJEp26yd46As_sepbn8/edit?usp=sharing">intro slides ↗</a></p></div>
+      <h2 class="head">Course description</h2><div class="copy"><p>Focus includes programming interactivity, generative graphics, introductory data visualization, and user interface and user experience strategies. Prerequisite: ART 074, ART 075, ART 101, or instructor consent. Six activity hours.</p><p>New and emergent media art is marked by its relationship to developing technology. With each advancement in media and communication technologies, early advocates champion democratized idea exchange and positive social impact. These utopian visions are often quickly subsumed by institutional power and control.</p><p>The current paradigm of building and working with computers as a medium is rapidly shifting through agentic coding, vibe coding, and AI-assisted building. We will look at early NetArt from the 1990s to the present, highlighting expressive and critical uses of the web, critical and queer interactivity, and tactical media.</p></div>
+    </section>
+    <section id="outcomes"><h2 class="head">Learning outcomes</h2><p>Upon successful completion of this course, students will be able to:</p><ol class="outcomes"><li><b>LO1:</b> Develop strategies to create custom software as art.</li><li><b>LO2:</b> Develop criteria for evaluating how to design and produce interactive digital media.</li><li><b>LO3:</b> Identify broad trends in interactive digital media and its aesthetics.</li><li><b>LO4:</b> Plan and practice writing simple programs in several programming languages and authoring systems.</li><li><b>LO5:</b> Build HTML/CSS webpages to document artwork and creative process.</li></ol></section>
+    <section id="readings" class="copy"><h2 class="head">Required texts / readings</h2><p>No required textbook. Readings will be available on Canvas in PDF format.</p></section>
+    <section id="schedule"><h2 class="head">Course signal log</h2><table class="schedule"><thead><tr><th>Date</th><th>Transmission / assignment</th><th>Due</th></tr></thead><tbody>
+      <tr><td>Thu Aug 20, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827872">Introduction Slides! ↗</a></td><td class="due">12pm</td></tr><tr><td>Tue Sep 1, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827867">1.0 — Build an interactive web narrative ↗</a></td><td class="due">12pm</td></tr><tr><td>Tue Sep 15, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827873">Project 1 — Avatar / Data Self Portrait ↗</a></td><td class="due">12pm</td></tr><tr><td>Tue Sep 22, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827869">Data and Homebase ↗</a></td><td class="due">11:59pm</td></tr><tr><td>Tue Sep 29, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827868">2.0 — Design Fiction / Speculative Futures ↗</a></td><td class="due">12pm</td></tr><tr><td>Tue Oct 13, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827876">Project 2 — Speculative Interfaces ↗</a></td><td class="due">12pm</td></tr><tr><td>Thu Oct 29, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827874">Project 2 — Portfolio ↗</a></td><td class="due">11:59pm</td></tr><tr><td>Thu Nov 19, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827877">Project 3 — Fun With Websockets!! ↗</a></td><td class="due">12pm</td></tr><tr><td>Tue Dec 8, 2026</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827870">Final Project ↗</a></td><td class="due">12pm</td></tr><tr><td>—</td><td><a href="https://sjsu.instructure.com/courses/1629354/assignments/7827878">Roll Call Attendance ↗</a></td><td class="due">ongoing</td></tr>
+    </tbody></table></section>
+  </main>
+  <aside class="side"><h2>Node information</h2><dl><div><dt>Instructor</dt><dd>Andrew Blanton</dd></div><div><dt>Office</dt><dd>Art 311</dd></div><div><dt>Email</dt><dd><a href="mailto:andrew.blanton@sjsu.edu">andrew.blanton@sjsu.edu</a></dd></div><div><dt>Office hours</dt><dd>T / Th, 11–12</dd></div><div><dt>Class session</dt><dd>T / Th, 12–2:50</dd></div><div><dt>Course site</dt><dd><a href="https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01">GitHub ↗</a></dd></div></dl></aside></div>
+  <footer><span>SJSU / ART &amp; ART HISTORY</span><span>ART 101 / SEC 03 / FALL 2026</span></footer>
+</div></body></html>

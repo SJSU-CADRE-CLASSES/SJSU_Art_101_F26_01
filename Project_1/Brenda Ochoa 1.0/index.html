@@ -1,0 +1,104 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Cards</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #8558da;
+      margin: 0;
+      padding: 40px 20px;
+      color: #172033;
+    }
+
+    h1 { color: white; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 24px;
+      width: min(100%, 1000px);
+      margin: 30px auto;
+    }
+
+    .card {
+      background: rgb(131, 222, 255);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #125f93;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover { background: #217dbb; }
+
+    .card-image {
+      display: none;
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .card-image.visible { display: block; }
+  </style>
+</head>
+
+<body>
+  <h1>Choose Your Card</h1>
+
+  <main class="cards">
+    <div class="card">
+      <h2>⭐ Stars</h2>
+      <p>Discover the night sky!</p>
+      <button onclick="toggleImage('stars', this)">Show Image</button>
+      <img class="card-image" id="stars" src="Background/stars .JPG" alt="A starry night sky with a crescent moon">
+    </div>
+
+    <div class="card">
+      <h2>🌙 Moon</h2>
+      <p>See the glowing moon!</p>
+      <button onclick="toggleImage('moon', this)">Show Image</button>
+      <img class="card-image" id="moon" src="background/moon.jpg" alt="A bright full moon in the night sky">
+    </div>
+
+    <div class="card">
+      <h2>🌊 Ocean</h2>
+      <p>Explore the blue ocean!</p>
+      <button onclick="toggleImage('ocean', this)">Show Image</button>
+      <img class="card-image" id="ocean" src="Background/ocean.jpg" alt="Ocean waves">
+
+    </div>
+
+    <div class="card">
+      <h2>🌲 Forest</h2>
+      <p>Take a walk in the forest!</p>
+      <button onclick="toggleImage('forest', this)">Show Image</button>
+      <img class="card-image" id="forest" src="Background/forest.jpg" alt="A dense forest with tall trees">
+    </div>
+  </main>
+
+  <script>
+    function toggleImage(imageId, button) {
+      const image = document.getElementById(imageId);
+      const isVisible = image.classList.toggle("visible");
+      button.textContent = isVisible ? "Hide Image" : "Show Image";
+    }
+  </script>
+</body>
+</html>
