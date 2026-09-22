@@ -1,0 +1,81 @@
+body {
+    background-color: #c4d8e1;
+}
+h1 {
+color: #fff;
+}
+p {
+color:aqua;
+}
+
+.red {
+    position: absolute;
+    top: 450px;
+    left: 500px;
+    background-color: #8f1025;
+    width: 300px;
+    height: 100px;
+    border-radius: 0 0 150px 150px;
+    overflow: hidden;
+}
+
+.eye_one {
+    position: absolute;
+    top: 250px;
+    left: 520px;
+    background-color: #00c2ff;
+    width: 100px;
+    height: 100px;
+}
+.eye_two {
+    position: absolute;
+    top: 280px;
+    left: 720px;
+    background-color: #7b61ff;
+    width: 80px;
+    height: 100px;
+}
+
+.eye {
+    border-radius: 50%;
+    transition: background-color 150ms linear;
+}
+
+.pupil {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    background-color: #111;
+    border: 6px solid white;
+    border-radius: 50%;
+    transform: translate(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 0px)));
+    transition: transform 80ms ease-out;
+}
+
+.tongue {
+    position: absolute;
+    left: 115px;
+    bottom: -75px;
+    width: 70px;
+    height: 90px;
+    background: #ff7290;
+    border-radius: 45% 45% 50% 50%;
+    transition: bottom 350ms ease-out;
+}
+
+.tongue::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 33px;
+    width: 4px;
+    height: 65px;
+    background: #d94c6b;
+    border-radius: 50%;
+}
+
+.tongue.licking {
+    bottom: -35px;
+}
