@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Katy Data Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="chart-page">
+      <section class="pie-card">
+        <div class="pie-wrap">
+          <div class="pie-chart" id="pieChart" role="img" aria-label="Pie chart showing five profile pages">
+            <div class="pie-center">Explore<br />my pages</div>
+          </div>
+          <div class="slice-labels" id="sliceLabels"></div>
+        </div>
+
+        <div class="info-panel">
+          <p class="eyebrow">Katy's Data Profile</p>
+          <h1 id="infoTitle">Artist</h1>
+          <p id="infoText">I love creating, experimenting, and turning ideas into something visual and meaningful.</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const slices = [
+        { label: 'Artist', text: 'I love creating, experimenting, and turning ideas into reality.', href: 'Artist.html', color: '#f26b4f' },
+        { label: 'What I ate in a day', text: 'This is a calulation of what I eat in a day .', href: 'eating.html', color: '#4e82c9' },
+        { label: 'Fun Facts', text: 'A few fun details that make my profile uniquely me.', href: 'funfacts.html', color: '#9a69c9' },
+        { label: 'Pets', text: 'My pets bring me laughter, comfort, and a little chaos to everyday life.', href: 'PetParent.html', color: '#4caf8c' },
+        { label: 'Student', text: 'I am always learning, asking questions, and growing with every new experience.', href: 'Student.html', color: '#f7bd43' }
+      ];
+
+      const pieChart = document.getElementById('pieChart');
+      const sliceLabels = document.getElementById('sliceLabels');
+      const infoTitle = document.getElementById('infoTitle');
+      const infoText = document.getElementById('infoText');
+
+      const gradientStops = slices.map((slice, index) => {
+        const start = (index / slices.length) * 100;
+        const end = ((index + 1) / slices.length) * 100;
+        return `${slice.color} ${start}% ${end}%`;
+      });
+
+      pieChart.style.background = `conic-gradient(${gradientStops.join(', ')})`;
+
+      slices.forEach((slice, index) => {
+        const button = document.createElement('a');
+        button.className = 'slice-label';
+        button.href = slice.href;
+        button.textContent = slice.label;
+        button.setAttribute('aria-label', slice.label);
+
+        const angle = (index / slices.length) * Math.PI * 2 - Math.PI / 2;
+        const radius = 43;
+        const x = 50 + Math.cos(angle) * radius;
+        const y = 50 + Math.sin(angle) * radius;
+
+        button.style.left = `${x}%`;
+        button.style.top = `${y}%`;
+
+        button.addEventListener('mouseenter', () => {
+          infoTitle.textContent = slice.label;
+          infoText.textContent = slice.text;
+        });
+
+        button.addEventListener('focus', () => {
+          infoTitle.textContent = slice.label;
+          infoText.textContent = slice.text;
+        });
+
+        sliceLabels.appendChild(button);
+      });
+    </script>
+  </body>
+</html>
