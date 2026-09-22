@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Welcome to My Website</h1>
+        <p>This is a simple HTML page.</p>
+        <a href="page2.html">Visit Page 2</a>
+        
+        <div class="eye_one eye">
+            <span class="pupil"></span>
+        </div>
+        <div class="eye_two eye">
+            <span class="pupil"></span>
+        </div>
+        <div class="red mouth">
+            <span class="tongue"></span>
+        </div>
+
+        <script>
+            const eyes = document.querySelectorAll('.eye');
+            const colorChoices = [
+                '#ff4d6d', '#ff9f1c', '#ffe600', '#35d07f',
+                '#00c2ff', '#7b61ff', '#d946ef'
+            ];
+
+            // Make each pupil look toward the mouse, while keeping it inside its eye.
+            document.addEventListener('mousemove', (event) => {
+                eyes.forEach((eye) => {
+                    const pupil = eye.querySelector('.pupil');
+                    const bounds = eye.getBoundingClientRect();
+                    const eyeCenterX = bounds.left + bounds.width / 2;
+                    const eyeCenterY = bounds.top + bounds.height / 2;
+                    const maxX = (bounds.width - pupil.offsetWidth) / 2 - 5;
+                    const maxY = (bounds.height - pupil.offsetHeight) / 2 - 5;
+                    const angle = Math.atan2(event.clientY - eyeCenterY, event.clientX - eyeCenterX);
+                    const distance = Math.min(
+                        Math.hypot(event.clientX - eyeCenterX, event.clientY - eyeCenterY),
+                        Math.hypot(maxX, maxY)
+                    );
+
+                    pupil.style.setProperty('--x', `${Math.cos(angle) * Math.min(maxX, distance)}px`);
+                    pupil.style.setProperty('--y', `${Math.sin(angle) * Math.min(maxY, distance)}px`);
+                });
+            });
+
+            // Give the eyes a new random color on every browser frame.
+            function changeEyeColors() {
+                eyes.forEach((eye) => {
+                    eye.style.backgroundColor = colorChoices[
+                        Math.floor(Math.random() * colorChoices.length)
+                    ];
+                });
+                requestAnimationFrame(changeEyeColors);
+            }
+            requestAnimationFrame(changeEyeColors);
+
+            // Show the tongue every few seconds for a short lick.
+            const tongue = document.querySelector('.tongue');
+            function showTongue() {
+                tongue.classList.add('licking');
+                setTimeout(() => tongue.classList.remove('licking'), 900);
+                setTimeout(showTongue, 3500 + Math.random() * 5000);
+            }
+            setTimeout(showTongue, 2500 + Math.random() * 3000);
+        </script>
+        
+    </body>
+</html>
