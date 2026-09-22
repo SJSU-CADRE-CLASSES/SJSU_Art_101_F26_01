@@ -1,0 +1,208 @@
+.title {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+    margin: 80px auto;
+}
+
+body{
+    animation: change-color 10s infinite alternate;
+}
+
+@keyframes change-color {
+    0% {background-color: antiquewhite;}
+    50% {background-color: pink;}
+    100% {background-color:aquamarine;}
+}
+
+body {
+    position: relative;
+}
+
+body > h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    z-index: 10;
+}
+
+.square {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Igor.jpg);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square2 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Graduation.jpg);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square3 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Thriller.png);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square4 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Post\ Malone.webp);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square5 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Gambino.jpg);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square6 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Gorillaz.png);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square7 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Drake.jpg);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.square8 {
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    margin: 30px 300px;
+    text-align: left;
+    background-image: url(images/Damn.png);
+    background-position: center;
+    background-size: cover;
+    animation: rotate 15s infinite;
+    animation-timing-function: linear;
+}
+
+.slide-container {
+    width: 100%;
+    overflow: hidden;
+    animation: slideLeft 1.5s ease-out forwards;
+}
+
+
+/* Define the sliding movement */
+@keyframes slideLeft {
+    from {
+        transform: translateX(-150px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.slide-container {
+    width: 100%;
+    display: flex;
+    align-items: right;
+    gap: 40px;
+    overflow: visible;
+}
+
+.square {
+    flex: 0 0 500px;
+    margin: 30px 0 30px 300px;
+}
+
+.shape-description {
+    position: static;
+    width: 250px;
+    margin: 200px;
+    color: #222;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.button-div{
+    text-align: center;
+}
+.button {
+    color: white;
+    background-color:rgb(16, 196, 25);
+    font-family: 'Courier New', Courier, monospace;
+    padding: 15px;
+    margin: 50px auto;
+    display: block;
+    width: 100px;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all .5s;
+}
+
+.button:hover {
+    background-color: blueviolet;
+    color: black;
+    transform: scale(1.2);
+}
