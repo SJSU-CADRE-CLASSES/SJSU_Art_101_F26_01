@@ -155,14 +155,26 @@
         const gridUnit = parseFloat(
             getComputedStyle(document.documentElement).getPropertyValue("--grid-unit")
         ) || 10;
-        const pixelsPerHour = 40;
         const maxHours = 25;
         const chart = document.querySelector(".weekly-chart");
         const plot = document.querySelector(".weekly-plot");
         const monthButtons = document.querySelectorAll(".weekly-month-controls button");
+        let activeMonth = 1;
+
+        // Scale hours in whole area-grid units so the chart fits different viewports.
+        function getPixelsPerHour() {
+            const minimumPixels = gridUnit * 2;
+            const maximumPixels = gridUnit * 4;
+            const viewportScale = window.innerHeight * 0.03;
+            return Math.max(
+                minimumPixels,
+                Math.min(maximumPixels, Math.floor(viewportScale / gridUnit) * gridUnit)
+            );
+        }
 
         function renderMonth(month) {
             const weeklyHours = monthlyHours[month].map((hours, index) => ({ day: days[index], hours }));
+            const pixelsPerHour = getPixelsPerHour();
             chart.style.setProperty("--hours-height", `${maxHours * pixelsPerHour}px`);
             chart.querySelectorAll(".weekly-y-label, .weekly-day").forEach((element) => element.remove());
             plot.replaceChildren();
@@ -177,9 +189,14 @@
 
             const plotInset = gridUnit;
             const barGap = gridUnit;
-            const availableWidth = plot.clientWidth - (plotInset * 2) -
+            // Keep every horizontal measurement on a whole area-grid unit.
+            const plotWidth = Math.floor(plot.clientWidth / gridUnit) * gridUnit;
+            const availableWidth = plotWidth - (plotInset * 2) -
                 (barGap * (weeklyHours.length - 1));
-            const barWidth = Math.floor((availableWidth / weeklyHours.length) / gridUnit) * gridUnit;
+            const barWidth = Math.max(
+                gridUnit,
+                Math.floor((availableWidth / weeklyHours.length) / gridUnit) * gridUnit
+            );
             weeklyHours.forEach((entry, index) => {
                 const bar = document.createElement("div");
                 bar.className = "weekly-bar";
@@ -190,7 +207,8 @@
 
                 const day = document.createElement("div");
                 day.className = "weekly-day";
-                day.style.left = `${plot.offsetLeft + plotInset + index * (barWidth + barGap) + (barWidth - 100) / 2}px`;
+                day.style.left = `${plot.offsetLeft + plotInset + index * (barWidth + barGap)}px`;
+                day.style.width = `${barWidth}px`;
                 day.textContent = entry.day;
                 chart.append(day);
             });
@@ -201,11 +219,13 @@
                 monthButtons.forEach((otherButton) => {
                     otherButton.setAttribute("aria-pressed", String(otherButton === button));
                 });
-                renderMonth(Number(button.dataset.month));
+                activeMonth = Number(button.dataset.month);
+                renderMonth(activeMonth);
             });
         });
 
         renderMonth(1);
+        window.addEventListener("resize", () => renderMonth(activeMonth));
 
     </script>
 </body>

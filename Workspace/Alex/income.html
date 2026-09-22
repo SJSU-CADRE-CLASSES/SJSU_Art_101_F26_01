@@ -138,8 +138,6 @@
         const firstYear = 2001;
         const lastYear = 2026;
         const maximumIncome = 40000;
-        const yearSpacing = 40;
-        const plotHeight = 800;
 
         // Public helper for adding another scatterplot point.
         function addScatterPoint(year, income, label = "") {
@@ -148,6 +146,15 @@
         }
 
         function renderScatterPlot() {
+            // Read the current plot dimensions so the chart scales with its container.
+            const plotWidth = scatterArea.clientWidth;
+            const plotHeight = scatterArea.clientHeight;
+            const yearSpacing = plotWidth / (lastYear - firstYear);
+            const axisLeft = scatterArea.offsetLeft;
+            const axisBottom = scatterplot.clientHeight
+                - scatterArea.offsetTop
+                - scatterArea.clientHeight;
+
             scatterplot.querySelectorAll(".scatter-point, .scatter-year, .scatter-income")
                 .forEach((element) => element.remove());
 
@@ -156,7 +163,7 @@
                 const yearLabel = document.createElement("div");
                 yearLabel.className = "scatter-year";
                 // Align each label's center with the same plot point coordinate.
-                yearLabel.style.left = `${(year - firstYear) * yearSpacing + 40}px`;
+                yearLabel.style.left = `${axisLeft + (year - firstYear) * yearSpacing - 20}px`;
                 yearLabel.textContent = year;
                 scatterplot.append(yearLabel);
             }
@@ -164,7 +171,7 @@
             for (let income = 0; income <= maximumIncome; income += 5000) {
                 const incomeLabel = document.createElement("div");
                 incomeLabel.className = "scatter-income";
-                incomeLabel.style.bottom = `calc(${income / maximumIncome * plotHeight}px + var(--grid-unit) * 5)`;
+                incomeLabel.style.bottom = `${axisBottom + (income / maximumIncome) * plotHeight}px`;
                 incomeLabel.textContent = `$${income.toLocaleString()}`;
                 scatterplot.append(incomeLabel);
             }
@@ -183,6 +190,7 @@
         }
 
         renderScatterPlot();
+        new ResizeObserver(renderScatterPlot).observe(scatterArea);
 
     </script>
 </body>
