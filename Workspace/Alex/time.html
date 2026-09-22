@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic document settings and connection to the stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Timeline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main canvas: the CSS grid background, title, and editable timeline live here. -->
+    <main class="grid" aria-label="Editable timeline">
+        <!-- Change this value to generate a different word or phrase. -->
+        <div class="pixel-text" data-pixel-text="Data : Timeline" aria-label="Data : Timeline"></div>
+        <!-- Border for the pixel text container -->
+        <div class="pixel-border" aria-hidden="true"></div>
+
+        <!-- Clicking the home icon returns to the main grid. -->
+        <a class="pixel-home-link" href="index.html" aria-label="Return to the home page">
+            <div class="pixel-home" aria-hidden="true"></div>
+        </a>
+
+        <section class="timeline" aria-label="Timeline">
+            <div class="timeline-track" aria-hidden="true"></div>
+            <div class="timeline-items"></div>
+        </section>
+
+    </main>
+
+    <!-- Pixel alphabet: each letter is a 5-column by 7-row pattern. -->
+    <script>
+        const alphabet = {
+            A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+            B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+            C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+            D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+            E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+            F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+            G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+            H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+            I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+            J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+            K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+            L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+            M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+            N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+            O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+            P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+            Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+            R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+            S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+            T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+            U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+            V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+            W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+            X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+            Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+            Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+            ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"]
+        };
+
+        document.querySelectorAll(".pixel-text").forEach((text) => {
+            const value = text.dataset.pixelText.toUpperCase();
+
+            [...value].forEach((character) => {
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "pixel-letter pixel-space";
+                    text.append(space);
+                    return;
+                }
+
+                const pattern = alphabet[character];
+                if (!pattern) return;
+
+                const letter = document.createElement("span");
+                letter.className = "pixel-letter";
+                letter.setAttribute("aria-hidden", "true");
+
+                pattern.forEach((row, rowIndex) => {
+                    [...row].forEach((cell, columnIndex) => {
+                        if (cell !== "1") return;
+
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
+                    });
+                });
+
+                text.append(letter);
+            });
+        });
+
+        // The shared 7x7 home icon pattern; only 1s become visible boxes.
+        const homePattern = [
+            "0001000",
+            "0011100",
+            "0111110",
+            "1111111",
+            "1100011",
+            "1100011",
+            "1111111"
+        ];
+
+        const home = document.querySelector(".pixel-home");
+        homePattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                home.append(box);
+            });
+        });
+
+        // Edit this list to change the timeline dates and event descriptions.
+        const timelineEvents = [
+            { date: "08-24-01", title: "Beginning", note: "Zeroth entry" },
+            { date: "07-28-02", title: "Toddler Alex Floods House", note: "In his defense, Hilarous" },
+            { date: "03-15-03", title: "Consiousness Gained", note: "The Accident" },
+            { date: "05-06-04", title: "Almost Burned Sisters Crib", note: "She was chill about it" },
+            { date: "04-08-05", title: "Visits San Jose for the First time", note: "really miss mom" },
+            { date: "09-16-06", title: "Tooth Fairy Gives Alex 5 Dollars", note: "Making it big time" },
+            { date: "08-20-07", title: "Alex Skips a Grade due to Hyper Intelligence", note: "Got the smarts yo" },
+            { date: "09-24-08", title: "Adopts Cats Figaro and Tinkerbell!", note: "Wonder what's going on" },
+            { date: "12-24-09", title: "Started playing Kingdom Hearts 2", note: "had dad read the dialouge" },
+            { date: "03-20-10", title: "Watches 2012 Once", note: "Wait, what? The worlds going to END???" },
+            { date: "06-11-11", title: "Mild freakout over the world ending", note: "Seriously got hung up on this for a while" },
+            { date: "12-21-12", title: "Relief", note: "Also moved to San Jose" },
+            { date: "01-01-13", title: "Let go of Family Cats Figaro and Tinkerbell", note: "The move was too much for them" },
+            { date: "06-15-14", title: "Turning Life Around", note: "It's time to lock in" },
+            { date: "09-20-15", title: "Met lifelong friends", note: "This will be important later" },
+            { date: "08-20-16", title: "Highschool Begins", note: "The year the bad timeline" },
+            { date: "02-14-17", title: "Visit to Grand parents", note: "Texas is not it" },
+            { date: "05-05-18", title: "Recieved Jeff and Kim Jackmann Award", note: "Immortilized within Santa Clara High" },
+            { date: "06-13-19", title: "High School is Over", note: "Hello College!" },
+            { date: "01-01-20", title: "Covid-19", note: "you have got to be kidding me" },
+            { date: "03-03-21", title: "Got A Room", note: "Those friends really pulled through" },
+            { date: "08-24-22", title: "First Drink", note: "Tasted like shit" },
+            { date: "04-12-23", title: "Working full time in construction", note: "hated that job" },
+            { date: "01-05-24", title: "Decided to go back to school", note: "needed a change, for a reason that mattered" },
+            { date: "12-12-25", title: "Successful transfer to SJSU", note: "This time it's different" },
+        ];
+
+        const timelineItems = document.querySelector(".timeline-items");
+        const timelineTrack = document.querySelector(".timeline-track");
+        const gridUnit = parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue("--grid-unit")
+        ) || 10;
+        timelineEvents.forEach((event) => {
+            const item = document.createElement("article");
+            item.className = "timeline-event";
+
+            const marker = document.createElement("div");
+            marker.className = "timeline-marker";
+            marker.setAttribute("aria-hidden", "true");
+
+            const date = document.createElement("time");
+            date.className = "timeline-date";
+            date.dateTime = event.date;
+            date.textContent = event.date;
+
+            const title = document.createElement("div");
+            title.className = "timeline-title";
+            title.textContent = event.title;
+
+            const note = document.createElement("div");
+            note.className = "timeline-note";
+            note.textContent = event.note;
+
+            item.append(marker, date, title, note);
+            timelineItems.append(item);
+        });
+
+        // Size the bar and event row from the number of timeline entries.
+        const timeline = document.querySelector(".timeline");
+        const minimumWidth = timeline.clientWidth - (gridUnit * 2);
+        const entryWidth = (timelineEvents.length * 140) +
+            (Math.max(timelineEvents.length - 1, 0) * (gridUnit * 2));
+        // Extend the timeline by one additional area-grid unit between its ends.
+        const timelineWidth = Math.max(minimumWidth, entryWidth) + gridUnit;
+        timeline.style.setProperty("--timeline-content-width", `${timelineWidth}px`);
+        timelineItems.style.width = `${timelineWidth}px`;
+        timelineTrack.style.width = `${timelineWidth}px`;
+
+        // Mouse-wheel scrolling advances in exact 10px grid-unit steps.
+        timeline.addEventListener("wheel", (event) => {
+            const movement = Math.abs(event.deltaX) > Math.abs(event.deltaY)
+                ? event.deltaX
+                : event.deltaY;
+            if (movement === 0) return;
+
+            event.preventDefault();
+            timeline.scrollLeft += Math.sign(movement) * gridUnit;
+        }, { passive: false });
+
+    </script>
+</body>
+</html>

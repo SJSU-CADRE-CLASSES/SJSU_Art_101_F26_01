@@ -4,15 +4,14 @@
     <!-- Basic document settings and connection to the stylesheet. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grey Health</title>
+    <title>Grey Income</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="income-page">
     <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
     <main class="grid" aria-label="Area Grid with pixel text">
         <!-- Change this value to generate a different word or phrase. -->
-        <div class="pixel-text" data-pixel-text="Data : Health" aria-label="Data : Health"></div>
-        <div class="pixel-text giant-pixel-text" data-pixel-text="ALIVE" aria-label="ALIVE"></div>
+        <div class="pixel-text" data-pixel-text="Data : Income" aria-label="Data : Income"></div>
         <!-- Border for the pixel text container -->
         <div class="pixel-border" aria-hidden="true"></div>
 
@@ -20,6 +19,13 @@
         <a class="pixel-home-link" href="index.html" aria-label="Return to the home page">
             <div class="pixel-home" aria-hidden="true"></div>
         </a>
+
+        <section class="scatterplot-frame" aria-labelledby="scatterplot-title">
+            <div id="scatterplot-title" class="data-chart-title">Data : Income by Year</div>
+            <div class="scatterplot">
+                <div class="scatterplot-area"></div>
+            </div>
+        </section>
 
     </main>
 
@@ -77,16 +83,11 @@
                     [...row].forEach((cell, columnIndex) => {
                         if (cell !== "1") return;
 
-                        const scale = text.classList.contains("giant-pixel-text") ? 4 : 1;
-                        for (let rowOffset = 0; rowOffset < scale; rowOffset += 1) {
-                            for (let columnOffset = 0; columnOffset < scale; columnOffset += 1) {
-                                const box = document.createElement("span");
-                                box.className = "pixel-box";
-                                box.style.gridColumn = columnIndex * scale + columnOffset + 1;
-                                box.style.gridRow = rowIndex * scale + rowOffset + 1;
-                                letter.append(box);
-                            }
-                        }
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
                     });
                 });
 
@@ -117,6 +118,71 @@
                 home.append(box);
             });
         });
+
+        // Add or edit points here. Income values must be between 0 and 25,000.
+        const scatterPoints = [
+            { year: 2001, income: 0, label: "Goo Goo GaGa" },
+            { year: 2006, income: 200, label: "Birthday Money, Lemonade Stands, and a Tooth Fairy" },
+            { year: 2008, income: 50, label: "The Housing Market was not kind" },
+            { year: 2011, income: 1000, label: "Job Site Cleaning and Maintenance" },
+            { year: 2016, income: 4000, label: "Farewell Highschool, Hello Higher Education" },
+            { year: 2019, income: 2600, label: "College Job, Things are looking up!" },
+            { year: 2021, income: 4000, label: "Well, At least there were Stimulus Checks" },
+            { year: 2023, income: 21000, label: "Construction pays, but the work is... not worth it" },
+            { year: 2024, income: 36000, label: "It gets tiring telling people what to do full time" },
+            { year: 2026, income: 18000, label: "Current Day, Part of the time" }
+        ];
+
+        const scatterplot = document.querySelector(".scatterplot");
+        const scatterArea = document.querySelector(".scatterplot-area");
+        const firstYear = 2001;
+        const lastYear = 2026;
+        const maximumIncome = 40000;
+        const yearSpacing = 40;
+        const plotHeight = 800;
+
+        // Public helper for adding another scatterplot point.
+        function addScatterPoint(year, income, label = "") {
+            scatterPoints.push({ year, income, label });
+            renderScatterPlot();
+        }
+
+        function renderScatterPlot() {
+            scatterplot.querySelectorAll(".scatter-point, .scatter-year, .scatter-income")
+                .forEach((element) => element.remove());
+
+            for (let year = firstYear; year <= lastYear; year += 1) {
+                if ((year - firstYear) % 5 !== 0 && year !== lastYear) continue;
+                const yearLabel = document.createElement("div");
+                yearLabel.className = "scatter-year";
+                // Align each label's center with the same plot point coordinate.
+                yearLabel.style.left = `${(year - firstYear) * yearSpacing + 40}px`;
+                yearLabel.textContent = year;
+                scatterplot.append(yearLabel);
+            }
+
+            for (let income = 0; income <= maximumIncome; income += 5000) {
+                const incomeLabel = document.createElement("div");
+                incomeLabel.className = "scatter-income";
+                incomeLabel.style.bottom = `calc(${income / maximumIncome * plotHeight}px + var(--grid-unit) * 5)`;
+                incomeLabel.textContent = `$${income.toLocaleString()}`;
+                scatterplot.append(incomeLabel);
+            }
+
+            scatterPoints.forEach((point) => {
+                if (point.year < firstYear || point.year > lastYear) return;
+                if (point.income < 0 || point.income > maximumIncome) return;
+
+                const marker = document.createElement("span");
+                marker.className = "scatter-point";
+                marker.style.left = `${(point.year - firstYear) * yearSpacing}px`;
+                marker.style.bottom = `${(point.income / maximumIncome) * plotHeight}px`;
+                marker.dataset.label = `${point.year}: $${point.income.toLocaleString()}${point.label ? ` — ${point.label}` : ""}`;
+                scatterArea.append(marker);
+            });
+        }
+
+        renderScatterPlot();
 
     </script>
 </body>

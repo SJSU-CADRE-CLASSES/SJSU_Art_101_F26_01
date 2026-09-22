@@ -4,15 +4,14 @@
     <!-- Basic document settings and connection to the stylesheet. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grey Health</title>
+    <title>Grey Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
-    <main class="grid" aria-label="Area Grid with pixel text">
+    <main class="grid leaderboard-page" aria-label="Area Grid with pixel text">
         <!-- Change this value to generate a different word or phrase. -->
-        <div class="pixel-text" data-pixel-text="Data : Health" aria-label="Data : Health"></div>
-        <div class="pixel-text giant-pixel-text" data-pixel-text="ALIVE" aria-label="ALIVE"></div>
+        <div class="pixel-text" data-pixel-text="Data : Game" aria-label="Data : Game"></div>
         <!-- Border for the pixel text container -->
         <div class="pixel-border" aria-hidden="true"></div>
 
@@ -21,6 +20,10 @@
             <div class="pixel-home" aria-hidden="true"></div>
         </a>
 
+        <section class="leaderboard" aria-labelledby="leaderboard-heading">
+            <h2 id="leaderboard-heading" class="sr-only">Top 25 games</h2>
+            <div class="leaderboard-list"></div>
+        </section>
     </main>
 
     <!-- Pixel alphabet: each letter is a 5-column by 7-row pattern. -->
@@ -77,16 +80,11 @@
                     [...row].forEach((cell, columnIndex) => {
                         if (cell !== "1") return;
 
-                        const scale = text.classList.contains("giant-pixel-text") ? 4 : 1;
-                        for (let rowOffset = 0; rowOffset < scale; rowOffset += 1) {
-                            for (let columnOffset = 0; columnOffset < scale; columnOffset += 1) {
-                                const box = document.createElement("span");
-                                box.className = "pixel-box";
-                                box.style.gridColumn = columnIndex * scale + columnOffset + 1;
-                                box.style.gridRow = rowIndex * scale + rowOffset + 1;
-                                letter.append(box);
-                            }
-                        }
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
                     });
                 });
 
@@ -118,6 +116,61 @@
             });
         });
 
+        // Edit each entry's title, subtitle, or total hours played value here.
+        const leaderboardEntries = [
+            { title: "Garry's Mod", subtitle: "The Ultimate Sandbox", hours: 778.1 },
+            { title: "Terraria", subtitle: "2D Minecraft", hours: 704.8 },
+            { title: "Elden Ring", subtitle: "Rise Tarnished", hours: 458.3 },
+            { title: "Destiny 2", subtitle: "Should've never picked this up", hours: 443.3 },
+            { title: "Risk of Rain 2", subtitle: "Just One More Run", hours: 354.9 },
+            { title: "Noita", subtitle: "Just spent 8 hours with this broken wand just to die to water!", hours: 184 },
+            { title: "Kingdom Hearts 2 -HD 1.5+2.5 ReMIX", subtitle: "Amazing for a game beat 7 times", hours: 228.3 },
+            { title: "Enter the Gungeon", subtitle: "No One Can outsmart Bullet", hours: 224.1 },
+            { title: "Stardew Valley", subtitle: "living here would be so awesome", hours: 196.7 },
+            { title: "DELTARUNE", subtitle: "Are We Connected?", hours: 140.1 },
+            { title: "Team Fortress 2", subtitle: "If fighting is sure to result in victory then you might fight - Sun Tzu", hours: 136.9 },
+            { title: "Devil May Cry HD Collection", subtitle: "They might've cried", hours: 135.5 },
+            { title: "The Elder Scrolls V: Skyrim", subtitle: "Did somebody steal your sweetroll?", hours: 134.3 },
+            { title: "ARK: Survival Evolved", subtitle: "Hate Dinosaurs", hours: 132.1 },
+            { title: "Baldur's Gate 3", subtitle: "Whoops, better reload that safe", hours: 123.1 },
+            { title: "HELLDIVERS 2", subtitle: "For Super Earth", hours: 120.7 },
+            { title: "Valheim", subtitle: "What? How'd this get here?", hours: 91.4 },
+            { title: "Tower Unite", subtitle: "Oh, Gmod Tower...", hours: 89.2 },
+            { title: "Fallout 4", subtitle: "The wasteland is gonna regret Alex", hours: 79.7 },
+            { title: "NieR Automata", subtitle: "... The Story is really good, swear", hours: 73.9 },
+            { title: "ULTRAKILL", subtitle: "This is what Mom's Against Video Games feared the most", hours: 69.8 },
+            { title: "ARMORED CORE VI FIRES OF RUBICON", subtitle: "Oh Hell Yeah", hours: 68.8 },
+            { title: "Subnautica", subtitle: "What was that sound?", hours: 64.3 },
+            { title: "Hyper Light Drifter", subtitle: "Beautiful and Playts Like Butter", hours: 62.6 },
+            { title: "Superliminal", subtitle: "#1 Game of All Time", hours: 58 }
+        ];
+
+        const leaderboard = document.querySelector(".leaderboard-list");
+        leaderboardEntries.slice(0, 25).forEach((entry, index) => {
+            const item = document.createElement("article");
+            item.className = "leaderboard-entry";
+
+            const rank = document.createElement("div");
+            rank.className = "leaderboard-rank";
+            rank.textContent = `#${index + 1}`;
+
+            const details = document.createElement("div");
+            const title = document.createElement("div");
+            title.className = "leaderboard-title";
+            title.textContent = entry.title;
+
+            const subtitle = document.createElement("div");
+            subtitle.className = "leaderboard-subtitle";
+            subtitle.textContent = entry.subtitle;
+            details.append(title, subtitle);
+
+            const hours = document.createElement("div");
+            hours.className = "leaderboard-hours";
+            hours.textContent = `Total hours played: ${entry.hours}`;
+
+            item.append(rank, details, hours);
+            leaderboard.append(item);
+        });
     </script>
 </body>
 </html>

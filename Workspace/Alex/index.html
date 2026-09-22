@@ -16,9 +16,35 @@
         <div class="pixel-border" aria-hidden="true"></div>
 
         <!-- Clicking the heart opens the dedicated heart page. -->
-        <a class="pixel-heart-link" href="heart.html" aria-label="Open the heart page">
+        <a class="heart-icon-link" href="heart.html" aria-label="Open the heart page">
             <!-- The script below fills this 12x11 grid to create a detailed heart. -->
-            <div class="pixel-heart" aria-hidden="true"></div>
+            <div class="heart-icon" aria-hidden="true"></div>
+        </a>
+
+        <!-- The game icon is independently linked to the game page. -->
+        <a class="game-icon-link" href="game.html" aria-label="Open the game page">
+            <!-- Edit gameIconPattern below to change this 12x12 game icon. -->
+            <div class="game-icon" aria-hidden="true"></div>
+        </a>
+
+        <!-- The envelope icon is independently linked to the income page. -->
+        <a class="income-icon-link" href="income.html" aria-label="Open the income page">
+            <!-- Edit incomeIconPattern below to change this 12x12 envelope icon. -->
+            <div class="income-icon" aria-hidden="true"></div>
+        </a>
+
+        <!-- The phone icon uses the same grid and offset structure as the game icon. -->
+        <a href="phone.html" aria-label="Open the phone page">
+            <div class="phone-icon" aria-hidden="true">
+                <!-- Edit phoneIconPattern below to change this 12x12 phone icon. -->
+            </div>
+        </a>
+
+        <!-- The clock icon uses the same grid and offset structure as the game icon. -->
+        <a href="time.html" aria-label="Open the time page">
+            <div class="clock-icon" aria-hidden="true">
+                <!-- Edit clockIconPattern below to change this 12x12 clock icon. -->
+            </div>
         </a>
     </main>
 
@@ -99,7 +125,7 @@
             });
         });
 
-        // A heart pattern using 12 columns and 12 rows. Only 1s become boxes.
+        // Heart pattern data; only cells containing 1 become visible boxes.
         const heartPattern = [
             "0011100011100",
             "0111110111110",
@@ -114,8 +140,8 @@
             "0000001000000"
         ];
 
-        // Create the heart's visible boxes and place each one in its grid position.
-        const heart = document.querySelector(".pixel-heart");
+        // Create the heart's visible boxes in their row and column positions.
+        const heart = document.querySelector(".heart-icon");
         heartPattern.forEach((row, rowIndex) => {
             [...row].forEach((cell, columnIndex) => {
                 if (cell !== "1") return;
@@ -126,6 +152,141 @@
                 box.style.gridRow = rowIndex + 1;
                 heart.append(box);
             });
+        });
+
+        // Create the controllers visible boxes in their row and column positions.
+        const gameIconPattern = [
+            "000000000000",
+            "000000000000",
+            "000110011000",
+            "001111111100",
+            "011111111110",
+            "111110011111",
+            "110110010101",
+            "100011111111",
+            "110111110101",
+            "111111111111",
+            "011110011110",
+            "001100001100"
+        ];
+
+        const gameIcon = document.querySelector(".game-icon");
+        gameIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                gameIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 dollar-sign icon. Change 0s to 1s to add pixels.
+        const incomeIconPattern = [
+            "000001100000",
+            "000111111000",
+            "001111111110",
+            "011001100000",
+            "011001100000",
+            "001111111000",
+            "000111111100",
+            "000001100110",
+            "000001100110",
+            "011111111100",
+            "000111111000",
+            "000001100000"
+        ];
+
+        const incomeIcon = document.querySelector(".income-icon");
+        incomeIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                incomeIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 phone icon. Change 0s to 1s to add pixels.
+        const phoneIconPattern = [
+            "000111111000",
+            "001111111100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001111111100",
+            "000111111000"
+        ];
+
+        const phoneIcon = document.querySelector(".phone-icon");
+        phoneIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                phoneIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 clock icon. Change 0s to 1s to add pixels.
+        const clockIconPattern = [
+            "000000000000",
+            "000111111000",
+            "001100001100",
+            "011000100110",
+            "110000100011",
+            "110000100011",
+            "110111100011",
+            "110000000011",
+            "110000000011",
+            "011000000110",
+            "001100001100",
+            "000111111000"
+        ];
+
+        const clockIcon = document.querySelector(".clock-icon");
+        clockIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                clockIcon.append(box);
+            });
+        });
+
+        // Plot each pixel by screen position in a left-to-right sweep lasting about 3 seconds.
+        const revealBoxes = [...document.querySelectorAll(".pixel-box")];
+        revealBoxes.sort((first, second) => {
+            const firstRect = first.getBoundingClientRect();
+            const secondRect = second.getBoundingClientRect();
+            return firstRect.left - secondRect.left || firstRect.top - secondRect.top;
+        });
+
+        const revealDuration = 3000;
+        const revealAnimationTime = 140;
+        revealBoxes.forEach((box, index) => {
+            box.classList.add("reveal-box");
+            const progress = revealBoxes.length === 1
+                ? 0
+                : index / (revealBoxes.length - 1);
+            const delay = progress * (revealDuration - revealAnimationTime);
+            box.style.setProperty("--reveal-delay", `${delay}ms`);
         });
     </script>
 </body>
