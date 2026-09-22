@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Driving Log</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #5b5366;
+      background: linear-gradient(135deg, #fbc8d4, #c6e7f5, #d9c7f5);
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    header {
+      text-align: center;
+      color: #665477;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 18px;
+    }
+
+    .card {
+      background: #fffafd;
+      border-radius: 22px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 20px rgba(120, 100, 140, 0.18);
+    }
+
+    .card h2 {
+      color: #8d719f;
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #796681;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 2px solid #eadcf2;
+      border-radius: 12px;
+      background: #fff5f8;
+      color: #5b5366;
+      font-size: 16px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #c7a9dd;
+    }
+
+    button {
+      display: block;
+      margin: 22px auto 0;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 25px;
+      background: #b99bd0;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #a987c0;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .summary-box {
+      flex: 1;
+      min-width: 180px;
+      padding: 18px;
+      background: #e5f4f1;
+      border-radius: 16px;
+    }
+
+    .summary-box h3 {
+      margin: 0 0 8px;
+      color: #739b96;
+    }
+
+    .summary-box p {
+      margin: 0;
+      font-size: 22px;
+      font-weight: bold;
+      color: #5b5366;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th {
+      background: #b9dfe5;
+      color: #5b5366;
+      padding: 14px;
+    }
+
+    td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #f0dce7;
+    }
+
+    tr:nth-child(even) {
+      background: #fff0f5;
+    }
+
+    tr:hover {
+      background: #f1e8fa;
+    }
+
+    @media (max-width: 700px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+      <h1>🚗 My Driving Log</h1>
+      <p>September 14th–18th</p>
+    </header>
+
+    <div class="card">
+      <h2>Add a Driving Record</h2>
+
+      <div class="form-grid">
+        <div>
+          <label for="date">Date</label>
+          <select id="date">
+            <option>Monday, September 14</option>
+            <option>Tuesday, September 15</option>
+            <option>Wednesday, September 16</option>
+            <option>Thursday, September 17</option>
+            <option>Friday, September 18</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="speed">Speed (MPH)</label>
+          <input type="number" id="speed" placeholder="Example: 70">
+        </div>
+
+        <div>
+          <label for="schoolMiles">Miles to School</label>
+          <input type="number" id="schoolMiles" step="0.1" placeholder="Example: 5.3">
+        </div>
+
+        <div>
+          <label for="homeMiles">Miles Home</label>
+          <input type="number" id="homeMiles" step="0.1" placeholder="Example: 5.0">
+        </div>
+      </div>
+
+      <button onclick="addDrive()">＋ Add Record</button>
+    </div>
+
+    <div class="card">
+      <h2>Driving Summary</h2>
+
+      <div class="summary">
+        <div class="summary-box">
+          <h3>Total Miles</h3>
+          <p id="totalMiles">0</p>
+        </div>
+
+        <div class="summary-box">
+          <h3>Average Speed</h3>
+          <p id="averageSpeed">0 MPH</p>
+        </div>
+
+        <div class="summary-box">
+          <h3>Days Recorded</h3>
+          <p id="daysRecorded">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Daily Records</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Speed</th>
+              <th>To School</th>
+              <th>Home</th>
+              <th>Total Miles</th>
+              <th>Total Time</th>
+            </tr>
+          </thead>
+
+          <tbody id="driveTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const records = [
+      {
+        date: "Monday, September 14",
+        speed: 72,
+        schoolMiles: 0,
+        homeMiles: 10.2
+      },
+      {
+        date: "Tuesday, September 15",
+        speed: 73,
+        schoolMiles: 56.6,
+        homeMiles: 56.6
+      },
+      {
+        date: "Wednesday, September 16",
+        speed: 74,
+        schoolMiles: 5.3,
+        homeMiles: 5.3
+      },
+      {
+        date: "Thursday, September 17",
+        speed: 75,
+        schoolMiles: 57.9,
+        homeMiles: 60
+      },
+      {
+        date: "Friday, September 18",
+        speed: 68,
+        schoolMiles: 5.1,
+        homeMiles: 5
+      }
+    ];
+
+    function addDrive() {
+      const date = document.getElementById("date").value;
+      const speed = Number(document.getElementById("speed").value);
+      const schoolMiles = Number(document.getElementById("schoolMiles").value);
+      const homeMiles = Number(document.getElementById("homeMiles").value);
+
+      if (speed <= 0 || schoolMiles < 0 || homeMiles < 0) {
+        alert("Please enter valid numbers.");
+        return;
+      }
+
+      records.push({
+        date: date,
+        speed: speed,
+        schoolMiles: schoolMiles,
+        homeMiles: homeMiles
+      });
+
+      displayRecords();
+      updateSummary();
+
+      document.getElementById("speed").value = "";
+      document.getElementById("schoolMiles").value = "";
+      document.getElementById("homeMiles").value = "";
+    }
+
+    function displayRecords() {
+      const table = document.getElementById("driveTable");
+      table.innerHTML = "";
+
+      records.forEach(record => {
+        const totalMiles = record.schoolMiles + record.homeMiles;
+        const totalMinutes = Math.round((totalMiles / record.speed) * 60);
+
+        const schoolText = record.schoolMiles === 0
+          ? "N/A"
+          : record.schoolMiles.toFixed(1) + " miles";
+
+        table.innerHTML += `
+          <tr>
+            <td>${record.date}</td>
+            <td>${record.speed} MPH</td>
+            <td>${schoolText}</td>
+            <td>${record.homeMiles.toFixed(1)} miles</td>
+            <td>${totalMiles.toFixed(1)} miles</td>
+            <td>About ${totalMinutes} minutes</td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateSummary() {
+      let totalMiles = 0;
+      let totalSpeed = 0;
+
+      records.forEach(record => {
+        totalMiles += record.schoolMiles + record.homeMiles;
+        totalSpeed += record.speed;
+      });
+
+      const averageSpeed = totalSpeed / records.length;
+
+      document.getElementById("totalMiles").textContent =
+        totalMiles.toFixed(1) + " miles";
+
+      document.getElementById("averageSpeed").textContent =
+        averageSpeed.toFixed(1) + " MPH";
+
+      document.getElementById("daysRecorded").textContent =
+        records.length;
+    }
+
+    displayRecords();
+    updateSummary();
+  </script>
+
+</body>
+</html>
