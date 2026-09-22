@@ -1,0 +1,267 @@
+body > h1 {
+    position: fixed;
+    top: 100px;
+    bottom: auto !important;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    z-index: 100;
+}
+
+body{
+    animation: change-color 10s infinite alternate;
+}
+
+@keyframes change-color {
+    0% {background-color: rgb(174, 255, 201);}
+    50% {background-color: pink;}
+    100% {background-color:aquamarine;}
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #f2f4f7;
+    font-family: Arial, sans-serif;
+}
+
+/* This is the strict hover boundary. It does not move with the rectangle. */
+.hover-zone,
+.hover-zone2,
+.hover-zone3,
+.hover-zone4,
+.hover-zone5,
+.hover-zone6,
+.hover-zone7,
+.hover-zone8 {
+    width: 320px;
+    height: 160px;
+    position: absolute;
+}
+
+/* This transparent strip is the only area that activates the movement. */
+.hover-trigger {
+    position: absolute;
+    z-index: 2;
+    right: 373px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+    
+
+    
+
+}
+
+.hover-trigger2 {
+    position: absolute;
+    z-index: 2;
+    right: 325px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+
+
+}
+
+.hover-trigger3 {
+    position: absolute;
+    z-index: 2;
+    right: 277px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+
+
+}
+
+.hover-trigger4 {
+    position: absolute;
+    z-index: 2;
+    right: 228px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+}
+
+.hover-trigger5 {
+    position: absolute;
+    z-index: 2;
+    right: 181px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+}
+
+.hover-trigger6 {
+    position: absolute;
+    z-index: 2;
+    right: 133px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+}
+
+.hover-trigger7 {
+    position: absolute;
+    z-index: 2;
+    right: 85px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+}
+
+.hover-trigger8 {
+    position: absolute;
+    z-index: 2;
+    right: 40px;
+    width: 45px;
+    height: 500px;
+    bottom: -150px;
+}
+
+.rectangle {
+    top: -190px;
+    right: 100px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+    background-image: url(images/Igor.jpg);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle2 {
+    top: -190px;
+    right: 50px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Graduation.jpg);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle3 {
+    top: -190px;
+    right: 0px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Thriller.png);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle4 {
+    top: -190px;
+    right: -50px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Post\ Malone.webp);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle5 {
+    top: -190px;
+    right: -91px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Gambino.jpg);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle6 {
+    top: -190px;
+    right: -138px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Gorillaz.png);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle7 {
+    top: -190px;
+    right: -190px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Drake.jpg);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+.rectangle8 {
+    top: -190px;
+    right: -235px;
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    color: white;
+     background-image: url(images/Damn.png);
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    transition: transform 500ms ease;
+}
+
+/* The rectangle slides left only while the invisible trigger is hovered. */
+.hover-trigger:hover + .rectangle,
+.hover-trigger2:hover + .rectangle2,
+.hover-trigger3:hover + .rectangle3,
+.hover-trigger4:hover + .rectangle4,
+.hover-trigger5:hover + .rectangle5,
+.hover-trigger6:hover + .rectangle6,
+.hover-trigger7:hover + .rectangle7,
+.hover-trigger8:hover + .rectangle8 {
+    transform: translateX(-450px);
+}
