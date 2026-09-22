@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic document settings and connection to the stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Screentime</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
+    <main class="grid" aria-label="Area Grid with pixel text">
+        <!-- Change this value to generate a different word or phrase. -->
+        <div class="pixel-text" data-pixel-text="Data : Screentime" aria-label="Data : Screentime"></div>
+        <!-- Border for the pixel text container -->
+        <div class="pixel-border" aria-hidden="true"></div>
+
+        <!-- Clicking the home icon returns to the main grid. -->
+        <a class="pixel-home-link" href="index.html" aria-label="Return to the home page">
+            <div class="pixel-home" aria-hidden="true"></div>
+        </a>
+
+        <section class="weekly-chart-frame" aria-labelledby="weekly-chart-title">
+            <div id="weekly-chart-title" class="data-chart-title">Data : Screentime 2026</div>
+            <div class="weekly-chart-layout">
+                <div class="weekly-month-controls" aria-label="Select month">
+                    <div class="weekly-month-label">Month</div>
+                    <button type="button" data-month="1" aria-pressed="true">Jan</button>
+                    <button type="button" data-month="2" aria-pressed="false">Feb</button>
+                    <button type="button" data-month="3" aria-pressed="false">Mar</button>
+                    <button type="button" data-month="4" aria-pressed="false">Apr</button>
+                    <button type="button" data-month="5" aria-pressed="false">May</button>
+                    <button type="button" data-month="6" aria-pressed="false">Jun</button>
+                    <button type="button" data-month="7" aria-pressed="false">Jul</button>
+                    <button type="button" data-month="8" aria-pressed="false">Aug</button>
+                    <button type="button" data-month="9" aria-pressed="false">Sep</button>
+                    <button type="button" data-month="10" aria-pressed="false">Oct</button>
+                    <button type="button" data-month="11" aria-pressed="false">Nov</button>
+                    <button type="button" data-month="12" aria-pressed="false">Dec</button>
+                </div>
+                <div class="weekly-chart">
+                    <div class="weekly-plot"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pixel alphabet: each letter is a 5-column by 7-row pattern. -->
+    <script>
+        const alphabet = {
+            A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+            B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+            C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+            D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+            E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+            F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+            G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+            H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+            I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+            J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+            K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+            L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+            M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+            N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+            O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+            P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+            Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+            R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+            S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+            T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+            U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+            V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+            W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+            X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+            Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+            Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+            ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"]
+        };
+
+        document.querySelectorAll(".pixel-text").forEach((text) => {
+            const value = text.dataset.pixelText.toUpperCase();
+
+            [...value].forEach((character) => {
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "pixel-letter pixel-space";
+                    text.append(space);
+                    return;
+                }
+
+                const pattern = alphabet[character];
+                if (!pattern) return;
+
+                const letter = document.createElement("span");
+                letter.className = "pixel-letter";
+                letter.setAttribute("aria-hidden", "true");
+
+                pattern.forEach((row, rowIndex) => {
+                    [...row].forEach((cell, columnIndex) => {
+                        if (cell !== "1") return;
+
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
+                    });
+                });
+
+                text.append(letter);
+            });
+        });
+
+        // The shared 7x7 home icon pattern; only 1s become visible boxes.
+        const homePattern = [
+            "0001000",
+            "0011100",
+            "0111110",
+            "1111111",
+            "1100011",
+            "1100011",
+            "1111111"
+        ];
+
+        const home = document.querySelector(".pixel-home");
+        homePattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                home.append(box);
+            });
+        });
+
+        // Edit the hours values to change each month's bar heights.
+        const monthlyHours = {
+            1: [20, 18, 22, 16,],
+            2: [13, 11, 7, 10],
+            3: [9, 10, 9, 8, 8],
+            4: [6, 10, 16, 12, 17],
+            5: [19, 11, 7, 9, 10],
+            6: [12, 3, 8, 12, 15],
+            7: [12, 9, 7, 6, 8],
+            8: [7, 6, 9, 8, 10],
+            9: [17, 12, 13, 3, 0],
+            10: [0, 0, 0, 0, 0],
+            11: [0, 0, 0, 0, 0],
+            12: [0, 0, 0, 0, 0]
+        };
+        const days = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
+        const gridUnit = parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue("--grid-unit")
+        ) || 10;
+        const maxHours = 25;
+        const chart = document.querySelector(".weekly-chart");
+        const plot = document.querySelector(".weekly-plot");
+        const monthButtons = document.querySelectorAll(".weekly-month-controls button");
+        let activeMonth = 1;
+
+        // Scale hours in whole area-grid units so the chart fits different viewports.
+        function getPixelsPerHour() {
+            const minimumPixels = gridUnit * 2;
+            const maximumPixels = gridUnit * 4;
+            const viewportScale = window.innerHeight * 0.03;
+            return Math.max(
+                minimumPixels,
+                Math.min(maximumPixels, Math.floor(viewportScale / gridUnit) * gridUnit)
+            );
+        }
+
+        function renderMonth(month) {
+            const weeklyHours = monthlyHours[month].map((hours, index) => ({ day: days[index], hours }));
+            const pixelsPerHour = getPixelsPerHour();
+            chart.style.setProperty("--hours-height", `${maxHours * pixelsPerHour}px`);
+            chart.querySelectorAll(".weekly-y-label, .weekly-day").forEach((element) => element.remove());
+            plot.replaceChildren();
+
+            for (let hour = 0; hour <= maxHours; hour += 5) {
+                const label = document.createElement("div");
+                label.className = "weekly-y-label";
+                label.style.bottom = `calc(${hour * pixelsPerHour}px + var(--grid-unit) * 4)`;
+                label.textContent = `${hour}h`;
+                chart.append(label);
+            }
+
+            const plotInset = gridUnit;
+            const barGap = gridUnit;
+            // Keep every horizontal measurement on a whole area-grid unit.
+            const plotWidth = Math.floor(plot.clientWidth / gridUnit) * gridUnit;
+            const availableWidth = plotWidth - (plotInset * 2) -
+                (barGap * (weeklyHours.length - 1));
+            const barWidth = Math.max(
+                gridUnit,
+                Math.floor((availableWidth / weeklyHours.length) / gridUnit) * gridUnit
+            );
+            weeklyHours.forEach((entry, index) => {
+                const bar = document.createElement("div");
+                bar.className = "weekly-bar";
+                bar.style.left = `${plotInset + index * (barWidth + barGap)}px`;
+                bar.style.width = `${barWidth}px`;
+                bar.style.height = `${Math.min(entry.hours, maxHours) * pixelsPerHour}px`;
+                plot.append(bar);
+
+                const day = document.createElement("div");
+                day.className = "weekly-day";
+                day.style.left = `${plot.offsetLeft + plotInset + index * (barWidth + barGap)}px`;
+                day.style.width = `${barWidth}px`;
+                day.textContent = entry.day;
+                chart.append(day);
+            });
+        }
+
+        monthButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                monthButtons.forEach((otherButton) => {
+                    otherButton.setAttribute("aria-pressed", String(otherButton === button));
+                });
+                activeMonth = Number(button.dataset.month);
+                renderMonth(activeMonth);
+            });
+        });
+
+        renderMonth(1);
+        window.addEventListener("resize", () => renderMonth(activeMonth));
+
+    </script>
+</body>
+</html>

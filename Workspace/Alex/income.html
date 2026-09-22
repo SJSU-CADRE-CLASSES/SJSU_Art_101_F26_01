@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic document settings and connection to the stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Income</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="income-page">
+    <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
+    <main class="grid" aria-label="Area Grid with pixel text">
+        <!-- Change this value to generate a different word or phrase. -->
+        <div class="pixel-text" data-pixel-text="Data : Income" aria-label="Data : Income"></div>
+        <!-- Border for the pixel text container -->
+        <div class="pixel-border" aria-hidden="true"></div>
+
+        <!-- Clicking the home icon returns to the main grid. -->
+        <a class="pixel-home-link" href="index.html" aria-label="Return to the home page">
+            <div class="pixel-home" aria-hidden="true"></div>
+        </a>
+
+        <section class="scatterplot-frame" aria-labelledby="scatterplot-title">
+            <div id="scatterplot-title" class="data-chart-title">Data : Income by Year</div>
+            <div class="scatterplot">
+                <div class="scatterplot-area"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pixel alphabet: each letter is a 5-column by 7-row pattern. -->
+    <script>
+        const alphabet = {
+            A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+            B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+            C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+            D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+            E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+            F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+            G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+            H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+            I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+            J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+            K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+            L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+            M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+            N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+            O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+            P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+            Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+            R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+            S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+            T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+            U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+            V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+            W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+            X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+            Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+            Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+            ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"]
+        };
+
+        document.querySelectorAll(".pixel-text").forEach((text) => {
+            const value = text.dataset.pixelText.toUpperCase();
+
+            [...value].forEach((character) => {
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "pixel-letter pixel-space";
+                    text.append(space);
+                    return;
+                }
+
+                const pattern = alphabet[character];
+                if (!pattern) return;
+
+                const letter = document.createElement("span");
+                letter.className = "pixel-letter";
+                letter.setAttribute("aria-hidden", "true");
+
+                pattern.forEach((row, rowIndex) => {
+                    [...row].forEach((cell, columnIndex) => {
+                        if (cell !== "1") return;
+
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
+                    });
+                });
+
+                text.append(letter);
+            });
+        });
+
+        // The shared 7x7 home icon pattern; only 1s become visible boxes.
+        const homePattern = [
+            "0001000",
+            "0011100",
+            "0111110",
+            "1111111",
+            "1100011",
+            "1100011",
+            "1111111"
+        ];
+
+        const home = document.querySelector(".pixel-home");
+        homePattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                home.append(box);
+            });
+        });
+
+        // Add or edit points here. Income values must be between 0 and 25,000.
+        const scatterPoints = [
+            { year: 2001, income: 0, label: "Goo Goo GaGa" },
+            { year: 2006, income: 200, label: "Birthday Money, Lemonade Stands, and a Tooth Fairy" },
+            { year: 2008, income: 50, label: "The Housing Market was not kind" },
+            { year: 2011, income: 1000, label: "Job Site Cleaning and Maintenance" },
+            { year: 2016, income: 4000, label: "Farewell Highschool, Hello Higher Education" },
+            { year: 2019, income: 2600, label: "College Job, Things are looking up!" },
+            { year: 2021, income: 4000, label: "Well, At least there were Stimulus Checks" },
+            { year: 2023, income: 21000, label: "Construction pays, but the work is... not worth it" },
+            { year: 2024, income: 36000, label: "It gets tiring telling people what to do full time" },
+            { year: 2026, income: 18000, label: "Current Day, Part of the time" }
+        ];
+
+        const scatterplot = document.querySelector(".scatterplot");
+        const scatterArea = document.querySelector(".scatterplot-area");
+        const firstYear = 2001;
+        const lastYear = 2026;
+        const maximumIncome = 40000;
+
+        // Public helper for adding another scatterplot point.
+        function addScatterPoint(year, income, label = "") {
+            scatterPoints.push({ year, income, label });
+            renderScatterPlot();
+        }
+
+        function renderScatterPlot() {
+            // Read the current plot dimensions so the chart scales with its container.
+            const plotWidth = scatterArea.clientWidth;
+            const plotHeight = scatterArea.clientHeight;
+            const yearSpacing = plotWidth / (lastYear - firstYear);
+            const axisLeft = scatterArea.offsetLeft;
+            const axisBottom = scatterplot.clientHeight
+                - scatterArea.offsetTop
+                - scatterArea.clientHeight;
+
+            scatterplot.querySelectorAll(".scatter-point, .scatter-year, .scatter-income")
+                .forEach((element) => element.remove());
+
+            for (let year = firstYear; year <= lastYear; year += 1) {
+                if ((year - firstYear) % 5 !== 0 && year !== lastYear) continue;
+                const yearLabel = document.createElement("div");
+                yearLabel.className = "scatter-year";
+                // Align each label's center with the same plot point coordinate.
+                yearLabel.style.left = `${axisLeft + (year - firstYear) * yearSpacing - 20}px`;
+                yearLabel.textContent = year;
+                scatterplot.append(yearLabel);
+            }
+
+            for (let income = 0; income <= maximumIncome; income += 5000) {
+                const incomeLabel = document.createElement("div");
+                incomeLabel.className = "scatter-income";
+                incomeLabel.style.bottom = `${axisBottom + (income / maximumIncome) * plotHeight}px`;
+                incomeLabel.textContent = `$${income.toLocaleString()}`;
+                scatterplot.append(incomeLabel);
+            }
+
+            scatterPoints.forEach((point) => {
+                if (point.year < firstYear || point.year > lastYear) return;
+                if (point.income < 0 || point.income > maximumIncome) return;
+
+                const marker = document.createElement("span");
+                marker.className = "scatter-point";
+                marker.style.left = `${(point.year - firstYear) * yearSpacing}px`;
+                marker.style.bottom = `${(point.income / maximumIncome) * plotHeight}px`;
+                marker.dataset.label = `${point.year}: $${point.income.toLocaleString()}${point.label ? ` — ${point.label}` : ""}`;
+                scatterArea.append(marker);
+            });
+        }
+
+        renderScatterPlot();
+        new ResizeObserver(renderScatterPlot).observe(scatterArea);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic document settings and connection to the stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
+    <main class="grid leaderboard-page" aria-label="Area Grid with pixel text">
+        <!-- Change this value to generate a different word or phrase. -->
+        <div class="pixel-text" data-pixel-text="Data : Game" aria-label="Data : Game"></div>
+        <!-- Border for the pixel text container -->
+        <div class="pixel-border" aria-hidden="true"></div>
+
+        <!-- Clicking the home icon returns to the main grid. -->
+        <a class="pixel-home-link" href="index.html" aria-label="Return to the home page">
+            <div class="pixel-home" aria-hidden="true"></div>
+        </a>
+
+        <section class="leaderboard" aria-labelledby="leaderboard-heading">
+            <h2 id="leaderboard-heading" class="sr-only">Top 25 games</h2>
+            <div class="leaderboard-list"></div>
+        </section>
+    </main>
+
+    <!-- Pixel alphabet: each letter is a 5-column by 7-row pattern. -->
+    <script>
+        const alphabet = {
+            A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+            B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+            C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+            D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+            E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+            F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+            G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+            H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+            I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+            J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+            K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+            L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+            M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+            N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+            O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+            P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+            Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+            R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+            S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+            T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+            U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+            V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+            W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+            X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+            Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+            Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+            ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"]
+        };
+
+        document.querySelectorAll(".pixel-text").forEach((text) => {
+            const value = text.dataset.pixelText.toUpperCase();
+
+            [...value].forEach((character) => {
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "pixel-letter pixel-space";
+                    text.append(space);
+                    return;
+                }
+
+                const pattern = alphabet[character];
+                if (!pattern) return;
+
+                const letter = document.createElement("span");
+                letter.className = "pixel-letter";
+                letter.setAttribute("aria-hidden", "true");
+
+                pattern.forEach((row, rowIndex) => {
+                    [...row].forEach((cell, columnIndex) => {
+                        if (cell !== "1") return;
+
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
+                    });
+                });
+
+                text.append(letter);
+            });
+        });
+
+        // The shared 7x7 home icon pattern; only 1s become visible boxes.
+        const homePattern = [
+            "0001000",
+            "0011100",
+            "0111110",
+            "1111111",
+            "1100011",
+            "1100011",
+            "1111111"
+        ];
+
+        const home = document.querySelector(".pixel-home");
+        homePattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                home.append(box);
+            });
+        });
+
+        // Edit each entry's title, subtitle, or total hours played value here.
+        const leaderboardEntries = [
+            { title: "Garry's Mod", subtitle: "The Ultimate Sandbox", hours: 778.1 },
+            { title: "Terraria", subtitle: "2D Minecraft", hours: 704.8 },
+            { title: "Elden Ring", subtitle: "Rise Tarnished", hours: 458.3 },
+            { title: "Destiny 2", subtitle: "Should've never picked this up", hours: 443.3 },
+            { title: "Risk of Rain 2", subtitle: "Just One More Run", hours: 354.9 },
+            { title: "Noita", subtitle: "Just spent 8 hours with this broken wand just to die to water!", hours: 184 },
+            { title: "Kingdom Hearts 2 -HD 1.5+2.5 ReMIX", subtitle: "Amazing for a game beat 7 times", hours: 228.3 },
+            { title: "Enter the Gungeon", subtitle: "No One Can outsmart Bullet", hours: 224.1 },
+            { title: "Stardew Valley", subtitle: "living here would be so awesome", hours: 196.7 },
+            { title: "DELTARUNE", subtitle: "Are We Connected?", hours: 140.1 },
+            { title: "Team Fortress 2", subtitle: "If fighting is sure to result in victory then you might fight - Sun Tzu", hours: 136.9 },
+            { title: "Devil May Cry HD Collection", subtitle: "They might've cried", hours: 135.5 },
+            { title: "The Elder Scrolls V: Skyrim", subtitle: "Did somebody steal your sweetroll?", hours: 134.3 },
+            { title: "ARK: Survival Evolved", subtitle: "Hate Dinosaurs", hours: 132.1 },
+            { title: "Baldur's Gate 3", subtitle: "Whoops, better reload that safe", hours: 123.1 },
+            { title: "HELLDIVERS 2", subtitle: "For Super Earth", hours: 120.7 },
+            { title: "Valheim", subtitle: "What? How'd this get here?", hours: 91.4 },
+            { title: "Tower Unite", subtitle: "Oh, Gmod Tower...", hours: 89.2 },
+            { title: "Fallout 4", subtitle: "The wasteland is gonna regret Alex", hours: 79.7 },
+            { title: "NieR Automata", subtitle: "... The Story is really good, swear", hours: 73.9 },
+            { title: "ULTRAKILL", subtitle: "This is what Mom's Against Video Games feared the most", hours: 69.8 },
+            { title: "ARMORED CORE VI FIRES OF RUBICON", subtitle: "Oh Hell Yeah", hours: 68.8 },
+            { title: "Subnautica", subtitle: "What was that sound?", hours: 64.3 },
+            { title: "Hyper Light Drifter", subtitle: "Beautiful and Playts Like Butter", hours: 62.6 },
+            { title: "Superliminal", subtitle: "#1 Game of All Time", hours: 58 }
+        ];
+
+        const leaderboard = document.querySelector(".leaderboard-list");
+        leaderboardEntries.slice(0, 25).forEach((entry, index) => {
+            const item = document.createElement("article");
+            item.className = "leaderboard-entry";
+
+            const rank = document.createElement("div");
+            rank.className = "leaderboard-rank";
+            rank.textContent = `#${index + 1}`;
+
+            const details = document.createElement("div");
+            const title = document.createElement("div");
+            title.className = "leaderboard-title";
+            title.textContent = entry.title;
+
+            const subtitle = document.createElement("div");
+            subtitle.className = "leaderboard-subtitle";
+            subtitle.textContent = entry.subtitle;
+            details.append(title, subtitle);
+
+            const hours = document.createElement("div");
+            hours.className = "leaderboard-hours";
+            hours.textContent = `Total hours played: ${entry.hours}`;
+
+            item.append(rank, details, hours);
+            leaderboard.append(item);
+        });
+    </script>
+</body>
+</html>

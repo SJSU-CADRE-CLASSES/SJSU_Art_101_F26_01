@@ -1,14 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
+    <!-- Basic document settings and connection to the stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Grid</title>
     <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>Welcome to my Website!</h1>
-        <p>This is a simple HTML page.</p>
-        <a href="index2.html">Go to Page 2</a>
-        <div class="eye_one"> </div>
-        <div class="eye_two"> </div>
-        <div class="red"> </div>
-    </body>
+</head>
+<body>
+    <!-- Main canvas: the CSS grid background and generated pixel text live here. -->
+    <main class="grid" aria-label="Area Grid with pixel text">
+        <!-- Change this value to generate a different word or phrase. -->
+        <div class="pixel-text" data-pixel-text="The Grid : Stat Sheet" aria-label="The Grid : Stat Sheet"></div>
+        <!-- Border for the pixel text container -->
+        <div class="pixel-border" aria-hidden="true"></div>
+
+        <!-- The navigation layout keeps all five icons evenly spaced and separated. -->
+        <nav class="icon-navigation" aria-label="Main navigation">
+            <!-- Clicking the heart opens the dedicated heart page. -->
+            <a href="heart.html" aria-label="Open the heart page">
+                <div class="heart-icon" aria-hidden="true"></div>
+            </a>
+
+            <!-- The game icon is independently linked to the game page. -->
+            <a href="game.html" aria-label="Open the game page">
+                <div class="game-icon" aria-hidden="true"></div>
+            </a>
+
+            <!-- The envelope icon is independently linked to the income page. -->
+            <a href="income.html" aria-label="Open the income page">
+                <div class="income-icon" aria-hidden="true"></div>
+            </a>
+
+            <!-- The phone icon uses the same grid and offset structure as the game icon. -->
+            <a href="phone.html" aria-label="Open the phone page">
+                <div class="phone-icon" aria-hidden="true"></div>
+            </a>
+
+            <!-- The clock icon uses the same grid and offset structure as the game icon. -->
+            <a href="time.html" aria-label="Open the time page">
+                <div class="clock-icon" aria-hidden="true"></div>
+            </a>
+        </nav>
+    </main>
+
+    <!--
+        Pixel alphabet: each letter is a 5-column by 7-row pattern.
+        A 1 creates a visible gray box; a 0 creates no HTML element.
+        Active boxes are positioned in their original row and column.
+    -->
+    <script>
+        const alphabet = {
+            A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+            B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+            C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+            D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+            E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+            F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+            G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+            H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+            I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+            J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+            K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+            L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+            M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+            N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+            O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+            P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+            Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+            R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+            S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+            T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+            U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+            V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+            W: ["10001", "10001", "10001", "10101", "10101", "11011", "10001"],
+            X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+            Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+            Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+            ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"]
+        };
+
+        // Find every pixel-text element so the same method can be reused multiple times.
+        document.querySelectorAll(".pixel-text").forEach((text) => {
+            // Read the phrase from the element's data-pixel-text attribute.
+            const value = text.dataset.pixelText.toUpperCase();
+
+            // Build the phrase one character at a time.
+            [...value].forEach((character) => {
+                // A space becomes an empty spacer between two letters.
+                if (character === " ") {
+                    const space = document.createElement("span");
+                    space.className = "pixel-letter pixel-space";
+                    text.append(space);
+                    return;
+                }
+
+                // Ignore characters that are not included in the alphabet map.
+                const pattern = alphabet[character];
+                if (!pattern) return;
+
+                // Create one 5x7 CSS grid for the current letter.
+                const letter = document.createElement("span");
+                letter.className = "pixel-letter";
+                letter.setAttribute("aria-hidden", "true");
+
+                // Create boxes only for 1s and preserve each box's grid position.
+                pattern.forEach((row, rowIndex) => {
+                    [...row].forEach((cell, columnIndex) => {
+                        if (cell !== "1") return;
+
+                        const box = document.createElement("span");
+                        box.className = "pixel-box";
+                        box.style.gridColumn = columnIndex + 1;
+                        box.style.gridRow = rowIndex + 1;
+                        letter.append(box);
+                    });
+                });
+
+                text.append(letter);
+            });
+        });
+
+        // Heart pattern data; only cells containing 1 become visible boxes.
+        const heartPattern = [
+            "0011100011100",
+            "0111110111110",
+            "1111111111111",
+            "1111111111111",
+            "1111111111111",
+            "0111111111110",
+            "0011111111100",
+            "0001111111000",
+            "000011111000",
+            "0000011100000",
+            "0000001000000"
+        ];
+
+        // Create the heart's visible boxes in their row and column positions.
+        const heart = document.querySelector(".heart-icon");
+        heartPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                heart.append(box);
+            });
+        });
+
+        // Create the controllers visible boxes in their row and column positions.
+        const gameIconPattern = [
+            "000000000000",
+            "000000000000",
+            "000110011000",
+            "001111111100",
+            "011111111110",
+            "111110011111",
+            "110110010101",
+            "100011111111",
+            "110111110101",
+            "111111111111",
+            "011110011110",
+            "001100001100"
+        ];
+
+        const gameIcon = document.querySelector(".game-icon");
+        gameIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                gameIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 dollar-sign icon. Change 0s to 1s to add pixels.
+        const incomeIconPattern = [
+            "000001100000",
+            "000111111000",
+            "001111111110",
+            "011001100000",
+            "011001100000",
+            "001111111000",
+            "000111111100",
+            "000001100110",
+            "000001100110",
+            "011111111100",
+            "000111111000",
+            "000001100000"
+        ];
+
+        const incomeIcon = document.querySelector(".income-icon");
+        incomeIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                incomeIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 phone icon. Change 0s to 1s to add pixels.
+        const phoneIconPattern = [
+            "000111111000",
+            "001111111100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001000000100",
+            "001111111100",
+            "000111111000"
+        ];
+
+        const phoneIcon = document.querySelector(".phone-icon");
+        phoneIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                phoneIcon.append(box);
+            });
+        });
+
+        // A modifiable 12x12 clock icon. Change 0s to 1s to add pixels.
+        const clockIconPattern = [
+            "000000000000",
+            "000111111000",
+            "001100001100",
+            "011000100110",
+            "110000100011",
+            "110000100011",
+            "110111100011",
+            "110000000011",
+            "110000000011",
+            "011000000110",
+            "001100001100",
+            "000111111000"
+        ];
+
+        const clockIcon = document.querySelector(".clock-icon");
+        clockIconPattern.forEach((row, rowIndex) => {
+            [...row].forEach((cell, columnIndex) => {
+                if (cell !== "1") return;
+
+                const box = document.createElement("span");
+                box.className = "pixel-box";
+                box.style.gridColumn = columnIndex + 1;
+                box.style.gridRow = rowIndex + 1;
+                clockIcon.append(box);
+            });
+        });
+
+        // Plot each pixel by screen position in a left-to-right sweep lasting about 3 seconds.
+        const revealBoxes = [...document.querySelectorAll(".pixel-box")];
+        revealBoxes.sort((first, second) => {
+            const firstRect = first.getBoundingClientRect();
+            const secondRect = second.getBoundingClientRect();
+            return firstRect.left - secondRect.left || firstRect.top - secondRect.top;
+        });
+
+        const revealDuration = 3000;
+        const revealAnimationTime = 140;
+        revealBoxes.forEach((box, index) => {
+            box.classList.add("reveal-box");
+            const progress = revealBoxes.length === 1
+                ? 0
+                : index / (revealBoxes.length - 1);
+            const delay = progress * (revealDuration - revealAnimationTime);
+            box.style.setProperty("--reveal-delay", `${delay}ms`);
+        });
+    </script>
+</body>
 </html>
