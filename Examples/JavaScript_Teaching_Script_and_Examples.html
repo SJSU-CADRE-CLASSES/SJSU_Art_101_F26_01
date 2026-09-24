@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript From Zero — Teaching Script and Examples</title>
+  <style>
+    :root {
+      --ink: #14213d;
+      --paper: #fff8ea;
+      --cream: #f4e9d3;
+      --coral: #e95f50;
+      --teal: #197d7d;
+      --gold: #f2b84b;
+      --green: #3f8c5d;
+      --code: #172033;
+      --white: #fff;
+      --muted: #606675;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 18px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    header {
+      padding: 64px max(24px, calc((100vw - 1120px) / 2));
+      color: var(--white);
+      background: var(--ink);
+    }
+
+    header p { max-width: 760px; color: #f4e9d3; }
+    h1 { margin: 0 0 12px; font-size: clamp(2.4rem, 6vw, 4.8rem); line-height: 1; }
+    h2 { margin: 0 0 14px; font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.15; }
+    h3 { margin-top: 30px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 12px max(20px, calc((100vw - 1120px) / 2));
+      background: rgba(255, 248, 234, 0.96);
+      border-bottom: 1px solid #d7cdb9;
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      flex: 0 0 auto;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--cream);
+    }
+
+    main { width: min(1120px, calc(100% - 32px)); margin: 36px auto 80px; }
+
+    section {
+      margin: 34px 0;
+      padding: clamp(22px, 4vw, 44px);
+      background: var(--white);
+      border: 1px solid #ded5c4;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(20, 33, 61, 0.08);
+    }
+
+    .time {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 5px 10px;
+      color: var(--white);
+      background: var(--coral);
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .say, .ask, .note {
+      margin: 18px 0;
+      padding: 18px 20px;
+      border-left: 6px solid var(--teal);
+      background: #eef8f6;
+      border-radius: 8px;
+    }
+
+    .ask { border-color: var(--gold); background: #fff5d8; }
+    .note { border-color: var(--green); background: #eef8ef; }
+    .label { font-weight: 900; letter-spacing: .05em; }
+
+    .code-wrap { position: relative; margin: 18px 0; }
+    pre {
+      overflow-x: auto;
+      margin: 0;
+      padding: 24px;
+      color: #f7f2e8;
+      background: var(--code);
+      border-radius: 14px;
+      font: 16px/1.55 Consolas, Monaco, monospace;
+      white-space: pre;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 7px 11px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--ink);
+      background: var(--gold);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .demo {
+      margin-top: 22px;
+      padding: 22px;
+      background: var(--cream);
+      border-radius: 14px;
+    }
+
+    label { display: block; margin-top: 12px; font-weight: 800; }
+    input {
+      width: min(100%, 420px);
+      padding: 11px 12px;
+      border: 2px solid #aeb3bf;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    button.run {
+      margin-top: 16px;
+      padding: 11px 18px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--white);
+      background: var(--teal);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .result {
+      min-height: 2em;
+      margin-top: 18px;
+      padding: 14px;
+      background: var(--white);
+      border-radius: 8px;
+      font-weight: 750;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 11px; border-bottom: 1px solid #ddd3c0; text-align: left; vertical-align: top; }
+    th { color: var(--teal); }
+
+    footer { padding: 32px; text-align: center; color: var(--muted); }
+
+    @media print {
+      nav, .copy-button, button.run { display: none; }
+      body { background: white; font-size: 12pt; }
+      section { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>JavaScript From Zero</h1>
+    <p>A complete 28-minute teaching script with explanations, instructor questions, copy-ready code, and two live examples.</p>
+  </header>
+
+  <nav aria-label="Lesson sections">
+    <a href="#plan">Plan</a>
+    <a href="#hook">Hook</a>
+    <a href="#variables">Variables</a>
+    <a href="#conditions">If–else</a>
+    <a href="#loops">Loops</a>
+    <a href="#example-one">Example 1</a>
+    <a href="#example-two">Example 2</a>
+    <a href="#recap">Recap</a>
+  </nav>
+
+  <main>
+    <section id="plan">
+      <h2>Lesson plan</h2>
+      <table>
+        <thead><tr><th>Time</th><th>Topic</th><th>Student activity</th></tr></thead>
+        <tbody>
+          <tr><td>0–2 min</td><td>JavaScript and the campus café metaphor</td><td>Share examples of interactive webpages</td></tr>
+          <tr><td>2–6 min</td><td>Variables</td><td>Predict how a stored value changes</td></tr>
+          <tr><td>6–9 min</td><td>Values and operators</td><td>Evaluate comparisons</td></tr>
+          <tr><td>9–13 min</td><td>If, else if, and else</td><td>Predict which branch runs</td></tr>
+          <tr><td>13–16 min</td><td>Loops</td><td>Trace five repetitions</td></tr>
+          <tr><td>16–17 min</td><td>HTML and JavaScript</td><td>Connect an ID to JavaScript</td></tr>
+          <tr><td>17–22 min</td><td>Study Assistant</td><td>Build the first webpage</td></tr>
+          <tr><td>22–27 min</td><td>Study Plan</td><td>Build a list with a loop</td></tr>
+          <tr><td>27–28 min</td><td>Challenge and recap</td><td>Explain unfamiliar code</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="hook">
+      <span class="time">0:00–2:00</span>
+      <h2>Hook: a webpage works like a campus café</h2>
+      <div class="say"><span class="label">SAY:</span> “What makes a webpage respond when you click a button, submit a form, or add something to a shopping cart?”</div>
+      <p><strong>HTML</strong> is the café building and menu. It provides structure and content.</p>
+      <p><strong>CSS</strong> is the color, furniture, and decoration. It controls appearance.</p>
+      <p><strong>JavaScript</strong> is the staff. It takes information, follows rules, and changes what the customer sees.</p>
+      <div class="ask"><span class="label">ASK:</span> “If the café has a menu but no staff, what can a customer actually do?”</div>
+      <div class="note"><span class="label">KEY IDEA:</span> JavaScript gives a webpage behavior.</div>
+    </section>
+
+    <section id="variables">
+      <span class="time">2:00–9:00</span>
+      <h2>Variables: labeled storage containers</h2>
+      <div class="say"><span class="label">SAY:</span> “A variable works like a labeled container behind the café counter. The label tells us what the container holds, and the program can use that label later.”</div>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>const studentName = "Maya";
+const coffeePrice = 4;
+let coffeesRemaining = 10;
+
+coffeesRemaining = coffeesRemaining - 1;</code></pre>
+      </div>
+      <p><code>const</code> creates a label whose assigned value should not be replaced. <code>let</code> creates a label whose value may change.</p>
+      <div class="ask"><span class="label">ASK:</span> “What is stored in <code>coffeesRemaining</code> after the last line?” Answer: <strong>9</strong>.</div>
+      <p>Common value types:</p>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>const name = "Jordan";       // String: text
+const credits = 12;         // Number
+const isEnrolled = true;    // Boolean: true or false</code></pre>
+      </div>
+      <p>Comparisons produce either <code>true</code> or <code>false</code>:</p>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>credits &gt;= 12   // true
+credits &lt; 12    // false
+credits === 12  // true</code></pre>
+      </div>
+      <div class="note"><span class="label">CLARIFY:</span> One equals sign assigns a value. Three equals signs compare values.</div>
+    </section>
+
+    <section id="conditions">
+      <span class="time">9:00–13:00</span>
+      <h2>If–else statements: the decision maker</h2>
+      <div class="say"><span class="label">SAY:</span> “An if statement works like a bouncer following a rule. If the condition is true, one block runs. Otherwise, the else block runs.”</div>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>const hasStudentID = true;
+
+if (hasStudentID === true) {
+  console.log("Welcome to the event!");
+} else {
+  console.log("Please visit the front desk.");
+}</code></pre>
+      </div>
+      <p><code>else if</code> adds another possibility:</p>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>const score = 82;
+
+if (score &gt;= 90) {
+  console.log("Excellent!");
+} else if (score &gt;= 70) {
+  console.log("You passed!");
+} else {
+  console.log("Keep practicing.");
+}</code></pre>
+      </div>
+      <div class="ask"><span class="label">ASK:</span> “What appears for 95? What appears for 65?” Answers: <strong>Excellent!</strong> and <strong>Keep practicing.</strong></div>
+      <div class="note"><span class="label">KEY IDEA:</span> JavaScript checks the branches from top to bottom and stops at the first true condition.</div>
+    </section>
+
+    <section id="loops">
+      <span class="time">13:00–17:00</span>
+      <h2>Loops: repeat without rewriting</h2>
+      <div class="say"><span class="label">SAY:</span> “A café worker can place five cups on the counter by repeating one instruction. A loop gives the computer the same kind of repetition rule.”</div>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>for (let cup = 1; cup &lt;= 5; cup++) {
+  console.log("Place cup " + cup);
+}</code></pre>
+      </div>
+      <p>Read it aloud: “Start <code>cup</code> at 1. Continue while <code>cup</code> is at most 5. Add 1 after each repetition.”</p>
+      <div class="ask"><span class="label">ASK:</span> “What changes if 5 becomes 10?” Answer: the loop runs ten times.</div>
+      <div class="note"><span class="label">EXPLAIN:</span> <code>cup++</code> is shorthand for <code>cup = cup + 1</code>.</div>
+      <h3>Connecting JavaScript to HTML</h3>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>&lt;p id="result"&gt;Waiting...&lt;/p&gt;
+
+&lt;script&gt;
+  document.querySelector("#result").textContent =
+    "Time to study!";
+&lt;/script&gt;</code></pre>
+      </div>
+      <p>HTML creates the paragraph. JavaScript finds the ID <code>result</code> and changes its text.</p>
+    </section>
+
+    <section id="example-one">
+      <span class="time">17:00–22:00</span>
+      <h2>Follow-along 1: Study Assistant</h2>
+      <p>Create a file named <code>index.html</code>, copy the complete program below, save it, and open it in a browser.</p>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy complete file</button>
+        <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Study Assistant&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Study Assistant&lt;/h1&gt;
+  &lt;p id="result"&gt;&lt;/p&gt;
+
+  &lt;script&gt;
+    const studentName = prompt("What is your name?");
+    const studyMinutes = Number(
+      prompt("How many minutes can you study today?")
+    );
+
+    let advice;
+
+    if (studyMinutes &gt;= 60) {
+      advice = "You have time for a focused study session.";
+    } else if (studyMinutes &gt;= 25) {
+      advice = "Try one Pomodoro study session.";
+    } else {
+      advice = "Review one small topic. A little progress counts!";
+    }
+
+    document.querySelector("#result").textContent =
+      "Hi, " + studentName + "! " + advice;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+      <div class="ask"><span class="label">PREDICT BEFORE RUNNING:</span> What advice appears for 75 minutes, 30 minutes, and 10 minutes?</div>
+      <div class="note"><span class="label">MODIFY:</span> Change a threshold or rewrite one message.</div>
+
+      <div class="demo">
+        <h3>Live version without pop-up prompts</h3>
+        <label for="studentName">Student name</label>
+        <input id="studentName" value="Maya">
+        <label for="studyMinutes">Available study minutes</label>
+        <input id="studyMinutes" type="number" value="30" min="0">
+        <button class="run" id="adviceButton" type="button">Get advice</button>
+        <div class="result" id="adviceResult" aria-live="polite">Your result will appear here.</div>
+      </div>
+    </section>
+
+    <section id="example-two">
+      <span class="time">22:00–27:00</span>
+      <h2>Follow-along 2: Five-Day Practice Plan</h2>
+      <p>Replace the contents of the previous file with this complete program.</p>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy complete file</button>
+        <pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;JavaScript Practice Plan&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Five-Day JavaScript Practice Plan&lt;/h1&gt;
+  &lt;ul id="studyPlan"&gt;&lt;/ul&gt;
+
+  &lt;script&gt;
+    let listItems = "";
+
+    for (let day = 1; day &lt;= 5; day++) {
+      listItems = listItems +
+        "&lt;li&gt;Day " + day +
+        ": Practice JavaScript for 15 minutes&lt;/li&gt;";
+    }
+
+    document.querySelector("#studyPlan").innerHTML = listItems;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+      <div class="say"><span class="label">SAY:</span> “The variable begins as empty text. Each repetition adds one list item. After five repetitions, JavaScript places the completed list inside the page.”</div>
+      <div class="ask"><span class="label">TRACE:</span> After the fifth repetition, <code>day</code> becomes 6. Is <code>6 &lt;= 5</code> true? No, so the loop stops.</div>
+      <div class="note"><span class="label">MODIFY:</span> Change 5 to 7, start at 0, or replace <code>day++</code> with <code>day = day + 2</code>.</div>
+
+      <div class="demo">
+        <h3>Live loop generator</h3>
+        <label for="dayCount">Number of practice days</label>
+        <input id="dayCount" type="number" value="5" min="1" max="30">
+        <button class="run" id="planButton" type="button">Build plan</button>
+        <div class="result"><ul id="liveStudyPlan"></ul></div>
+      </div>
+    </section>
+
+    <section id="recap">
+      <span class="time">27:00–28:00</span>
+      <h2>Challenge and recap</h2>
+      <div class="code-wrap">
+        <button class="copy-button" type="button">Copy</button>
+        <pre><code>const energy = 6;
+
+if (energy &gt;= 5) {
+  for (let task = 1; task &lt;= 3; task++) {
+    console.log("Complete task " + task);
+  }
+} else {
+  console.log("Take a short break.");
+}</code></pre>
+      </div>
+      <div class="ask"><span class="label">ASK:</span> Which branch runs? How many times does the loop run? What changes if <code>energy</code> becomes 3?</div>
+      <p><strong>Answers:</strong> The first branch runs. The loop runs three times. With an energy value of 3, the else branch prints “Take a short break.”</p>
+      <div class="note"><span class="label">FINAL MODEL:</span> Variables remember. If–else statements decide. Loops repeat. HTML provides the page. JavaScript makes the page respond.</div>
+      <h3>Exit ticket</h3>
+      <ol>
+        <li>In your own words, what does a variable do?</li>
+        <li>When would you use an if–else statement?</li>
+        <li>Modify the study-plan loop so it creates ten days.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>JavaScript From Zero — classroom teaching file</footer>
+
+  <script>
+    document.querySelectorAll(".copy-button").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const code = button.parentElement.querySelector("code").textContent;
+        await navigator.clipboard.writeText(code);
+        const original = button.textContent;
+        button.textContent = "Copied!";
+        setTimeout(() => { button.textContent = original; }, 1200);
+      });
+    });
+
+    document.querySelector("#adviceButton").addEventListener("click", () => {
+      const studentName = document.querySelector("#studentName").value.trim() || "Student";
+      const studyMinutes = Number(document.querySelector("#studyMinutes").value);
+      let advice;
+
+      if (studyMinutes >= 60) {
+        advice = "You have time for a focused study session.";
+      } else if (studyMinutes >= 25) {
+        advice = "Try one Pomodoro study session.";
+      } else {
+        advice = "Review one small topic. A little progress counts!";
+      }
+
+      document.querySelector("#adviceResult").textContent =
+        "Hi, " + studentName + "! " + advice;
+    });
+
+    function buildLivePlan() {
+      const dayCount = Number(document.querySelector("#dayCount").value);
+      let listItems = "";
+
+      for (let day = 1; day <= dayCount; day++) {
+        listItems = listItems +
+          "<li>Day " + day + ": Practice JavaScript for 15 minutes</li>";
+      }
+
+      document.querySelector("#liveStudyPlan").innerHTML = listItems;
+    }
+
+    document.querySelector("#planButton").addEventListener("click", buildLivePlan);
+    buildLivePlan();
+  </script>
+</body>
+</html>
