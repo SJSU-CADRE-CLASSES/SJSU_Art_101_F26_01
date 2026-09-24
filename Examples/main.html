@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Practice Plan</title>
+</head>
+<body>
+  <h1>Five-Day JavaScript Practice Plan</h1>
+  <ul id="studyPlan"></ul>
+
+  <script>
+    let listItems = "";
+
+    for (let day = 100; day >= 0; day -= 2) {
+      listItems = listItems +
+        "<li>Day " + day +
+        ": Practice JavaScript for 15 minutes</li>";
+    }
+
+    document.querySelector("#studyPlan").innerHTML = listItems;
+  </script>
+</body>
+</html>

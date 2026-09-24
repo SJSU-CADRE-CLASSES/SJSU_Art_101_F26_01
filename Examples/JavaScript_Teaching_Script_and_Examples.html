@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JavaScript From Zero — Teaching Script and Examples</title>
+  <title>JavaScript From Zero: Concepts and Examples</title>
   <style>
     :root {
       --ink: #14213d;
@@ -72,18 +72,7 @@
       box-shadow: 0 12px 35px rgba(20, 33, 61, 0.08);
     }
 
-    .time {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 5px 10px;
-      color: var(--white);
-      background: var(--coral);
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 800;
-    }
-
-    .say, .ask, .note {
+    .info, .note {
       margin: 18px 0;
       padding: 18px 20px;
       border-left: 6px solid var(--teal);
@@ -91,7 +80,6 @@
       border-radius: 8px;
     }
 
-    .ask { border-color: var(--gold); background: #fff5d8; }
     .note { border-color: var(--green); background: #eef8ef; }
     .label { font-weight: 900; letter-spacing: .05em; }
 
@@ -173,25 +161,28 @@
 <body>
   <header>
     <h1>JavaScript From Zero</h1>
-    <p>A complete 28-minute teaching script with explanations, instructor questions, copy-ready code, and two live examples.</p>
+    <p>An introduction to JavaScript concepts with explanations, copy-ready code, and interactive examples.</p>
   </header>
 
-  <nav aria-label="Lesson sections">
-    <a href="#plan">Plan</a>
-    <a href="#hook">Hook</a>
+  <nav aria-label="Topic sections">
+    <a href="#plan">Overview</a>
+    <a href="#hook">JavaScript basics</a>
     <a href="#variables">Variables</a>
     <a href="#conditions">If–else</a>
     <a href="#loops">Loops</a>
-    <a href="#example-one">Example 1</a>
-    <a href="#example-two">Example 2</a>
-    <a href="#recap">Recap</a>
+    <a href="#example-one">Study Assistant</a>
+    <a href="#example-two">Practice Plan</a>
+    <a href="#recap">Summary</a>
   </nav>
 
   <main>
     <section id="plan">
-      <h2>Lesson plan</h2>
-      <table>
-        <thead><tr><th>Time</th><th>Topic</th><th>Student activity</th></tr></thead>
+      <h2>JavaScript topics</h2>
+      <div class="info">
+        <span class="label">Topics covered:</span> HTML, CSS, JavaScript, variables, values, operators, conditional statements, loops, DOM manipulation, and interactive webpage examples.
+      </div>
+      <table style="display: none;">
+        <thead><tr><th>Topic</th><th>Description</th><th>Use</th></tr></thead>
         <tbody>
           <tr><td>0–2 min</td><td>JavaScript and the campus café metaphor</td><td>Share examples of interactive webpages</td></tr>
           <tr><td>2–6 min</td><td>Variables</td><td>Predict how a stored value changes</td></tr>
@@ -207,20 +198,17 @@
     </section>
 
     <section id="hook">
-      <span class="time">0:00–2:00</span>
-      <h2>Hook: a webpage works like a campus café</h2>
-      <div class="say"><span class="label">SAY:</span> “What makes a webpage respond when you click a button, submit a form, or add something to a shopping cart?”</div>
+      <h2>How JavaScript makes webpages interactive</h2>
+      <p>Webpages respond to clicks, form submissions, and other interactions because JavaScript can listen for events and update the page.</p>
       <p><strong>HTML</strong> is the café building and menu. It provides structure and content.</p>
       <p><strong>CSS</strong> is the color, furniture, and decoration. It controls appearance.</p>
       <p><strong>JavaScript</strong> is the staff. It takes information, follows rules, and changes what the customer sees.</p>
-      <div class="ask"><span class="label">ASK:</span> “If the café has a menu but no staff, what can a customer actually do?”</div>
       <div class="note"><span class="label">KEY IDEA:</span> JavaScript gives a webpage behavior.</div>
     </section>
 
     <section id="variables">
-      <span class="time">2:00–9:00</span>
       <h2>Variables: labeled storage containers</h2>
-      <div class="say"><span class="label">SAY:</span> “A variable works like a labeled container behind the café counter. The label tells us what the container holds, and the program can use that label later.”</div>
+      <p>A variable works like a labeled container. Its name identifies the value so the program can use it later.</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy</button>
         <pre><code>const studentName = "Maya";
@@ -230,7 +218,7 @@ let coffeesRemaining = 10;
 coffeesRemaining = coffeesRemaining - 1;</code></pre>
       </div>
       <p><code>const</code> creates a label whose assigned value should not be replaced. <code>let</code> creates a label whose value may change.</p>
-      <div class="ask"><span class="label">ASK:</span> “What is stored in <code>coffeesRemaining</code> after the last line?” Answer: <strong>9</strong>.</div>
+      <div class="info"><span class="label">Example:</span> After the last line, <code>coffeesRemaining</code> contains <strong>9</strong>.</div>
       <p>Common value types:</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy</button>
@@ -249,9 +237,8 @@ credits === 12  // true</code></pre>
     </section>
 
     <section id="conditions">
-      <span class="time">9:00–13:00</span>
       <h2>If–else statements: the decision maker</h2>
-      <div class="say"><span class="label">SAY:</span> “An if statement works like a bouncer following a rule. If the condition is true, one block runs. Otherwise, the else block runs.”</div>
+      <p>An <code>if</code> statement checks a condition. If it is true, the first block runs; otherwise, the <code>else</code> block runs.</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy</button>
         <pre><code>const hasStudentID = true;
@@ -275,22 +262,20 @@ if (score &gt;= 90) {
   console.log("Keep practicing.");
 }</code></pre>
       </div>
-      <div class="ask"><span class="label">ASK:</span> “What appears for 95? What appears for 65?” Answers: <strong>Excellent!</strong> and <strong>Keep practicing.</strong></div>
+      <div class="info"><span class="label">Examples:</span> A score of 95 produces <strong>Excellent!</strong>; a score of 65 produces <strong>Keep practicing.</strong></div>
       <div class="note"><span class="label">KEY IDEA:</span> JavaScript checks the branches from top to bottom and stops at the first true condition.</div>
     </section>
 
     <section id="loops">
-      <span class="time">13:00–17:00</span>
       <h2>Loops: repeat without rewriting</h2>
-      <div class="say"><span class="label">SAY:</span> “A café worker can place five cups on the counter by repeating one instruction. A loop gives the computer the same kind of repetition rule.”</div>
+      <p>A loop gives the computer a repetition rule, allowing the same instruction to run multiple times without rewriting it.</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy</button>
         <pre><code>for (let cup = 1; cup &lt;= 5; cup++) {
   console.log("Place cup " + cup);
 }</code></pre>
       </div>
-      <p>Read it aloud: “Start <code>cup</code> at 1. Continue while <code>cup</code> is at most 5. Add 1 after each repetition.”</p>
-      <div class="ask"><span class="label">ASK:</span> “What changes if 5 becomes 10?” Answer: the loop runs ten times.</div>
+      <p>The loop starts <code>cup</code> at 1, continues while it is at most 5, and adds 1 after each repetition. Changing 5 to 10 makes the loop run ten times.</p>
       <div class="note"><span class="label">EXPLAIN:</span> <code>cup++</code> is shorthand for <code>cup = cup + 1</code>.</div>
       <h3>Connecting JavaScript to HTML</h3>
       <div class="code-wrap">
@@ -306,9 +291,8 @@ if (score &gt;= 90) {
     </section>
 
     <section id="example-one">
-      <span class="time">17:00–22:00</span>
-      <h2>Follow-along 1: Study Assistant</h2>
-      <p>Create a file named <code>index.html</code>, copy the complete program below, save it, and open it in a browser.</p>
+      <h2>Example 1: Study Assistant</h2>
+      <p>This complete example uses variables, conditional statements, and DOM manipulation to display personalized study advice.</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy complete file</button>
         <pre><code>&lt;!doctype html&gt;
@@ -343,8 +327,8 @@ if (score &gt;= 90) {
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       </div>
-      <div class="ask"><span class="label">PREDICT BEFORE RUNNING:</span> What advice appears for 75 minutes, 30 minutes, and 10 minutes?</div>
-      <div class="note"><span class="label">MODIFY:</span> Change a threshold or rewrite one message.</div>
+      <div class="info"><span class="label">Results:</span> The program gives focused-study advice for 75 minutes, Pomodoro advice for 30 minutes, and short-topic advice for 10 minutes.</div>
+      <div class="note"><span class="label">Customization:</span> Thresholds and messages can be changed to create different results.</div>
 
       <div class="demo">
         <h3>Live version without pop-up prompts</h3>
@@ -358,9 +342,8 @@ if (score &gt;= 90) {
     </section>
 
     <section id="example-two">
-      <span class="time">22:00–27:00</span>
-      <h2>Follow-along 2: Five-Day Practice Plan</h2>
-      <p>Replace the contents of the previous file with this complete program.</p>
+      <h2>Example 2: Five-Day Practice Plan</h2>
+      <p>This example uses a <code>for</code> loop to generate a list of practice days and insert it into the page.</p>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy complete file</button>
         <pre><code>&lt;!doctype html&gt;
@@ -387,9 +370,8 @@ if (score &gt;= 90) {
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
       </div>
-      <div class="say"><span class="label">SAY:</span> “The variable begins as empty text. Each repetition adds one list item. After five repetitions, JavaScript places the completed list inside the page.”</div>
-      <div class="ask"><span class="label">TRACE:</span> After the fifth repetition, <code>day</code> becomes 6. Is <code>6 &lt;= 5</code> true? No, so the loop stops.</div>
-      <div class="note"><span class="label">MODIFY:</span> Change 5 to 7, start at 0, or replace <code>day++</code> with <code>day = day + 2</code>.</div>
+      <p>The list starts as empty text. Each repetition adds one list item. After five repetitions, JavaScript places the completed list inside the page. The next value is 6, so the condition <code>6 &lt;= 5</code> is false and the loop stops.</p>
+      <div class="note"><span class="label">Customization:</span> The loop can start at 0, generate 7 days, or increase by 2 with <code>day = day + 2</code>.</div>
 
       <div class="demo">
         <h3>Live loop generator</h3>
@@ -401,8 +383,7 @@ if (score &gt;= 90) {
     </section>
 
     <section id="recap">
-      <span class="time">27:00–28:00</span>
-      <h2>Challenge and recap</h2>
+      <h2>Summary: combining concepts</h2>
       <div class="code-wrap">
         <button class="copy-button" type="button">Copy</button>
         <pre><code>const energy = 6;
@@ -415,10 +396,9 @@ if (energy &gt;= 5) {
   console.log("Take a short break.");
 }</code></pre>
       </div>
-      <div class="ask"><span class="label">ASK:</span> Which branch runs? How many times does the loop run? What changes if <code>energy</code> becomes 3?</div>
-      <p><strong>Answers:</strong> The first branch runs. The loop runs three times. With an energy value of 3, the else branch prints “Take a short break.”</p>
+      <div class="info"><span class="label">Explanation:</span> With an energy value of 6, the first branch runs and the loop runs three times. With an energy value of 3, the <code>else</code> branch prints “Take a short break.”</div>
       <div class="note"><span class="label">FINAL MODEL:</span> Variables remember. If–else statements decide. Loops repeat. HTML provides the page. JavaScript makes the page respond.</div>
-      <h3>Exit ticket</h3>
+      <h3>Key concepts</h3>
       <ol>
         <li>In your own words, what does a variable do?</li>
         <li>When would you use an if–else statement?</li>
@@ -427,7 +407,7 @@ if (energy &gt;= 5) {
     </section>
   </main>
 
-  <footer>JavaScript From Zero — classroom teaching file</footer>
+  <footer>JavaScript From Zero — JavaScript learning reference</footer>
 
   <script>
     document.querySelectorAll(".copy-button").forEach((button) => {
