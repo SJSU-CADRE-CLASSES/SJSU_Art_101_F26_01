@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Week Behind the Bar</title>
+    <style>
+      :root {
+        --bg: #eee9df;
+        --bg-2: #e2d8c9;
+        --panel: #f7f3eb;
+        --panel-strong: #e7dfd1;
+        --text: #2d2923;
+        --muted: #71685d;
+        --gold: #a9794c;
+        --gold-deep: #805a39;
+        --rose: #a87866;
+        --sage: #71816c;
+        --ink: #242019;
+        --shadow: rgba(66, 51, 35, 0.12);
+        --line: rgba(69, 55, 40, 0.14);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: "Century Gothic", Arial, sans-serif;
+        background:
+          linear-gradient(180deg, #f4f0e8 0%, var(--bg) 56%, var(--bg-2) 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      .container {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(244, 240, 232, 0.86);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--gold-deep);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.4rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      .hero {
+        padding: 84px 0 48px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 52px;
+        align-items: center;
+      }
+
+      .kicker {
+        display: inline-block;
+        padding: 0.48rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid rgba(128, 90, 57, 0.28);
+        background: rgba(128, 90, 57, 0.07);
+        color: var(--gold-deep);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0 0 1.1rem;
+        font-size: clamp(3.2rem, 7vw, 6.4rem);
+        line-height: 0.9;
+        letter-spacing: -0.055em;
+        font-weight: 500;
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      .lede {
+        max-width: 620px;
+        font-size: 1rem;
+        color: var(--muted);
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      .hero-card {
+        background: #f7f3eb;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 0.8rem;
+        box-shadow: 0 18px 34px var(--shadow);
+      }
+
+      .photo-panel {
+        min-height: 540px;
+        border-radius: 12px;
+        background:
+          linear-gradient(180deg, rgba(47, 36, 27, 0.02), rgba(47, 36, 27, 0.28)),
+          url("https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=1200&q=90") center/cover no-repeat;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .photo-caption {
+        position: absolute;
+        left: 1.1rem;
+        right: 1.1rem;
+        bottom: 1.1rem;
+        background: rgba(49, 38, 28, 0.68);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 2px;
+        padding: 1rem 1.1rem;
+      }
+
+      .photo-caption .eyebrow {
+        color: var(--gold);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      .photo-caption h3 {
+        margin: 0.5rem 0 0;
+        font-size: 1.2rem;
+        font-weight: 400;
+      }
+
+      section {
+        padding: 28px 0 20px;
+      }
+
+      .section-heading {
+        margin-bottom: 18px;
+      }
+
+      .eyebrow {
+        color: var(--gold);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      h2 {
+        margin: 0.6rem 0 0.6rem;
+        font-size: clamp(2.1rem, 4vw, 3.2rem);
+        line-height: 1.04;
+        letter-spacing: -0.05em;
+      }
+
+      .section-copy {
+        max-width: 760px;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .data-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 1.2rem;
+        align-items: stretch;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        padding: 1.3rem;
+      }
+
+      .chart-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .chart-title h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 0.3rem;
+      }
+
+      .chart {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 120px 1fr 48px;
+        align-items: center;
+        gap: 12px;
+        padding: 0.35rem 0.45rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 160ms ease, transform 160ms ease;
+      }
+
+      .bar-row:hover,
+      .bar-row.is-selected {
+        background: rgba(169, 121, 76, 0.12);
+        transform: translateX(4px);
+      }
+
+      .bar-label {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .bar-track {
+        height: 18px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--gold), var(--rose));
+        box-shadow: inset 0 0 12px rgba(255,255,255,0.2);
+      }
+
+      .bar-value {
+        font-weight: 700;
+        color: var(--text);
+        text-align: right;
+      }
+
+      .side-card {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .mini-metric {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 14px;
+        padding: 1rem;
+      }
+
+      .mini-metric strong {
+        display: block;
+        font-size: 2rem;
+        margin-top: 0.25rem;
+      }
+
+      .mini-metric span {
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .pattern-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .pattern-card {
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 1.1rem;
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .pattern-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px var(--shadow);
+      }
+
+      .pattern-card h3 {
+        margin: 0 0 0.75rem;
+      }
+
+      .compare-list {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1rem;
+      }
+
+      .compare-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--muted);
+      }
+
+      .compare-bar {
+        flex: 1;
+        height: 10px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.05);
+      }
+
+      .compare-fill {
+        height: 100%;
+        border-radius: inherit;
+      }
+
+      .compare-fill.hot { background: linear-gradient(90deg, #b97855, #c98a66); }
+      .compare-fill.iced { background: linear-gradient(90deg, #718b8c, #8da3a0); }
+      .compare-fill.dairy { background: linear-gradient(90deg, #a89278, #c0ab91); }
+      .compare-fill.oat { background: linear-gradient(90deg, #aa884f, #c2a56d); }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1rem;
+      }
+
+      .surprise-box {
+        background: linear-gradient(135deg, rgba(242, 197, 125, 0.1), rgba(243, 157, 141, 0.08));
+        border: 1px solid rgba(242, 197, 125, 0.2);
+        border-radius: 24px;
+        padding: 1.5rem;
+      }
+
+      .surprise-stat {
+        font-size: clamp(3rem, 6vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.08em;
+        color: var(--gold);
+        margin: 0.4rem 0;
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        padding: 0.5rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .reflect-card {
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 24px;
+        padding: 1.5rem;
+      }
+
+      .reflect-card p {
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 34px 0 48px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        color: var(--muted);
+        font-family: "Century Gothic", Arial, sans-serif;
+      }
+
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid,
+        .data-grid,
+        .results-grid,
+        .pattern-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .nav-links { display: none; }
+        .bar-row { grid-template-columns: 90px 1fr 32px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#drinks">Drinks</a>
+          <a href="#patterns">Patterns</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <h1>A Week<br />Behind the Bar</h1>
+          </div>
+
+          <div class="hero-card">
+            <div class="photo-panel">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="drinks">
+        <div class="container">
+          <div class="data-grid">
+            <div class="panel">
+              <div class="chart-title">
+                <h3>Most ordered drinks</h3>
+                <div class="legend">
+                  <span><span class="dot" style="background: var(--gold);"></span>Orders</span>
+                </div>
+              </div>
+
+              <div class="chart">
+                <div class="bar-row">
+                  <div class="bar-label">Matcha</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
+                  <div class="bar-value">151</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Pumpkin Spice</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 97%;"></div></div>
+                  <div class="bar-value">147</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Cold Brew</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 61%;"></div></div>
+                  <div class="bar-value">92</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Brown Sugar Butter Sage</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 54%;"></div></div>
+                  <div class="bar-value">81</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Latte</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 43%;"></div></div>
+                  <div class="bar-value">65</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Americano</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 40%;"></div></div>
+                  <div class="bar-value">61</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Orchard Fog</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 40%;"></div></div>
+                  <div class="bar-value">61</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Chai</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 36%;"></div></div>
+                  <div class="bar-value">55</div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label">Flat White</div>
+                  <div class="bar-track"><div class="bar-fill" style="width: 25%;"></div></div>
+                  <div class="bar-value">37</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="side-card">
+              <div class="mini-metric panel">
+                <span>Most popular</span>
+                <strong>Matcha</strong>
+              </div>
+              <div class="mini-metric panel">
+                <span>Peak day</span>
+                <strong>Friday</strong>
+              </div>
+              <div class="mini-metric panel">
+                <span>Average per hour</span>
+                <strong>50</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="patterns">
+        <div class="container">
+          <div class="pattern-grid">
+            <div class="pattern-card">
+              <h3>Hot vs iced</h3>
+              <div class="compare-list">
+                <div class="compare-row">
+                  <span>Iced</span>
+                  <div class="compare-bar"><div class="compare-fill iced" style="width: 62%;"></div></div>
+                  <strong>62%</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Hot</span>
+                  <div class="compare-bar"><div class="compare-fill hot" style="width: 38%;"></div></div>
+                  <strong>38%</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="pattern-card">
+              <h3>Milk choice</h3>
+              <div class="compare-list">
+                <div class="compare-row">
+                  <span>Oat</span>
+                  <div class="compare-bar"><div class="compare-fill oat" style="width: 40%;"></div></div>
+                  <strong>40%</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Dairy</span>
+                  <div class="compare-bar"><div class="compare-fill dairy" style="width: 28%;"></div></div>
+                  <strong>28%</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Almond</span>
+                  <div class="compare-bar"><div class="compare-fill" style="width: 22%; background: linear-gradient(90deg, #9ad0c2, #74b3a6);"></div></div>
+                  <strong>22%</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="pattern-card">
+              <h3>Most common size</h3>
+              <div class="compare-list">
+                <div class="compare-row">
+                  <span>Medium</span>
+                  <div class="compare-bar"><div class="compare-fill iced" style="width: 48%;"></div></div>
+                  <strong>48%</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Large</span>
+                  <div class="compare-bar"><div class="compare-fill hot" style="width: 37%;"></div></div>
+                  <strong>37%</strong>
+                </div>
+                <div class="compare-row">
+                  <span>Small</span>
+                  <div class="compare-bar"><div class="compare-fill oat" style="width: 15%;"></div></div>
+                  <strong>15%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div>A Week Behind the Bar</div>
+      </div>
+    </footer>
+
+    <script>
+      const drinkRows = document.querySelectorAll(".bar-row");
+
+      function selectDrink(row) {
+        drinkRows.forEach((item) => item.classList.remove("is-selected"));
+        row.classList.add("is-selected");
+      }
+
+      drinkRows.forEach((row) => {
+        row.setAttribute("role", "button");
+        row.setAttribute("tabindex", "0");
+        row.addEventListener("click", () => selectDrink(row));
+        row.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            selectDrink(row);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
