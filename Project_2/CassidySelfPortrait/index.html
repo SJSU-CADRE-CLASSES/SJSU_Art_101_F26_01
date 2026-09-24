@@ -620,13 +620,19 @@
       const drinkRows = document.querySelectorAll(".bar-row");
 
       function selectDrink(row) {
-        drinkRows.forEach((item) => item.classList.remove("is-selected"));
+        drinkRows.forEach((item) => {
+          item.classList.remove("is-selected");
+          item.setAttribute("aria-pressed", "false");
+        });
+
         row.classList.add("is-selected");
+        row.setAttribute("aria-pressed", "true");
       }
 
       drinkRows.forEach((row) => {
         row.setAttribute("role", "button");
         row.setAttribute("tabindex", "0");
+        row.setAttribute("aria-pressed", "false");
         row.addEventListener("click", () => selectDrink(row));
         row.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -635,6 +641,10 @@
           }
         });
       });
+
+      if (drinkRows.length) {
+        selectDrink(drinkRows[0]);
+      }
     </script>
   </body>
 </html>
