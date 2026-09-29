@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World-Net Events</title>
+    <style>
+      :root {
+        --page-bg: #d8d2c9;
+        --paper: #f4f3ef;
+        --paper-2: #ece8e2;
+        --ink: #2d3741;
+        --muted: #5a6770;
+        --line: #5a6670;
+        --line-soft: #7d8992;
+        --panel: #eef1f2;
+        --shadow: rgba(20, 26, 32, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--page-bg);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .page {
+        width: min(1180px, 94vw);
+        min-height: 760px;
+        background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+        border: 2px solid var(--line);
+        box-shadow: 0 0 0 1px rgba(71, 79, 86, 0.1), 0 10px 18px var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.08), transparent 78%);
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 22px 30px 18px;
+      }
+
+      .masthead {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 90px;
+        border-bottom: 2px solid var(--line);
+        margin-bottom: 22px;
+      }
+
+      .title {
+        margin: 0;
+        font-weight: 700;
+        font-size: clamp(2.8rem, 5vw, 6.5rem);
+        letter-spacing: 0.08em;
+        color: var(--ink);
+        text-transform: uppercase;
+      }
+
+      .orbit {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--line);
+        border-radius: 50%;
+        transform: translateY(-50%);
+      }
+
+      .top-row {
+        display: grid;
+        grid-template-columns: minmax(150px, 1fr) 2.4fr;
+        gap: 22px;
+        align-items: start;
+        margin-bottom: 18px;
+      }
+
+      .section-label {
+        font-size: clamp(2.4rem, 4vw, 4.8rem);
+        line-height: 1;
+        color: var(--ink);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-top: 6px;
+      }
+
+      .intro {
+        padding-top: 10px;
+      }
+
+      .intro p {
+        margin: 0;
+        max-width: 780px;
+        font-size: clamp(1.05rem, 1.8vw, 2.1rem);
+        line-height: 1.35;
+        color: var(--muted);
+      }
+
+      .timeline {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 18px 18px;
+        margin-top: 18px;
+      }
+
+      .story-card {
+        position: relative;
+        height: 220px;
+        border: 2px solid var(--line);
+        background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(214,220,223,0.08));
+        box-shadow: inset 0 0 0 1px rgba(90,99,108,0.08);
+      }
+
+      .story-card::before {
+        content: "";
+        position: absolute;
+        inset: 16px 14px 14px 14px;
+        border: 1.5px solid var(--line-soft);
+        background: rgba(255,255,255,0.03);
+      }
+
+      .story-card::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 16px;
+        height: 2px;
+        background: rgba(96, 105, 112, 0.68);
+      }
+
+      .swash {
+        position: absolute;
+        top: 18px;
+        left: 24px;
+        right: 24px;
+        height: 10px;
+        border-top: 2px solid var(--line-soft);
+      }
+
+      .lines {
+        position: absolute;
+        left: 26px;
+        right: 26px;
+        top: 62px;
+        bottom: 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .lines span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: rgba(98, 108, 114, 0.65);
+      }
+
+      .lines span:nth-child(1) { width: 40%; }
+      .lines span:nth-child(2) { width: 58%; }
+      .lines span:nth-child(3) { width: 72%; }
+      .lines span:nth-child(4) { width: 48%; }
+
+      .year-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        border-top: 2px solid var(--line);
+        padding-top: 10px;
+        font-size: clamp(1.15rem, 2vw, 1.8rem);
+        color: var(--muted);
+      }
+
+      .year-row span {
+        display: inline-block;
+      }
+
+      @media (max-width: 900px) {
+        .top-row {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline {
+          grid-template-columns: repeat(2, minmax(180px, 1fr));
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(96vw, 540px);
+        }
+
+        .content {
+          padding: 18px 18px 14px;
+        }
+
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="content">
+        <header class="masthead">
+          <h1 class="title">WORLD-NET</h1>
+          <div class="orbit" aria-hidden="true"></div>
+        </header>
+
+        <div class="top-row">
+          <div class="section-label">Events</div>
+
+          <div class="intro">
+            <p>
+              World-Net holds a commitment to preserving our modern way of life. If we ignore its pretense,
+              the following years may have no reason if your world is incapable of withstanding the fractures of this new era.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline" aria-label="World Net timeline">
+          <div class="story-card">
+            <div class="swash"></div>
+            <div class="lines">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="swash"></div>
+            <div class="lines">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="swash"></div>
+            <div class="lines">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="swash"></div>
+            <div class="lines">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="year-row">
+          <span>2009</span>
+          <span>Present</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
