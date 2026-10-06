@@ -3,9 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Jon Jon</title>
 </head>
 <body>
-    
+    <div class="background-layer" aria-hidden="true">
+        <div class="stars stars-one"></div>
+        <div class="stars stars-two"></div>
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="scene">
+            <div class="cube cube-one"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="cube cube-two"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="ring ring-one"></div>
+            <div class="ring ring-two"></div>
+            <div class="floor-grid"></div>
+        </div>
+    </div>
+    <main class="title-template">
+        <h1>BuySumSctuff!</h1>
+    </main>
+    <h2 class="category-title">Products</h2>
+    <section class="block-row" aria-label="Scrollable blocks">
+        <div class="content-block" role="button" tabindex="0" data-description="A personal capybara companion."><img src="images/Capybara.jpg" alt="Capybara"><div class="block-title">A Personal Capybara Pet - $200</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+    </section>
+    <dialog class="detail-window" id="detail-window">
+        <button class="detail-close" type="button" aria-label="Close details">×</button>
+        <div class="detail-image" id="detail-image"></div>
+        <div class="detail-copy">
+            <h2 id="detail-title"></h2>
+            <p id="detail-description"></p>
+        </div>
+        <div class="detail-empty" aria-hidden="true"></div>
+    </dialog>
+
+    <script>
+        const detailWindow = document.querySelector('#detail-window');
+        const detailImage = document.querySelector('#detail-image');
+        const detailTitle = document.querySelector('#detail-title');
+        const detailDescription = document.querySelector('#detail-description');
+
+        document.querySelectorAll('.content-block').forEach((block) => {
+            const openDetails = () => {
+                const image = block.querySelector('img');
+                const placeholder = block.querySelector('.image-placeholder');
+                const title = block.querySelector('.block-title').textContent.trim();
+
+                detailImage.replaceChildren((image || placeholder).cloneNode(true));
+                detailTitle.textContent = title;
+                detailDescription.textContent = block.dataset.description || 'Add a description for this item here.';
+                detailWindow.showModal();
+            };
+
+            block.addEventListener('click', openDetails);
+            block.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openDetails();
+                }
+            });
+        });
+
+        document.querySelector('.detail-close').addEventListener('click', () => detailWindow.close());
+        detailWindow.addEventListener('click', (event) => {
+            if (event.target === detailWindow) detailWindow.close();
+        });
+    </script>
 </body>
 </html>
