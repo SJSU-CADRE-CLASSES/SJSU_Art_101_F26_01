@@ -32,8 +32,10 @@ a { color: inherit; text-decoration: none; }
 .foreground-layer { min-height: 100vh; position: relative; z-index: 1; }
 .title-template { left: 0; padding: 34px 5vw; position: fixed; right: 0; text-align: center; top: 0; z-index: 1; }
 .title-template h1 { color: var(--ink); font-size: clamp(3rem, 10vw, 9rem); font-weight: 500; letter-spacing: -.08em; margin: 0; text-align: center; }
-.category-title { color: var(--ink); font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 400; left: 5vw; letter-spacing: .12em; margin: 0; position: fixed; text-transform: uppercase; top: calc(50% - 180px); z-index: 2; }
-.block-row { display: flex; gap: 24px; left: 0; overflow-x: auto; padding: 20px 5vw 30px; position: fixed; right: 0; scrollbar-color: var(--accent) rgba(255,255,255,.12); scrollbar-width: thin; top: 50%; transform: translateY(-50%); z-index: 1; }
+.products-sections { padding-top: calc(50vh - 180px); position: relative; z-index: 1; }
+.category-title { color: var(--ink); font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 400; letter-spacing: .12em; margin: 0 5vw; text-transform: uppercase; }
+.secondary-category-title { margin-top: 24px; }
+.block-row { display: flex; gap: 24px; overflow-x: auto; padding: 20px 5vw 30px; scrollbar-color: var(--accent) rgba(255,255,255,.12); scrollbar-width: thin; }
 .content-block { background: rgba(8, 9, 12, .34); border: 1px solid rgba(197,255,74,.6); display: flex; flex: 0 0 190px; flex-direction: column; height: 250px; overflow: hidden; }
 .content-block { cursor: pointer; }
 .content-block:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
