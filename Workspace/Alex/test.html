@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Basic document settings. This template can be copied for new Gaia-Net posts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gaia-Net post detail page template.">
+  <title>Gaia-Net — Post Detail</title>
+  <style>
+    /* Keep the post page simple, printable, and close to the paper prototype. */
+    :root {
+      --ink: #171717;
+      --muted: #686868;
+      --paper: #fff;
+      --accent: #a55248;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.45 "Times New Roman", Times, serif;
+    }
+
+    /* Outer page frame from the sketch. */
+    .page-frame {
+      width: min(1500px, calc(100% - 56px));
+      min-height: calc(100vh - 56px);
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      margin: 28px auto;
+      /* The notice-colored bar wraps the top, bottom, and left edge of the page. */
+      border-top: 7px solid var(--accent);
+      border-bottom: 7px solid var(--accent);
+      border-left: 7px solid var(--accent);
+    }
+
+    /* Vertical label along the left edge of the page. */
+    .side-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Notice posts use the red category bar on the left side. */
+      border-right: 7px solid var(--accent);
+      color: var(--muted);
+      font-size: .9rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Main content area to the right of the vertical label. */
+    .content { min-width: 0; padding: 32px 38px 24px; }
+
+    /* Header follows the wide horizontal structure in the reference image. */
+    .masthead {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 22px;
+    }
+
+    .wordmark {
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-weight: 400;
+      letter-spacing: .16em;
+      line-height: .85;
+    }
+
+    .wordmark span { color: var(--accent); }
+    .node-label { margin: 0; color: var(--muted); font-size: .8rem; text-transform: uppercase; }
+
+    /* Two-column body: editable post on the left, page/panel area on the right. */
+    .post-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(260px, .9fr);
+      min-height: 600px;
+    }
+
+    .post {
+      max-width: 720px;
+      padding: 58px 8% 54px 10%;
+    }
+
+    .post-meta {
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .post h2 {
+      margin: 0 0 24px;
+      font-size: clamp(2.3rem, 5vw, 5rem);
+      font-weight: 400;
+      line-height: .95;
+    }
+
+    .post p { max-width: 630px; margin: 0 0 22px; font-size: 1.15rem; }
+
+    /* Simple editable information rows for a post's source and location. */
+    .post-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 32px;
+      margin-top: 52px;
+      border-top: 1px solid var(--ink);
+      padding-top: 14px;
+      color: var(--muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+    }
+
+    .post-details p { margin: 0; font-size: .8rem; }
+
+    /* Empty panel reserved for a map, image, diagram, or additional notes. */
+    .panel {
+      min-height: 600px;
+      border-left: 1px solid var(--ink);
+      padding: 24px;
+    }
+
+    .panel-label { margin: 0; color: var(--muted); font-size: .8rem; text-transform: uppercase; }
+
+    /* Footer navigation mirrors the long line at the bottom of the sketch. */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid var(--ink);
+      padding-top: 14px;
+      font-size: .85rem;
+    }
+
+    .footer p { margin: 0; }
+    .footer a { color: inherit; }
+
+    /* Stack the sketch's columns on smaller screens. */
+    @media (max-width: 760px) {
+      .page-frame {
+        width: calc(100% - 24px);
+        grid-template-columns: 1fr;
+        margin: 12px auto;
+      }
+
+      .side-label {
+        min-height: 42px;
+        border-right: 0;
+        border-bottom: 7px solid var(--accent);
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+
+      .content { padding: 24px 18px 18px; }
+      .masthead { align-items: start; flex-direction: column; }
+      .post-layout { display: block; min-height: 0; }
+      .post { padding: 42px 0; }
+      .panel { min-height: 240px; border-top: 1px solid var(--ink); border-left: 0; padding: 22px 0; }
+      .footer { display: block; line-height: 1.8; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Change the text inside this page to create a new individual post. -->
+  <main class="page-frame">
+    <aside class="side-label">Responsive Color</aside>
+
+    <div class="content">
+      <header class="masthead">
+        <h1 class="wordmark">GAIA-<span>NET</span></h1>
+        <p class="node-label">West Node / Post 10</p>
+      </header>
+
+      <div class="post-layout">
+        <article class="post">
+          <!-- Edit these values for each new card destination. -->
+          <p class="post-meta">10 / Notice</p>
+          <h2>Test notification</h2>
+          <p>Emergency broadcasts will be signaled at 3:00 PST for all West Node users.</p>
+          <p>Keep your radio or local receiver nearby and pass this notice to anyone who may not be connected to Gaia-Net.</p>
+
+          <div class="post-details">
+            <p>Posted: West Node</p>
+            <p>Valid through Friday</p>
+          </div>
+        </article>
+
+        <!-- Replace this panel with an image, map, diagram, or supporting notes. -->
+        <aside class="panel" aria-label="Supporting post panel">
+          <p class="panel-label">Supporting page / media</p>
+        </aside>
+      </div>
+
+      <footer class="footer">
+        <p>Gaia-Net / keep the signal human</p>
+        <p><a href="gaia.html">&larr; Back to posts</a></p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>
