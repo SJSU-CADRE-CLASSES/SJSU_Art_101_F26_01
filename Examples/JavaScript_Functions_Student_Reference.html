@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A JavaScript reference for building functions and passing values through parameters and return statements. Includes copyable examples and a timing example from a kinetic artwork.">
+  <title>JavaScript Functions Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d172d'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='monospace' font-size='23' font-weight='bold' fill='%23baff66'%3Ef%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink:#14213d; --paper:#fff8ea; --cream:#f4e9d3; --teal:#197d7d;
+      --gold:#f2b84b; --green:#3f8c5d; --code:#172033; --white:#fff;
+      --muted:#606675; --line:#ded5c4;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:18px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:var(--teal); }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,pre:focus-visible { outline:3px solid var(--teal); outline-offset:4px; }
+    header { padding:52px max(24px,calc((100vw - 1120px)/2)); color:white; background:var(--ink); }
+    header p { max-width:760px; margin:0; color:var(--cream); }
+    h1 { margin:0 0 16px; font-size:clamp(2.4rem,6vw,4.8rem); line-height:1.05; }
+    h2 { margin:0 0 14px; font-size:clamp(1.7rem,3vw,2.5rem); line-height:1.15; }
+    h3 { font-size:1.25rem; line-height:1.25; margin:30px 0 14px; }
+    p { margin:0 0 16px; }
+    nav { position:sticky; top:0; z-index:10; display:flex; gap:10px; overflow-x:auto; padding:12px max(20px,calc((100vw - 1120px)/2)); background:rgba(255,248,234,.97); border-bottom:1px solid #d7cdb9; backdrop-filter:blur(10px); }
+    nav a { flex:0 0 auto; color:var(--ink); text-decoration:none; font-weight:700; font-size:16px; padding:7px 11px; border-radius:999px; background:var(--cream); }
+    nav a:hover { background:var(--gold); }
+    .article { width:min(1120px,calc(100% - 32px)); margin:36px auto 80px; }
+    .section { margin:34px 0; padding:clamp(22px,4vw,44px); background:white; border:1px solid var(--line); border-radius:20px; box-shadow:0 12px 35px rgba(20,33,61,.08); scroll-margin-top:14px; }
+    .section-number { color:var(--teal); font-size:14px; font-weight:800; letter-spacing:.06em; margin-bottom:10px; }
+    code { font:.91em/1.5 Consolas,Monaco,monospace; }
+    p code,li code,td code { padding:2px 4px; background:var(--cream); border-radius:3px; }
+    .reminders { padding-left:24px; margin:16px 0; }
+    .reminders li { margin:9px 0; }
+    .explain,.note { margin:18px 0; padding:18px 20px; border-left:6px solid var(--teal); background:#eef8f6; border-radius:8px; }
+    .note { border-color:var(--green); background:#eef8ef; font-size:16px; }
+    .codebox { margin:18px 0; background:var(--code); border-radius:14px; overflow:hidden; }
+    .codebar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px 0 24px; color:#e4decd; font:14px/1.5 Consolas,Monaco,monospace; }
+    .copy { flex-shrink:0; padding:7px 11px; border:0; border-radius:8px; color:var(--ink); background:var(--gold); font:800 14px/1.5 system-ui; min-width:72px; }
+    .copy:hover { background:#ffd77e; }
+    pre { overflow-x:auto; margin:0; padding:20px 24px 24px; color:#f7f2e8; font:16px/1.55 Consolas,Monaco,monospace; white-space:pre; tab-size:2; }
+    pre code { font:inherit; }
+    .table-scroll { overflow-x:auto; margin:20px 0; }
+    table { width:100%; border-collapse:collapse; font-size:16px; }
+    th,td { padding:11px; border-bottom:1px solid #ddd3c0; text-align:left; vertical-align:top; }
+    th { color:var(--teal); }
+    td:first-child { font-weight:600; }
+    .chain { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:24px 0; }
+    .chain div { padding:18px; background:var(--cream); border-radius:12px; overflow-wrap:anywhere; }
+    .chain small { display:block; font-size:14px; color:var(--muted); }
+    .chain code { display:block; font-size:16px; margin:7px 0; }
+    .chain b { font-size:25px; display:block; }
+    .demo { margin:22px 0; padding:22px; background:var(--cream); border-radius:14px; }
+    .demo h3 { margin:0 0 16px; }
+    .fields { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .field label { display:block; margin:12px 0 7px; font-weight:800; font-size:16px; }
+    .field input { width:min(100%,420px); padding:11px 12px; border:2px solid #aeb3bf; border-radius:8px; color:var(--ink); background:white; min-width:0; }
+    .run { margin-top:16px; padding:11px 18px; border:0; border-radius:8px; color:white; background:var(--teal); font-weight:800; }
+    .run:hover { background:#116565; }
+    .demo-result { min-height:2em; margin-top:18px; padding:14px; background:white; border-radius:8px; font-weight:750; }
+    .small { font-size:15px; color:var(--muted); }
+    .trace { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+    .trace div { border-top:2px solid var(--teal); padding:12px 0; }
+    .trace span { display:block; color:var(--muted); font-size:14px; }
+    .trace strong { font:700 22px Consolas,Monaco,monospace; }
+    details { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:17px 0; margin:22px 0; }
+    summary { cursor:pointer; font-weight:700; color:var(--teal); }
+    details .codebox { margin-bottom:0; }
+    .sources { margin-top:36px; font-size:14px; color:var(--muted); }
+    .sources p { margin:8px 0; }
+    .footer { padding:0 24px 32px; text-align:center; color:var(--muted); font-size:14px; }
+    .skip { position:absolute; left:-9999px; top:8px; background:white; padding:10px; z-index:30; }
+    .skip:focus { left:10px; }
+    @media(max-width:760px) {
+      header { padding:36px 24px; }
+      .article { margin-top:24px; }
+      .section { margin:24px 0; }
+      .fields,.chain,.trace { grid-template-columns:1fr; }
+      .chain { gap:10px; }
+      .codebar { padding-left:16px; }
+      pre { padding:18px 16px 22px; }
+      .demo { padding:20px 16px; }
+    }
+    @media print {
+      nav,.copy,.run,.skip { display:none; }
+      body { background:white; font-size:12pt; }
+      header { padding:24px 0; color:black; background:white; }
+      header p { color:black; }
+      .article { width:100%; margin:0; }
+      .section { box-shadow:none; break-inside:auto; border:0; padding:20px 0; }
+      .codebox { break-inside:avoid; }
+      pre { font-size:10pt; white-space:pre-wrap; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to lesson</a>
+  <header>
+    <h1>JavaScript Functions</h1>
+    <p>Build functions that work together. A learning reference with explanations, copy-ready code, and interactive examples.</p>
+  </header>
+      <nav aria-label="Lesson sections">
+        <a href="#reminder">Previous knowledge</a>
+        <a href="#basics">Function basics</a>
+        <a href="#parameters">Parameters</a>
+        <a href="#returns">Return values</a>
+        <a href="#chain">Connecting functions</a>
+        <a href="#scope">Scope</a>
+        <a href="#webpage">Café webpage</a>
+        <a href="#artwork">Artwork example</a>
+        <a href="#reference">Quick reference</a>
+      </nav>
+    <main id="content" class="article">
+      <section id="reminder" class="section">
+        <h2>Previous knowledge reminder</h2>
+        <ul class="reminders">
+          <li><strong>Variables remember values.</strong> Use <code>const</code> when you will not reassign a variable, and <code>let</code> when you will.</li>
+          <li><strong>If–else statements decide.</strong> A condition evaluates to true or false and selects which block runs.</li>
+          <li><strong>Loops repeat.</strong> A <code>for</code> loop has a starting value, a condition, and an update after each repetition.</li>
+          <li><strong>Webpages combine three roles.</strong> HTML provides structure, CSS controls appearance, and JavaScript adds behavior.</li>
+        </ul>
+        <p class="explain">Functions organize these familiar instructions into reusable tasks. Parameters supply inputs; return values let tasks exchange results.</p>
+      </section>
+
+      <section id="basics" class="section">
+        <div class="section-number">01 / Function basics</div>
+        <h2>A reusable task with a name</h2>
+        <p>A function groups instructions under a name. Defining the function describes the task. Calling it runs the task.</p>
+        <p>Think of a café recipe: the same instructions can make another order when you supply different ingredients.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · definition and call</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function makeGreeting(name) {
+  return "Hello, " + name + "!";
+}
+
+const message = makeGreeting("Maya");
+console.log(message); // Hello, Maya!</code></pre></div>
+        <div class="table-scroll"><table><thead><tr><th>Part</th><th>Job</th></tr></thead><tbody><tr><td><code>function</code></td><td>Begins the function declaration.</td></tr><tr><td><code>makeGreeting</code></td><td>Names the task.</td></tr><tr><td><code>(name)</code></td><td>Names an input the function receives.</td></tr><tr><td><code>{ ... }</code></td><td>Contains the instructions.</td></tr><tr><td><code>makeGreeting("Maya")</code></td><td>Calls the function with a specific value.</td></tr></tbody></table></div>
+        <p class="explain">The function runs when the call happens. A definition alone does not print or display anything.</p>
+      </section>
+
+      <section id="parameters" class="section">
+        <div class="section-number">02 / Inputs</div>
+        <h2>Parameters name inputs.<br>Arguments supply values.</h2>
+        <p>A <strong>parameter</strong> is the input name in a function definition. An <strong>argument</strong> is the actual value or expression supplied in a call.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · multiple inputs</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function calculateSubtotal(price, quantity) {
+  return price * quantity;
+}
+
+const cupPrice = 4;
+const cupsOrdered = 3;
+
+const subtotal = calculateSubtotal(cupPrice, cupsOrdered);
+console.log(subtotal); // 12</code></pre></div>
+        <div class="table-scroll"><table><thead><tr><th>Argument in the call</th><th>Value</th><th>Parameter inside the function</th></tr></thead><tbody><tr><td><code>cupPrice</code></td><td>4</td><td><code>price</code></td></tr><tr><td><code>cupsOrdered</code></td><td>3</td><td><code>quantity</code></td></tr></tbody></table></div>
+        <p>Values line up by position. The caller's variable name can differ from the parameter's name. A call can also use literal values: <code>calculateSubtotal(4, 3)</code>.</p>
+        <p class="explain">You pass the value stored in a variable. You do not move that variable into another function.</p>
+      </section>
+
+      <section id="returns" class="section">
+        <div class="section-number">03 / Outputs</div>
+        <h2>return sends a result back</h2>
+        <p><code>return</code> finishes the current function call and supplies its result to the caller. Store that result in a variable or use it in another expression.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · a reusable result</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function double(number) {
+  return number * 2;
+}
+
+const firstResult = double(5);
+const nextResult = double(firstResult);
+
+console.log(firstResult); // 10
+console.log(nextResult);  // 20</code></pre></div>
+        <h3>Printing and returning do different jobs</h3>
+        <div class="codebox"><div class="codebar"><span>JavaScript · the missing return</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function printDouble(number) {
+  console.log(number * 2);
+}
+
+const result = printDouble(5); // Prints 10
+console.log(result);          // undefined</code></pre></div>
+        <p><code>console.log()</code> displays information in the developer console. The <code>printDouble()</code> function has no return value expression, so its call evaluates to <code>undefined</code>. To reuse the calculated number, add <code>return number * 2;</code>.</p>
+        <p>These short JavaScript examples run in a browser's developer console, or inside a <code>&lt;script&gt;</code> element in an HTML file. The complete webpages below display their results directly.</p>
+      </section>
+
+      <section id="chain" class="section">
+        <div class="section-number">04 / Connected tasks</div>
+        <h2>A café order in three functions</h2>
+        <p>Each function handles one task. The returned subtotal becomes an argument to the discount function. The returned total becomes an argument to the receipt function.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · a complete chain</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function calculateSubtotal(price, quantity) {
+  return price * quantity;
+}
+
+function applyDiscount(subtotal, discount) {
+  return subtotal - discount;
+}
+
+function makeReceipt(customerName, total) {
+  return customerName + " owes $" + total.toFixed(2);
+}
+
+const subtotal = calculateSubtotal(4, 3);
+const total = applyDiscount(subtotal, 2);
+const receipt = makeReceipt("Maya", total);
+
+console.log(receipt); // Maya owes $10.00</code></pre></div>
+        <div class="chain" aria-label="Order data flow"><div><small>1. calculateSubtotal(4, 3)</small><code>return 4 * 3</code><b>12</b></div><div><small>2. applyDiscount(12, 2)</small><code>return 12 - 2</code><b>10</b></div><div><small>3. makeReceipt("Maya", 10)</small><code>return a receipt string</code><b>$10.00</b></div></div>
+        <p><code>toFixed(2)</code> formats the number with two decimal places and returns text. We format the amount at the display step so the earlier calculations keep using numbers.</p>
+        <p class="small">This simplified order uses nonnegative quantities and a discount no larger than the subtotal. Its dollar amounts illustrate value passing.</p>
+      </section>
+
+      <section id="scope" class="section">
+        <div class="section-number">05 / Scope</div>
+        <h2>Local names stay in their function</h2>
+        <p>A parameter and a variable declared inside a function belong to that function's local scope. A separate function defined outside it cannot directly read those local variables.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · return the local value</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function addFee(total) {
+  const fee = 2;
+  return total + fee;
+}
+
+const finalTotal = addFee(10);
+console.log(finalTotal); // 12
+
+// console.log(fee);     // ReferenceError if uncommented</code></pre></div>
+        <h3>Reassigning a number parameter leaves the caller's variable alone</h3>
+        <div class="codebox"><div class="codebar"><span>JavaScript · primitive value passing</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function addOne(number) {
+  number = number + 1;
+  return number;
+}
+
+let score = 5;
+const increased = addOne(score);
+
+console.log(score);     // 5
+console.log(increased); // 6
+
+score = addOne(score);
+console.log(score);     // 6</code></pre></div>
+        <p>The function receives the numeric value 5. Changing its local parameter does not reassign <code>score</code>. The caller changes <code>score</code> only when it assigns the returned value.</p>
+        <p class="explain">This example uses primitive values such as numbers and strings. Objects and arrays add a distinction: their properties or elements can be changed through a shared object reference. That is a separate topic.</p>
+        <p>Top-level variables can be visible inside functions, but explicit parameters make it easier to see where a function's inputs come from.</p>
+      </section>
+
+      <section id="webpage" class="section">
+        <div class="section-number">06 / Complete HTML example</div>
+        <h2>Functions connected to a webpage</h2>
+        <p>The button's click handler runs <code>showReceipt()</code>. That function coordinates the calculation helpers and writes the final string to the page with <code>textContent</code>.</p>
+        <div class="demo">
+          <h3>Café receipt</h3>
+          <div class="fields"><div class="field"><label for="cafe-name">Customer name</label><input id="cafe-name" value="Maya" maxlength="60"></div><div class="field"><label for="cafe-quantity">Cups at $4 each</label><input id="cafe-quantity" type="number" value="3" min="1" max="20" step="1"></div></div>
+          <p class="small" style="margin-top:12px">A $2 discount applies to each order.</p>
+          <button id="cafe-run" class="run" type="button">Calculate receipt</button>
+          <div id="cafe-output" class="demo-result" role="status" aria-live="polite">Maya owes $10.00</div>
+        </div>
+        <details><summary>Complete HTML file with all four functions</summary><p style="margin-top:16px">Copy the whole example into <code>index.html</code>, save it, and open it in a browser. No libraries or server are required.</p><div class="codebox"><div class="codebar"><span>HTML + JavaScript · complete file</span><button class="copy" type="button">Copy file</button></div><pre tabindex="0"><code id="cafe-html-code"></code></pre></div></details>
+        <p><code>addEventListener("click", showReceipt)</code> registers the function for a future click. The absence of parentheses here matters: <code>showReceipt</code> supplies the function, while <code>showReceipt()</code> would call it immediately.</p>
+      </section>
+
+      <section id="artwork" class="section">
+        <div class="section-number">07 / Physical computing</div>
+        <h2>A function chain inside a kinetic artwork</h2>
+        <p>The supplied <code>final2.ino</code> sketch controls a pump and valve system. Its <code>applyIntensity()</code> function calls helper functions to keep an intensity value within bounds and convert it into durations.</p>
+        <p>This small excerpt shows the relationship in Arduino C++. The original <code>applyIntensity()</code> has more instructions after these two lines.</p>
+        <div class="codebox"><div class="codebar"><span>Arduino C++ · excerpt from final2.ino</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>float clampFloat(float x, float lo, float hi) {
+  if (x &lt; lo) return lo;
+  if (x &gt; hi) return hi;
+  return x;
+}
+
+int lerpInt(int slowVal, int fastVal, float t) {
+  t = clampFloat(t, 0.0f, 1.0f);
+  return slowVal + (int)((fastVal - slowVal) * t);
+}
+
+// Inside applyIntensity(float intensity):
+intensity = clampFloat(intensity, 0.10f, 1.0f);
+beat1PumpTime = lerpInt(1450, 260, intensity);</code></pre></div>
+        <h3>The same relationship in JavaScript</h3>
+        <p><code>clampFloat()</code> returns a bounded value. <code>lerpInt()</code> blends between two durations. The coordinating function <code>calculateBeat1PumpTime()</code> returns the result instead of updating the sketch's shared <code>beat1PumpTime</code> variable.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · adapted calculation</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function clampFloat(x, lo, hi) {
+  if (x &lt; lo) return lo;
+  if (x &gt; hi) return hi;
+  return x;
+}
+
+function lerpInt(slowVal, fastVal, t) {
+  const boundedT = clampFloat(t, 0, 1);
+  return slowVal + Math.trunc((fastVal - slowVal) * boundedT);
+}
+
+function calculateBeat1PumpTime(rawIntensity) {
+  const intensity = clampFloat(rawIntensity, 0.10, 1);
+  return lerpInt(1450, 260, intensity);
+}
+
+const pumpTime = calculateBeat1PumpTime(0.5);
+console.log(pumpTime); // 855 milliseconds</code></pre></div>
+        <p><strong>Clamp</strong> means limit a number to a range. <strong>Lerp</strong> is short for linear interpolation, which blends between endpoints. <code>Math.trunc()</code> removes the fractional part, matching the integer conversion in this excerpt's bounded calculation.</p>
+        <div class="demo">
+          <h3>Explore the timing calculation</h3>
+          <div class="field"><label for="raw-intensity">Raw intensity, including values outside 0.10–1</label><input id="raw-intensity" type="number" value="0.5" step="0.1"></div>
+          <button id="art-run" class="run" type="button">Calculate pump duration</button>
+          <div id="art-output" class="demo-result" role="status" aria-live="polite">First pump phase: 855 ms</div>
+          <div class="trace"><div><span>Argument received</span><strong id="trace-raw">0.5</strong></div><div><span>After clamping</span><strong id="trace-bounded">0.5</strong></div><div><span>Returned duration</span><strong id="trace-result">855 ms</strong></div></div>
+          <p class="small" style="margin:16px 0 0">This browser example calculates a duration. It does not connect to the artwork or run its pump.</p>
+        </div>
+        <div class="table-scroll"><table><thead><tr><th>Raw input</th><th>Bounded intensity</th><th>First pump phase</th></tr></thead><tbody><tr><td>0</td><td>0.10</td><td>1331 ms</td></tr><tr><td>0.5</td><td>0.5</td><td>855 ms</td></tr><tr><td>1.4</td><td>1</td><td>260 ms</td></tr></tbody></table></div>
+        <p>For 0.5, the calculation is <code>1450 + Math.trunc((260 - 1450) * 0.5)</code>. It returns 855. A higher intensity produces a shorter first pump phase in this mapping. This duration is one part of the cycle, not a measurement of the whole cycle or beats per minute.</p>
+        <details><summary>Complete HTML file for the artwork calculation</summary><p style="margin-top:16px">This independent file uses the same three functions and displays their result in a paragraph.</p><div class="codebox"><div class="codebar"><span>HTML + JavaScript · complete file</span><button class="copy" type="button">Copy file</button></div><pre tabindex="0"><code id="art-html-code"></code></pre></div></details>
+        <p class="note">The original sketch uses <code>float</code>, <code>int</code>, and <code>void</code> in function declarations. JavaScript uses the <code>function</code> keyword. The languages differ, but the relationship between inputs, helper calls, and results carries over.</p>
+      </section>
+
+      <section id="reference" class="section">
+        <div class="section-number">08 / Quick reference</div>
+        <h2>When you need a reminder</h2>
+        <div class="table-scroll"><table><thead><tr><th>Concept</th><th>Remember</th></tr></thead><tbody><tr><td>Definition</td><td><code>function task(input) { return result; }</code></td></tr><tr><td>Call</td><td><code>const value = task(argument);</code></td></tr><tr><td>Parameter</td><td>A local input name in the definition.</td></tr><tr><td>Argument</td><td>A value or expression supplied at the call.</td></tr><tr><td>Return</td><td>Sends a value back and ends this call.</td></tr><tr><td>Scope</td><td>Local variables belong to the function or block where they are declared.</td></tr><tr><td>Function chain</td><td>Store one call's return value, then pass it to the next function.</td></tr><tr><td>Click handler</td><td><code>button.addEventListener("click", handler);</code></td></tr></tbody></table></div>
+        <h3>Common mistakes and fixes</h3>
+        <div class="table-scroll"><table><thead><tr><th>Symptom</th><th>What to check</th></tr></thead><tbody><tr><td>The result is undefined</td><td>Does the function return the value you need?</td></tr><tr><td>A name causes ReferenceError</td><td>Is that variable local to another function? Return it, then pass it as an argument.</td></tr><tr><td>The original number did not change</td><td>Assign the returned value if the caller should update its variable.</td></tr><tr><td>A button runs immediately</td><td>Register <code>handler</code> rather than calling <code>handler()</code>.</td></tr><tr><td>The math looks like joined text</td><td>Convert numeric form input with <code>Number(input.value)</code>.</td></tr></tbody></table></div>
+        <h3>Practice example</h3>
+        <p>Predict the final number, then verify it in your browser console.</p>
+        <div class="codebox"><div class="codebar"><span>JavaScript · values between functions</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function addTwo(value) {
+  return value + 2;
+}
+
+function triple(value) {
+  return value * 3;
+}
+
+const first = addTwo(4);
+const final = triple(first);
+console.log(final);</code></pre></div>
+        <details><summary>Explanation</summary><p style="margin-top:16px"><code>addTwo(4)</code> returns 6. The variable <code>first</code> stores 6. Then <code>triple(first)</code> receives 6 and returns 18, which <code>final</code> stores.</p></details>
+        <div class="sources"><p>Language reference: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions" target="_blank" rel="noopener noreferrer">MDN JavaScript function guide</a>.</p><p>Artwork source: supplied <code>final2.ino</code>, helper definitions at lines 128–137 and the first timing mapping at lines 194–198. The browser adaptation demonstrates this calculation only.</p></div>
+      </section>
+    </main>
+  <footer class="footer">JavaScript Functions Lab · JavaScript learning reference</footer>
+  <script>
+    function calculateSubtotal(price, quantity) {
+      return price * quantity;
+    }
+
+    function applyDiscount(subtotal, discount) {
+      return subtotal - discount;
+    }
+
+    function makeReceipt(customerName, total) {
+      return customerName + " owes $" + total.toFixed(2);
+    }
+
+    function showReceipt() {
+      const customerName = document.querySelector("#cafe-name").value.trim() || "Student";
+      const quantity = Number(document.querySelector("#cafe-quantity").value);
+      const output = document.querySelector("#cafe-output");
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+        output.textContent = "Enter a whole number of cups from 1 to 20.";
+        return;
+      }
+      const subtotal = calculateSubtotal(4, quantity);
+      const total = applyDiscount(subtotal, 2);
+      const receipt = makeReceipt(customerName, total);
+      output.textContent = receipt;
+    }
+
+    function clampFloat(x, lo, hi) {
+      if (x < lo) return lo;
+      if (x > hi) return hi;
+      return x;
+    }
+
+    function lerpInt(slowVal, fastVal, t) {
+      const boundedT = clampFloat(t, 0, 1);
+      return slowVal + Math.trunc((fastVal - slowVal) * boundedT);
+    }
+
+    function calculateBeat1PumpTime(rawIntensity) {
+      const intensity = clampFloat(rawIntensity, 0.10, 1);
+      return lerpInt(1450, 260, intensity);
+    }
+
+    function showPumpTime() {
+      const field = document.querySelector("#raw-intensity");
+      const raw = Number(field.value);
+      if (field.value.trim() === "" || !Number.isFinite(raw)) {
+        document.querySelector("#art-output").textContent = "Enter a finite number for intensity.";
+        return;
+      }
+      const bounded = clampFloat(raw, 0.10, 1);
+      const duration = calculateBeat1PumpTime(raw);
+      document.querySelector("#art-output").textContent = "First pump phase: " + duration + " ms";
+      document.querySelector("#trace-raw").textContent = raw;
+      document.querySelector("#trace-bounded").textContent = bounded;
+      document.querySelector("#trace-result").textContent = duration + " ms";
+    }
+
+    document.querySelector("#cafe-run").addEventListener("click", showReceipt);
+    document.querySelector("#art-run").addEventListener("click", showPumpTime);
+
+    const cafeFile = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Café Receipt</title>
+</head>
+<body>
+  <h1>Café Receipt</h1>
+  <p>Each cup costs $4. Each order receives a $2 discount.</p>
+  <label for="customer">Customer name</label>
+  <input id="customer" value="Maya">
+  <label for="quantity">Number of cups</label>
+  <input id="quantity" type="number" min="1" max="20" step="1" value="3">
+  <button id="calculate" type="button">Calculate receipt</button>
+  <p id="receipt" aria-live="polite"></p>
+
+  <script>
+    function calculateSubtotal(price, quantity) {
+      return price * quantity;
+    }
+
+    function applyDiscount(subtotal, discount) {
+      return subtotal - discount;
+    }
+
+    function makeReceipt(customerName, total) {
+      return customerName + " owes $" + total.toFixed(2);
+    }
+
+    function showReceipt() {
+      const name = document.querySelector("#customer").value.trim() || "Student";
+      const quantity = Number(document.querySelector("#quantity").value);
+
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+        document.querySelector("#receipt").textContent =
+          "Enter a whole number of cups from 1 to 20.";
+        return;
+      }
+
+      const subtotal = calculateSubtotal(4, quantity);
+      const total = applyDiscount(subtotal, 2);
+      const receipt = makeReceipt(name, total);
+
+      document.querySelector("#receipt").textContent = receipt;
+    }
+
+    document.querySelector("#calculate")
+      .addEventListener("click", showReceipt);
+  <\/script>
+</body>
+</html>`;
+
+    const artFile = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artwork Timing Calculation</title>
+</head>
+<body>
+  <h1>Artwork Timing Calculation</h1>
+  <p>A calculation adapted from final2.ino. This page does not control hardware.</p>
+  <label for="intensity">Raw intensity</label>
+  <input id="intensity" type="number" value="0.5" step="0.1">
+  <button id="calculate" type="button">Calculate pump duration</button>
+  <p id="result" aria-live="polite"></p>
+
+  <script>
+    function clampFloat(x, lo, hi) {
+      if (x < lo) return lo;
+      if (x > hi) return hi;
+      return x;
+    }
+
+    function lerpInt(slowVal, fastVal, t) {
+      const boundedT = clampFloat(t, 0, 1);
+      return slowVal + Math.trunc((fastVal - slowVal) * boundedT);
+    }
+
+    function calculateBeat1PumpTime(rawIntensity) {
+      const intensity = clampFloat(rawIntensity, 0.10, 1);
+      return lerpInt(1450, 260, intensity);
+    }
+
+    function showResult() {
+      const input = document.querySelector("#intensity");
+      const raw = Number(input.value);
+      if (input.value.trim() === "" || !Number.isFinite(raw)) {
+        document.querySelector("#result").textContent = "Enter a finite number.";
+        return;
+      }
+      const duration = calculateBeat1PumpTime(raw);
+      document.querySelector("#result").textContent =
+        "First pump phase: " + duration + " ms";
+    }
+
+    document.querySelector("#calculate")
+      .addEventListener("click", showResult);
+  <\/script>
+</body>
+</html>`;
+
+    document.querySelector("#cafe-html-code").textContent = cafeFile;
+    document.querySelector("#art-html-code").textContent = artFile;
+
+    async function copyCode(button) {
+      const code = button.closest(".codebox").querySelector("code");
+      const text = code.textContent;
+      const label = button.textContent;
+      let copied = false;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        }
+      } catch (_) { /* Local-file and denied-clipboard fallback below. */ }
+      if (!copied) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.cssText = "position:fixed;left:-9999px;top:0";
+        document.body.append(textarea);
+        textarea.select();
+        copied = document.execCommand("copy");
+        textarea.remove();
+      }
+      if (copied) {
+        button.textContent = "Copied";
+      } else {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        button.textContent = "Press Ctrl+C";
+      }
+      button.focus({ preventScroll: true });
+      window.setTimeout(() => { button.textContent = label; }, 2000);
+    }
+
+    document.querySelectorAll(".copy").forEach((button) => {
+      button.addEventListener("click", () => copyCode(button));
+    });
+  </script>
+</body>
+</html>
