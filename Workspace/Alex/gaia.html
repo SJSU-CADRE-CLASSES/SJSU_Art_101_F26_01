@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Basic document settings and page metadata. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gaia-Net: local guides, events, and notices for a connected humanity after the old internet.">
+  <title>Gaia-Net &mdash; Post Storm Network</title>
+  <!-- All page styling is maintained in this external stylesheet. -->
+  <link rel="stylesheet" href="gaia.css">
+</head>
+<body>
+  <!-- Main wrapper for all visible Gaia-Net content. -->
+  <main class="page">
+    <!-- Site identity, connection status, and primary navigation. -->
+    <header class="masthead">
+      <div class="utility">
+        <p>Location / West Node Sec 01</p>
+        <div class="signal" aria-label="Gaia-Net signal: stable"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <h1 class="wordmark">GAIA-<span>NET</span></h1>
+      <hr class="rule">
+      <nav aria-label="Primary navigation">
+        <a href="#posts">All posts</a>
+        <a href="#about">Storm Watch</a>
+        <a href="#about">Information</a>
+        <a href="#about">About us</a>
+      </nav>
+    </header>
+
+    <!-- Short explanation of Gaia-Net's purpose. -->
+    <section class="intro" id="about">
+      <h2>Knowledge survives when we share it.</h2>
+      <p>A small, resilient bulletin for people rebuilding after the old internet went quiet. Save what you need. Pass it on.</p>
+    </section>
+
+    <!-- Buttons used by the script at the bottom of the page to filter cards. -->
+    <div class="filters" aria-label="Filter posts" id="posts">
+      <button class="filter" type="button" data-filter="all" aria-pressed="true">Everything</button>
+      <button class="filter" type="button" data-filter="guide" aria-pressed="false">Guides</button>
+      <button class="filter" type="button" data-filter="event" aria-pressed="false">Events</button>
+      <button class="filter" type="button" data-filter="notice" aria-pressed="false">Notices</button>
+    </div>
+
+    <!-- All individual guides, events, and notices live in this grid. -->
+    <section class="grid" aria-label="Gaia-Net posts">
+      <!-- Each article has a data-type value so the filter script can identify it. -->
+      <article class="card" data-type="guide" id="guides">
+        <a class="card-visual" href="test.html" aria-label="Read Field water safety guide">
+          <span class="card-number">01 / GUIDE</span><h3>Field water safety</h3>
+        </a><p>Three ways to make a questionable water source safer with what is already around you.</p>
+        <div class="card-meta"><span>6 min read</span><span>Updated today</span></div>
+      </article>
+      <article class="card" data-type="event" id="events">
+        <a class="card-visual" href="test.html" aria-label="Read about the seed and story exchange">
+          <span class="card-number">02 / EVENT</span><h3>Seed &amp; story exchange</h3>
+        </a><p>Bring one useful thing and leave with another. Saturday, 10:00, the old library steps.</p>
+        <div class="card-meta"><span>Saturday / 10:00</span><span>South node</span></div>
+      </article>
+      <article class="card" data-type="notice" id="notices">
+        <a class="card-visual" href="test.html" aria-label="Read the north road notice">
+          <span class="card-number">03 / NOTICE</span><h3>North road open</h3>
+        </a><p>The bridge crossing has been checked. Travel in pairs and mark your return route.</p>
+        <div class="card-meta"><span>Posted 2 hrs ago</span><span>Verified</span></div>
+      </article>
+      <article class="card" data-type="guide">
+        <a class="card-visual" href="test.html" aria-label="Read how to build a solar still">
+          <span class="card-number">04 / GUIDE</span><h3>Build a solar still</h3>
+        </a><p>A low-tech method for collecting cleaner water when fuel, filters, and power are scarce.</p>
+        <div class="card-meta"><span>12 min read</span><span>Field tested</span></div>
+      </article>
+      <article class="card" data-type="event">
+        <a class="card-visual" href="test.html" aria-label="Read about the radio check-in">
+          <span class="card-number">05 / EVENT</span><h3>Evening radio check</h3>
+        </a><p>Nodes check in at dusk. Tune to channel 4 and keep messages short for everyone listening.</p>
+        <div class="card-meta"><span>Daily / 19:00</span><span>All nodes</span></div>
+      </article>
+      <article class="card" data-type="notice">
+        <a class="card-visual" href="test.html" aria-label="Read the clinic supply notice">
+          <span class="card-number">06 / NOTICE</span><h3>Clinic needs supplies</h3>
+        </a><p>Bandages, clean jars, and soap are needed at the east clinic. Drop-offs welcome until Friday.</p>
+        <div class="card-meta"><span>Priority: medium</span><span>East node</span></div>
+      </article>
+      <article class="card" data-type="guide">
+        <a class="card-visual" href="test.html" aria-label="Read how to preserve food without power">
+          <span class="card-number">07 / GUIDE</span><h3>Food without power</h3>
+        </a><p>Drying, salting, and storing a harvest when refrigeration is no longer a given.</p>
+        <div class="card-meta"><span>8 min read</span><span>Kitchen series</span></div>
+      </article>
+      <article class="card" data-type="event">
+        <a class="card-visual" href="test.html" aria-label="Read about the repair circle">
+          <span class="card-number">08 / EVENT</span><h3>Repair circle</h3>
+        </a><p>Tools and hands welcome. We fix lamps, radios, bikes, and anything else that can be opened.</p>
+        <div class="card-meta"><span>Tuesday / 16:00</span><span>Workshop node</span></div>
+      </article>
+      <article class="card" data-type="notice">
+        <a class="card-visual" href="test.html" aria-label="Read the weather warning">
+          <span class="card-number">09 / NOTICE</span><h3>Heat warning</h3>
+        </a><p>High temperatures expected for the next three days. Check on elders and refill shared water points.</p>
+        <div class="card-meta"><span>Valid through Friday</span><span>All nodes</span></div>
+      </article>
+      <article class="card" data-type="notice">
+        <a class="card-visual" href="test.html" aria-label="Read the test notification">
+          <span class="card-number">10 / NOTICE</span><h3>Test Notification</h3>
+        </a><p>Emergency broadcasts will be signaled at 3:00 PST for all West Node Users.</p>
+        <div class="card-meta"><span>Valid through Friday</span><span>All nodes</span></div>
+      </article>
+    </section>
+
+    <!-- Footer links and the site's closing message. -->
+    <footer class="footer">
+      <p>Gaia-Net / Connection for All</p>
+      <p><a href="#about">About us</a> &nbsp;|&nbsp; <a href="#posts">Back to Top &uarr;</a></p>
+    </footer>
+  </main>
+
+  <script>
+    // Collect all filter buttons and all post cards on the page.
+    const buttons = document.querySelectorAll('.filter');
+    const grid = document.querySelector('.grid');
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    // Read the number at the beginning of each card label, such as "10 / NOTICE".
+    const cardNumber = (card) => Number(card.querySelector('.card-number').textContent.match(/\d+/)[0]);
+
+    // Show the newest/highest numbered card first in the grid.
+    cards.sort((firstCard, secondCard) => cardNumber(secondCard) - cardNumber(firstCard));
+    cards.forEach((card) => grid.appendChild(card));
+
+    // Add the same click behavior to every filter button.
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      // Read the category selected by the clicked button.
+      const filter = button.dataset.filter;
+
+      // Update the accessibility state so screen readers know which filter is active.
+      buttons.forEach((item) => item.setAttribute('aria-pressed', item === button));
+
+      // Use a horizontal card row whenever a specific category is selected.
+      grid.classList.toggle('filtered-view', filter !== 'all');
+
+      // Hide cards with a different category; "all" keeps every card visible.
+      cards.forEach((card) => card.classList.toggle('hidden', filter !== 'all' && card.dataset.type !== filter));
+    }));
+  </script>
+</body>
+</html>
