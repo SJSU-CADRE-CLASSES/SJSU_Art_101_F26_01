@@ -16,21 +16,40 @@
 				position: absolute;
 				top: 10px;
 				left: 10px;
+				right: 10px;
 				color: #fff;
 				z-index: 100;
 				font-size: 12px;
+				line-height: 1.6;
+				pointer-events: none;
 			}
 			#info a {
 				color: #fff;
 				text-decoration: none;
+				pointer-events: auto;
 			}
 			#info a:hover {
 				text-decoration: underline;
+			}
+			#info .label {
+				opacity: 0.7;
+				margin-right: 8px;
+			}
+			#info .sep {
+				opacity: 0.45;
+				margin: 0 8px;
 			}
 		</style>
 	</head>
 
 	<body>
+
+		<div id="info">
+			<span class="label">Examples (Boru)</span>
+			<a href="Examples/JavaScript_Teaching_Script_and_Examples.html">JavaScript From Zero</a>
+			<span class="sep">|</span>
+			<a href="Examples/JavaScript_Functions_Student_Reference.html">JavaScript Functions Lab</a>
+		</div>
 
 		<script type="importmap">
 			{
