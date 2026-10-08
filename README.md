@@ -17,3 +17,8 @@ Class Website: https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01
 | [Resources](https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01/blob/main/RESOURCES.md)
 | [Teams](https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01/tree/main/teams)
 | [Class Website](https://github.com/SJSU-CADRE-CLASSES/SJSU_Art_101_F26_01)
+
+Examples (Boru)
+---------------
+- [JavaScript From Zero](https://sjsu-cadre-classes.github.io/SJSU_Art_101_F26_01/Examples/JavaScript_Teaching_Script_and_Examples.html)
+- [JavaScript Functions Lab](https://sjsu-cadre-classes.github.io/SJSU_Art_101_F26_01/Examples/JavaScript_Functions_Student_Reference.html)
