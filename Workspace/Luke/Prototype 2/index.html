@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#000000">
+	<title>Luke's Home Page! -- Notes from Sector 08</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			--green: #39ff14;
+			--black: #000;
+		}
+
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			padding: 18px 12px;
+			background: var(--black);
+			color: var(--green);
+			font-family: "Times New Roman", Times, serif;
+			font-size: 16px;
+		}
+		a, a:visited { color: var(--green); }
+		a:focus-visible, button:focus-visible, textarea:focus-visible { outline: 2px dotted var(--green); outline-offset: 2px; }
+		#site {
+			max-width: 940px;
+			margin: 0 auto;
+			border: 4px ridge var(--green);
+			background: var(--black);
+		}
+		.masthead {
+			padding: 17px 16px 13px;
+			border-bottom: 5px ridge var(--green);
+			background: var(--black);
+			color: var(--green);
+			text-align: center;
+		}
+		.masthead .welcome { margin: 0; color: var(--green); font-size: 14px; }
+		.masthead h1 { margin: 5px 0 2px; color: var(--green); font-size: clamp(30px, 6vw, 48px); }
+		.masthead .tagline { margin: 0; color: var(--green); font-size: 14px; }
+		.top-nav {
+			padding: 8px 10px;
+			border-bottom: 2px groove var(--green);
+			background: var(--black);
+			text-align: center;
+			font-size: 14px;
+		}
+		.top-nav a { margin: 0 8px; white-space: nowrap; }
+		.content {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) 205px;
+			gap: 20px;
+			padding: 18px;
+		}
+		.post { min-width: 0; }
+		.post h2 { margin: 0 0 4px; color: var(--green); font-size: 29px; }
+		.post-meta { margin: 0 0 17px; color: var(--green); font-size: 13px; }
+		.post p { line-height: 1.48; }
+		.post .dropcap:first-letter { float: left; padding: 0 5px 0 0; color: var(--green); font-size: 42px; line-height: .9; }
+		.rule { height: 0; margin: 17px 0; border: 0; border-top: 2px groove var(--green); }
+		.entry-photo { display: block; width: 100%; max-height: 335px; border: 3px ridge var(--green); filter: grayscale(1) sepia(1) hue-rotate(75deg) saturate(5) brightness(.65); object-fit: cover; }
+		.caption { margin: 3px 0 18px; color: var(--green); font-size: 12px; text-align: center; }
+		.post h3 { margin: 23px 0 5px; color: var(--green); font-size: 21px; }
+		.post-end { padding: 9px 10px; border: 2px inset var(--green); background: var(--black); font-size: 14px; }
+		.post-end p { margin: 4px 0; }
+		.sidebar { padding: 10px; border: 2px inset var(--green); background: var(--black); font-size: 14px; }
+		.side-section { margin-bottom: 19px; }
+		.side-section:last-child { margin-bottom: 0; }
+		.side-section h2 { margin: 0 0 7px; padding: 3px 5px; background: var(--black); color: var(--green); font-size: 16px; }
+		.side-section p { margin: 6px 0; line-height: 1.35; }
+		.side-section ul { margin: 5px 0; padding-left: 20px; line-height: 1.55; }
+		.counter { display: inline-block; padding: 3px 6px; border: 2px inset var(--green); background: var(--black); color: var(--green); font-family: "Courier New", monospace; font-size: 15px; letter-spacing: 2px; }
+		.construction { color: var(--green); font-weight: bold; }
+		.radio-box { padding: 7px; border: 2px outset var(--green); background: var(--black); }
+		.radio-box button, .guestbook button {
+			padding: 3px 9px;
+			border: 2px outset var(--green);
+			background: var(--black);
+			color: var(--green);
+			font-family: Arial, sans-serif;
+			font-size: 13px;
+			cursor: pointer;
+		}
+		#radio-message { min-height: 36px; margin: 7px 0 0; font-size: 13px; }
+		.guestbook textarea { width: 100%; min-height: 66px; resize: vertical; border: 1px solid var(--green); background: var(--black); color: var(--green); font: inherit; }
+		#guestbook-reply { margin: 7px 0 0; color: var(--green); font-size: 13px; }
+		.footer {
+			padding: 12px 16px;
+			border-top: 2px groove var(--green);
+			background: var(--black);
+			text-align: center;
+			font-size: 13px;
+		}
+		.footer p { margin: 4px; }
+		@media (max-width: 680px) {
+			body { padding: 0; }
+			#site { border-width: 2px; }
+			.content { grid-template-columns: 1fr; gap: 16px; padding: 12px; }
+			.sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 10px; }
+			.side-section { margin: 0; }
+		}
+		@media (max-width: 420px) {
+			.sidebar { grid-template-columns: 1fr; }
+			.top-nav a { display: inline-block; margin: 3px 6px; }
+		}
+	</style>
+</head>
+<body>
+	<div id="site">
+		<header class="masthead">
+			<p class="welcome">This page has not been updated in a while.</p>
+			<h1>Luke's Home Page</h1>
+			<p class="tagline">Personal notes from the quiet zone, Sector 08</p>
+		</header>
+		<nav class="top-nav" aria-label="Main navigation">
+			<a href="#latest">Home</a> |
+			<a href="#latest">My Web Log</a> |
+			<a href="consoles.html">Console Archive</a> |
+			<a href="#guestbook">Guestbook</a>
+		</nav>
+
+		<div class="content">
+			<main>
+				<article class="post" id="latest">
+					<h2>Can anyone hear me?</h2>
+					<p class="post-meta">Monday, August 17, 2026, 11:42 PM &nbsp;|&nbsp; Posted by Luke</p>
+					<p class="dropcap">I got the old transmitter working last night. It took three days and two blown fuses. I was able to repair it at some point. I thought I heard someone. It was only interference. I wrote it down anyway.</p>
+					<p>The city is very quiet after dark. From the roof of the waterworks I can see the old towers blinking through the rain. Nobody lives in most of them now. I still look at every lit window and wonder if someone else is up there, listening to the same weather.</p>
+					<img class="entry-photo" src="https://static.wikia.nocookie.net/supermarioglitchy4/images/f/ff/SMG4YellingAtMario.png/revision/latest?cb=20141122002622?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="A rain-darkened city street between tall buildings at night">
+					<p class="caption">The view from the old avenue. The lights are mostly automatic now.</p>
+					<h3>Why I keep broadcasting</h3>
+					<p>I used to tell myself somebody might answer. I don't believe that now. I keep transmitting because the silence is here whether I send or not. At least the machine makes a sound.</p>
+					<p>This is the only page I still maintain. I made it myself on a borrowed computer, with a hand-me-down modem. If you're reading this, the signal reached another machine. I can't know if anyone is sitting in front of it.</p>
+					<p>You can leave a note in the guestbook. It stays on this computer. Nobody else will see it.</p>
+					<hr class="rule">
+					<div class="post-end">
+						<p><b>Filed under:</b> <a href="#latest">daily life</a>, <a href="#radio">shortwave radio</a>, <a href="#guestbook">people out there</a></p>
+						<p><a href="#guestbook">Leave a note in my guestbook</a> &nbsp;|&nbsp; <a href="#radio">Hear the radio</a></p>
+					</div>
+				</article>
+			</main>
+
+			<aside class="sidebar" aria-label="About this site">
+				<section class="side-section">
+					<h2>About Me</h2>
+					<p>Hi, I'm Luke. I appear to be the only person still maintaining an actual web page, where everything else is artifically genereated.</p>
+				</section>
+				<section class="side-section" id="radio">
+					<h2>Radio Check</h2>
+					<div class="radio-box">
+						<p style="margin-top: 0">88.3 MHz / Sector 08</p>
+						<button id="radio-button" type="button" aria-pressed="false">Check signal</button>
+						<p id="radio-message" aria-live="polite">Radio is standing by...</p>
+					</div>
+				</section>
+				<section class="side-section">
+					<h2>Site News</h2>
+					<p class="construction">Under construction!</p>
+					<p>No other pages are planned.</p>
+					<p>Best viewed at 800 x 600.</p>
+				</section>
+				<section class="side-section">
+					<h2>Visitor Counter</h2>
+					<p>You are visitor number:</p>
+					<span class="counter">000041</span>
+				</section>
+				<section class="side-section guestbook" id="guestbook">
+					<h2>Guestbook</h2>
+					<p>Leave a message for Luke:</p>
+					<form id="guestbook-form">
+						<label for="guest-message">Your message</label>
+						<textarea id="guest-message" required></textarea>
+						<button type="submit">Sign guestbook</button>
+					</form>
+					<p id="guestbook-reply" aria-live="polite"></p>
+				</section>
+			</aside>
+		</div>
+
+		<footer class="footer">
+			<p>There is nothing else here.</p>
+			<p>Last updated: August 17, 2026 &nbsp;|&nbsp; Maintained by Luke</p>
+			<p><a href="#latest">Back to top</a></p>
+		</footer>
+	</div>
+	<script>
+		const radioButton = document.querySelector("#radio-button");
+		const radioMessage = document.querySelector("#radio-message");
+		const guestbookForm = document.querySelector("#guestbook-form");
+		const guestMessage = document.querySelector("#guest-message");
+		const guestbookReply = document.querySelector("#guestbook-reply");
+		const savedMessage = localStorage.getItem("luke-guestbook-message");
+
+		if (savedMessage) {
+			guestbookReply.textContent = `Latest note saved here for Luke: ${savedMessage}`;
+		}
+
+		radioButton.addEventListener("click", () => {
+			const signalFound = radioButton.getAttribute("aria-pressed") !== "true";
+			radioButton.setAttribute("aria-pressed", String(signalFound));
+			radioButton.textContent = signalFound ? "Turn radio off" : "Check signal";
+			radioMessage.textContent = signalFound ? "Luke here! If you can hear this, leave me a note." : "Radio is standing by...";
+		});
+
+		guestbookForm.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const message = guestMessage.value.trim();
+			localStorage.setItem("luke-guestbook-message", message);
+			guestbookReply.textContent = `Latest note saved here for Luke: ${message}`;
+			guestMessage.value = "";
+		});
+	</script>
+</body>
+</html>

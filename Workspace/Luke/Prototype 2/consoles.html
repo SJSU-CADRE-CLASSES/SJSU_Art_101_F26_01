@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#000000">
+	<title>June's Home Page! -- Console Archive</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			--green: #39ff14;
+			--black: #000;
+		}
+
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			padding: 18px 12px;
+			background: var(--black);
+			color: var(--green);
+			font-family: "Times New Roman", Times, serif;
+			font-size: 16px;
+		}
+		a, a:visited { color: var(--green); }
+		a:focus-visible { outline: 2px dotted var(--green); outline-offset: 2px; }
+		#site {
+			max-width: 940px;
+			margin: 0 auto;
+			border: 4px ridge var(--green);
+			background: var(--black);
+		}
+		.masthead {
+			padding: 17px 16px 13px;
+			border-bottom: 5px ridge var(--green);
+			background: var(--black);
+			color: var(--green);
+			text-align: center;
+		}
+		.masthead .welcome { margin: 0; color: var(--green); font-size: 14px; }
+		.masthead h1 { margin: 5px 0 2px; color: var(--green); font-size: clamp(30px, 6vw, 48px); }
+		.masthead .tagline { margin: 0; color: var(--green); font-size: 14px; }
+		.top-nav {
+			padding: 8px 10px;
+			border-bottom: 2px groove var(--green);
+			background: var(--black);
+			text-align: center;
+			font-size: 14px;
+		}
+		.top-nav a { margin: 0 8px; white-space: nowrap; }
+		.content { padding: 18px; }
+		.page-intro { margin-bottom: 19px; }
+		.page-intro h2 { margin: 0 0 5px; font-size: 29px; }
+		.page-intro p { max-width: 680px; margin: 0; line-height: 1.5; }
+		.feature-layout {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			gap: 22px;
+			align-items: start;
+		}
+		.console-photo { margin: 0; padding: 8px; border: 3px ridge var(--green); }
+		.console-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; border: 2px inset var(--green); background: var(--black); filter: grayscale(1) sepia(1) hue-rotate(75deg) saturate(5) brightness(.65); object-fit: cover; }
+		.console-photo figcaption { margin: 6px 2px 0; font-size: 12px; line-height: 1.35; }
+		.console-story { padding-top: 5px; }
+		.console-story h3 { margin: 0 0 4px; font-size: 24px; }
+		.console-story .date { margin: 0 0 14px; font-size: 13px; }
+		.console-story p { margin: 0 0 14px; line-height: 1.5; }
+		.console-story .rule { margin: 17px 0; border: 0; border-top: 2px groove var(--green); }
+		.footer {
+			padding: 12px 16px;
+			border-top: 2px groove var(--green);
+			background: var(--black);
+			text-align: center;
+			font-size: 13px;
+		}
+		.footer p { margin: 4px; }
+		@media (max-width: 680px) {
+			body { padding: 0; }
+			#site { border-width: 2px; }
+			.content { padding: 12px; }
+			.feature-layout { grid-template-columns: 1fr; }
+			.console-photo { max-width: 520px; }
+		}
+		@media (max-width: 420px) {
+			.top-nav a { display: inline-block; margin: 3px 6px; }
+		}
+	</style>
+</head>
+<body>
+	<div id="site">
+		<header class="masthead">
+			<p class="welcome">This page has not been updated in a while.</p>
+			<h1>Luke's Home Page</h1>
+			<p class="tagline">Personal notes from the quiet zone, Sector 08</p>
+		</header>
+		<nav class="top-nav" aria-label="Main navigation">
+			<a href="index.html">Home</a> |
+			<a href="index.html#latest">My Web Log</a> |
+			<a href="#consoles" aria-current="page">Console Archive</a> |
+			<a href="index.html#guestbook">Guestbook</a>
+		</nav>
+
+		<main class="content" id="consoles">
+			<header class="page-intro">
+				<h2>Consoles I Could Not Leave Behind</h2>
+				<p>A few notes on the machines left in the apartments and shops around Sector 08. Most are dead. I keep the ones that still start.</p>
+			</header>
+			<div class="feature-layout">
+				<figure class="console-photo">
+					<img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&amp;fit=crop&amp;w=1100&amp;q=80" alt="A television and console setup in a dark room">
+					<figcaption>The last working screen I found. The picture comes and goes.</figcaption>
+				</figure>
+				<article class="console-story">
+					<h3>The one that still turns on</h3>
+					<p class="date">Found in the north arcade / August 17, 1998</p>
+					<p>The cabinet was on its side when I found it. Dust had worked into every seam, and the glass was cracked across one corner. I thought it was dead until the screen flickered when I touched the switch.</p>
+					<p>It starts, then stops. Sometimes I get a title screen. Sometimes only a line of light. I have not been able to repair it, and I do not know what game is supposed to be inside.</p>
+					<hr class="rule">
+					<p>I leave it plugged in anyway. It is another machine making a little noise in an empty building. For now, that is enough.</p>
+				</article>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<p>There is nothing else here.</p>
+			<p>Last updated: August 17, 1998 &nbsp;|&nbsp; Maintained by Luke</p>
+			<p><a href="#consoles">Back to top</a></p>
+		</footer>
+	</div>
+</body>
+</html>
