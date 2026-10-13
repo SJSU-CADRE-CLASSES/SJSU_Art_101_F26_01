@@ -1,0 +1,944 @@
+body {
+.NormalCharacterStyle {
+  font-family : Myriad Pro;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle5 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle1 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle6 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle2 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle3 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle4 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+}
+.image {
+  background-image : url(Smoke.png);
+  /*To create image referenced in CSS, use 'Export Selected CSS' command.*/
+  background-repeat : no-repeat;
+  opacity : 0.16;
+  position : absolute ;
+  left : 217px;
+  top : 748px;
+  width : 799px;
+  height : 691px;
+  filter: alpha(opacity=16) progid:DXImageTransform.Microsoft.Alpha(opacity=16) ;
+}
+.image3 {
+  background-image : url(Smoke.png);
+  /*To create image referenced in CSS, use 'Export Selected CSS' command.*/
+  background-repeat : no-repeat;
+  opacity : 0.24;
+  position : absolute ;
+  left : -129px;
+  top : -19px;
+  width : 559px;
+  height : 699px;
+  filter: alpha(opacity=24) progid:DXImageTransform.Microsoft.Alpha(opacity=24) ;
+}
+.image2 {
+  background-image : url(Smoke.png);
+  /*To create image referenced in CSS, use 'Export Selected CSS' command.*/
+  background-repeat : no-repeat;
+  opacity : 0.24;
+  position : absolute ;
+  left : 150px;
+  top : -151px;
+  width : 799px;
+  height : 691px;
+  filter: alpha(opacity=24) progid:DXImageTransform.Microsoft.Alpha(opacity=24) ;
+}
+.image1 {
+  background-image : url(Smoke.png);
+  /*To create image referenced in CSS, use 'Export Selected CSS' command.*/
+  background-repeat : no-repeat;
+  opacity : 0.16;
+  position : absolute ;
+  left : -212px;
+  top : 403px;
+  width : 799px;
+  height : 691px;
+  filter: alpha(opacity=16) progid:DXImageTransform.Microsoft.Alpha(opacity=16) ;
+}
+.st0 {
+  position : absolute ;
+  left : 0px;
+  top : 0px;
+  width : 864px;
+  height : 1296px;
+}
+.st1 {
+  background : -moz-linear-gradient(-57.72% 28.79% 0deg,rgba(255, 255, 255, 1) 0%,rgba(92, 128, 146, 1) 100%);
+  background : -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -webkit-gradient(linear,-57.72% 28.79% ,42.27% 28.79% ,color-stop(0,rgba(255, 255, 255, 1) ),color-stop(1,rgba(92, 128, 146, 1) ));
+  background : -o-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -ms-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#5C8092' ,GradientType=0)";
+  background : linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  opacity : 0.5;
+  position : absolute ;
+  left : 228px;
+  top : 60px;
+  width : 717px;
+  height : 717px;
+  border-radius: 50%;
+  filter: alpha(opacity=50) progid:DXImageTransform.Microsoft.Alpha(opacity=50) progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF',endColorstr='#5C8092' , GradientType=1);
+}
+.st2{
+  background : -moz-linear-gradient(-4.66% 55.37% 0deg,rgba(255, 255, 255, 1) 0%,rgba(92, 128, 146, 1) 100%);
+  background : -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -webkit-gradient(linear,-4.66% 55.37% ,95.34% 55.37% ,color-stop(0,rgba(255, 255, 255, 1) ),color-stop(1,rgba(92, 128, 146, 1) ));
+  background : -o-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -ms-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#5C8092' ,GradientType=0)";
+  background : linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  opacity : 0.5;
+  position : absolute ;
+  left : -420px;
+  top : 342px;
+  width : 1033px;
+  height : 1033px;
+  border-radius: 50%;
+  filter: alpha(opacity=50) progid:DXImageTransform.Microsoft.Alpha(opacity=50) progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF',endColorstr='#5C8092' , GradientType=1);
+}
+.st3 {
+  background : -moz-linear-gradient(-44.52% -21.61% 0deg,rgba(255, 255, 255, 1) 0%,rgba(92, 128, 146, 1) 100%);
+  background : -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -webkit-gradient(linear,-44.52% -21.61% ,55.47% -21.61% ,color-stop(0,rgba(255, 255, 255, 1) ),color-stop(1,rgba(92, 128, 146, 1) ));
+  background : -o-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -ms-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#5C8092' ,GradientType=0)";
+  background : linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  opacity : 0.5;
+  position : absolute ;
+  left : 490px;
+  top : 615px;
+  width : 427px;
+  height : 427px;
+  border-radius: 50%;
+  filter: alpha(opacity=50) progid:DXImageTransform.Microsoft.Alpha(opacity=50) progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF',endColorstr='#5C8092' , GradientType=1);
+}
+.st4 {
+  background : -moz-linear-gradient(50% 100% 90deg,rgba(255, 255, 255, 1) 0%,rgba(92, 128, 146, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -webkit-gradient(linear,50% 100% ,50% 0% ,color-stop(0,rgba(255, 255, 255, 1) ),color-stop(1,rgba(92, 128, 146, 1) ));
+  background : -o-linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#5C8092' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(92, 128, 146, 1) 100%);
+  position : absolute ;
+  left : 0px;
+  top : 0px;
+  width : 864px;
+  height : 1296px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5C8092',endColorstr='#FFFFFF' , GradientType=0);
+}
+.st5 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 464px;
+  top : 104px;
+  width : 399px;
+  height : 8px;
+}
+.st6 {
+  background : -moz-linear-gradient(50% 320.34% 90deg,rgba(99, 113, 142, 1) 0%,rgba(89, 113, 125, 1) 50%,rgba(79, 79, 81, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -webkit-gradient(linear,50% 320.34% ,50% -164.36% ,color-stop(0,rgba(99, 113, 142, 1) ),color-stop(0.5,rgba(89, 113, 125, 1) ),color-stop(1,rgba(79, 79, 81, 1) ));
+  background : -o-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63718E', endColorstr='#4F4F51' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  position : absolute ;
+  left : 358px;
+  top : 452px;
+  width : 14px;
+  height : 280px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4F4F51',endColorstr='#63718E' , GradientType=0);
+}
+.st7 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 389px;
+  top : 429px;
+  width : 475px;
+  height : 8px;
+}
+.st8 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : -1px;
+  top : 747px;
+  width : 349px;
+  height : 8px;
+}
+.st9 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 388px;
+  top : 1023px;
+  width : 476px;
+  height : 8px;
+}
+.st10{
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 0px;
+  top : 1023px;
+  width : 238px;
+  height : 8px;
+}
+.st11 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 0px;
+  top : 104px;
+  width : 346px;
+  height : 8px;
+}
+.st12 {
+  background : -moz-linear-gradient(50% 255.05% 90deg,rgba(99, 113, 142, 1) 0%,rgba(89, 113, 125, 1) 50%,rgba(79, 79, 81, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -webkit-gradient(linear,50% 255.05% ,50% -314.7% ,color-stop(0,rgba(99, 113, 142, 1) ),color-stop(0.5,rgba(89, 113, 125, 1) ),color-stop(1,rgba(79, 79, 81, 1) ));
+  background : -o-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63718E', endColorstr='#4F4F51' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  position : absolute ;
+  left : 358px;
+  top : 770px;
+  width : 14px;
+  height : 238px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4F4F51',endColorstr='#63718E' , GradientType=0);
+}
+.st13 {
+  background : -moz-linear-gradient(50% 100% 90deg,rgba(99, 113, 142, 1) 0%,rgba(89, 113, 125, 1) 50%,rgba(79, 79, 81, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -webkit-gradient(linear,50% 100% ,50% -277.38% ,color-stop(0,rgba(99, 113, 142, 1) ),color-stop(0.5,rgba(89, 113, 125, 1) ),color-stop(1,rgba(79, 79, 81, 1) ));
+  background : -o-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63718E', endColorstr='#4F4F51' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  position : absolute ;
+  left : 358px;
+  top : 1047px;
+  width : 14px;
+  height : 248px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4F4F51',endColorstr='#63718E' , GradientType=0);
+}
+.st14 {
+  background : -moz-linear-gradient(50% 413.98% 90deg,rgba(99, 113, 142, 1) 0%,rgba(89, 113, 125, 1) 50%,rgba(79, 79, 81, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -webkit-gradient(linear,50% 413.98% ,50% -55.95% ,color-stop(0,rgba(99, 113, 142, 1) ),color-stop(0.5,rgba(89, 113, 125, 1) ),color-stop(1,rgba(79, 79, 81, 1) ));
+  background : -o-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63718E', endColorstr='#4F4F51' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  position : absolute ;
+  left : 358px;
+  top : 127px;
+  width : 14px;
+  height : 289px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4F4F51',endColorstr='#63718E' , GradientType=0);
+}
+.st15 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 0px;
+  top : 429px;
+  width : 281px;
+  height : 8px;
+}
+.st16 {
+  background : #2B4653;
+  background : rgba(43, 70, 83, 1);
+  position : absolute ;
+  left : 442px;
+  top : 747px;
+  width : 421px;
+  height : 8px;
+}
+.st17 {
+  background : -moz-linear-gradient(50% 892.12% 90deg,rgba(99, 113, 142, 1) 0%,rgba(89, 113, 125, 1) 50%,rgba(79, 79, 81, 1) 100%);
+  background : -webkit-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -webkit-gradient(linear,50% 892.12% ,50% 0% ,color-stop(0,rgba(99, 113, 142, 1) ),color-stop(0.5,rgba(89, 113, 125, 1) ),color-stop(1,rgba(79, 79, 81, 1) ));
+  background : -o-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  background : -ms-linear-gradient(90deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#63718E', endColorstr='#4F4F51' ,GradientType=0)";
+  background : linear-gradient(0deg, rgba(99, 113, 142, 1) 0%, rgba(89, 113, 125, 1) 50%, rgba(79, 79, 81, 1) 100%);
+  position : absolute ;
+  left : 358px;
+  top : 0px;
+  width : 14px;
+  height : 91px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4F4F51',endColorstr='#63718E' , GradientType=0);
+}
+.NormalCharacterStyle10 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle7 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle9 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle13 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle11 {
+  font-family : Roboto;
+  font-size : 11px;
+  line-height : 12px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle12 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle8 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle16 {
+  font-family : Roboto;
+  font-weight : bold;
+  font-size : 21px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+}
+.NormalCharacterStyle14 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle15 {
+  font-family : Roboto;
+  font-style : italic;
+  font-size : 14px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}
+.NormalCharacterStyle17 {
+  font-family : Roboto;
+  font-weight : bold;
+  font-size : 21px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+}
+.NormalCharacterStyle20 {
+  font-family : Gill Sans Ultra Bold;
+  font-size : 150px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+  opacity : 0.5;
+  filter: alpha(opacity=50) progid:DXImageTransform.Microsoft.Alpha(opacity=50) ;
+}
+.NormalCharacterStyle18 {
+  font-family : Roboto;
+  font-weight : bold;
+  font-size : 21px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+}
+.NormalCharacterStyle19 {
+  font-family : Roboto;
+  font-weight : bold;
+  font-size : 21px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+}
+.NormalCharacterStyle21 {
+  font-family : Gill Sans Ultra Bold;
+  font-size : 190px;
+  color : #F05864;
+  color : rgb(240, 88, 100);
+  opacity : 0.5;
+  filter: alpha(opacity=50) progid:DXImageTransform.Microsoft.Alpha(opacity=50) ;
+}
+
+/* Responsive layout for the original 864 × 1296 poster artwork. */
+body {
+  margin: 0;
+  width: auto;
+  overflow-x: hidden;
+  background: #2B4653;
+}
+.poster-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  container-type: inline-size;
+  overflow: hidden;
+  scroll-margin-top: 110px;
+}
+.poster {
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  zoom: 1;
+  transform: scale(calc(100cqw / 864px));
+  transform-origin: top left;
+}
+.poster .image {
+  left: 0;
+  top: 0;
+  width: 864px;
+  height: 1296px;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+}
+.NormalCharacterStyle,
+.NormalCharacterStyle1,
+.NormalCharacterStyle3,
+.NormalCharacterStyle5,
+.NormalCharacterStyle7,
+.NormalCharacterStyle9,
+.NormalCharacterStyle11,
+.NormalCharacterStyle13 {
+  font-family: "Myriad Pro", Roboto, Arial, sans-serif;
+}
+.NormalCharacterStyle2,
+.NormalCharacterStyle4,
+.NormalCharacterStyle6,
+.NormalCharacterStyle8,
+.NormalCharacterStyle10,
+.NormalCharacterStyle12,
+.NormalCharacterStyle14,
+.NormalCharacterStyle15 {
+  font-family: Roboto, Arial, sans-serif;
+}
+.NormalCharacterStyle16,
+.NormalCharacterStyle17,
+.NormalCharacterStyle18,
+.NormalCharacterStyle19 {
+  font-family: Roboto, Arial, sans-serif;
+}
+.NormalCharacterStyle20,
+.NormalCharacterStyle21 {
+  font-family: "Gill Sans Ultra Bold", "Arial Black", Impact, sans-serif;
+}
+.poster-word,
+.copy {
+  position: absolute;
+}
+.poster-word {
+  z-index: 1;
+  white-space: nowrap;
+}
+.word-world {
+  left: 884px;
+  top: 40px;
+  transform: rotate(90deg);
+  transform-origin: top left;
+}
+.word-live {
+  left: 864px;
+  top: 1316px;
+  transform: rotate(180deg);
+  transform-origin: top left;
+}
+.word-awareness {
+  left: 12px;
+  top: 40px;
+  font-size: 21pt;
+  line-height: 34px;
+  color: #FFFFFF;
+}
+.word-extraction {
+  left: 358px;
+  top: 99px;
+}
+.word-pollution {
+  left: 293px;
+  top: 420px;
+}
+.word-climate {
+  left: 358px;
+  top: 741px;
+}
+.word-consumption {
+  left: 247px;
+  top: 1017px;
+}
+.copy {
+  z-index: 2;
+  margin: 0;
+}
+.copy h1,
+.copy h2 {
+  margin: 0 0 7px;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: normal;
+  line-height: 17px;
+  color: #FFFFFF;
+}
+.copy p {
+  margin: 0 0 10px;
+}
+.mining-copy {
+  left: 389px;
+  top: 127px;
+  width: 430px;
+}
+.social-copy {
+  left: 61px;
+  top: 127px;
+  width: 290px;
+}
+.land-copy {
+  left: 58px;
+  top: 473px;
+  width: 300px;
+}
+.ocean-copy {
+  left: 399px;
+  top: 473px;
+  width: 220px;
+}
+.air-copy {
+  left: 627px;
+  top: 473px;
+  width: 230px;
+}
+.climate-copy {
+  left: 58px;
+  top: 787px;
+  width: 300px;
+}
+.fuels-copy {
+  left: 400px;
+  top: 787px;
+  width: 445px;
+}
+.consumption-copy {
+  left: 52px;
+  top: 1067px;
+  width: 300px;
+}
+.site-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+.site-banner-wrap {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+}
+.banner-solutions-fix {
+  position: absolute;
+  z-index: 2;
+  left: 60.065%;
+  top: 3.407%;
+  width: 9.503%;
+  height: 7.519%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #465F6B;
+  color: #81D4F7;
+  font-family: Roboto, sans-serif;
+  font-size: 1.62cqw;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.banner-solutions-fix:hover {
+  filter: brightness(1.08);
+}
+.banner-solutions-fix:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+.banner-extraction-button {
+  position: absolute;
+  left: 3.1%;
+  top: 3.3%;
+  width: 9.6%;
+  height: 7.7%;
+  z-index: 1;
+  display: block;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.banner-extraction-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.banner-extraction-button:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+.banner-pollution-button,
+.banner-climate-button,
+.banner-consumption-button,
+.banner-estimate-button {
+  position: absolute;
+  top: 3.3%;
+  width: 9.6%;
+  height: 7.7%;
+  z-index: 1;
+  display: block;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.banner-pollution-button {
+  left: 14.5%;
+}
+.banner-climate-button {
+  left: 25.9%;
+}
+.banner-consumption-button {
+  left: 37.3%;
+}
+.banner-estimate-button {
+  left: 48.7%;
+}
+.banner-pollution-button:hover,
+.banner-climate-button:hover,
+.banner-consumption-button:hover,
+.banner-estimate-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.banner-pollution-button:focus-visible,
+.banner-climate-button:focus-visible,
+.banner-consumption-button:focus-visible,
+.banner-estimate-button:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+.poster-anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  scroll-margin-top: 110px;
+}
+.anchor-pollution {
+  top: 36.5%;
+}
+.anchor-climate {
+  top: 60.7%;
+}
+.anchor-consumption {
+  top: 82.3%;
+}
+
+/* Responsive HTML recreation of the Clean World PDF. */
+body.clean-pdf-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #e9f8fc;
+}
+.clean-poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 2;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: inline-size;
+  color: #301360;
+  font-family: Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #e9f8fc 0%, #c4ebf7 21%, #91d7ed 51%, #bee9f5 75%, #ffffff 100%);
+}
+.clean-backdrop {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.clean-circle {
+  position: absolute;
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 48% 48%, rgba(80, 197, 236, 0.38), rgba(101, 210, 242, 0.28) 67%, rgba(130, 220, 246, 0.08));
+}
+.clean-circle-top { top: 4.6%; left: 47.3%; width: 65%; }
+.clean-circle-left { top: 13.5%; left: 19.2%; width: 41.2%; opacity: 0.65; }
+.clean-circle-center {
+  top: 44.4%; left: 22%; width: 83.1%;
+  background: radial-gradient(circle, rgba(239, 251, 255, 0.82), rgba(236, 250, 255, 0.6) 70%, rgba(236, 250, 255, 0.1));
+}
+.clean-circle-bottom { top: 63.8%; left: -5.2%; width: 49.4%; opacity: 0.72; }
+.clean-nav {
+  position: absolute;
+  z-index: 5;
+  top: 0.73%; left: 3.18%;
+  display: flex;
+  gap: 1.88%;
+  white-space: nowrap;
+}
+.clean-nav a,
+.clean-nav span {
+  display: flex;
+  width: 9.5cqw; height: 3.76cqw;
+  flex: 0 0 9.5cqw;
+  align-items: center; justify-content: center;
+  border-radius: 999px;
+  background: #12c3f4;
+  color: #301360;
+  font-size: 1.62cqw; font-weight: 600; line-height: 1;
+  text-decoration: none;
+}
+.clean-nav a:nth-child(4) { font-size: 1.39cqw; }
+.clean-nav a:last-child { color: #f05864; }
+.clean-nav a:hover,
+.clean-nav a:focus-visible { filter: brightness(1.06); outline: 2px solid rgba(48, 19, 96, 0.55); outline-offset: 2px; }
+.clean-heading { position: absolute; z-index: 3; inset: 0; text-align: center; }
+.clean-heading h1 {
+  position: absolute; top: 7.2%; left: 0; width: 100%; margin: 0;
+  color: #f37986;
+  font-family: "Gill Sans Ultra Bold", "Arial Black", Arial, sans-serif;
+  font-size: 6.94cqw; font-weight: 900; letter-spacing: -0.025em; line-height: 1.2;
+  transform: scaleX(1.2);
+  transform-origin: center top;
+}
+.clean-heading p {
+  position: absolute; top: 17.15%; left: 18%; width: 64%; margin: 0;
+  color: #301360; font-size: 2.08cqw; line-height: 1.25;
+}
+.clean-ghost {
+  position: absolute; z-index: 2; color: #f05864;
+  font-family: "Gill Sans Ultra Bold", "Arial Black", Arial, sans-serif;
+  font-weight: 900; line-height: 1; opacity: 0.5; white-space: nowrap; pointer-events: none;
+}
+.clean-the-world { top: 97.75%; left: -5.2%; transform: rotate(-90deg) scaleX(0.8); transform-origin: top left; font-size: 28.8cqw; }
+.clean-we-live { top: 23.08%; left: 0; font-size: 18.5cqw; }
+.clean-solutions { top: 32.14%; left: 59.5%; font-size: 8.8cqw; }
+.clean-section { position: absolute; z-index: 4; inset: 0; }
+.clean-section-label {
+  position: absolute; z-index: 2; margin: 0; padding: 0 0.6cqw;
+  background: rgba(198, 235, 247, 0.9); color: #F37986;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 2.43cqw; font-weight: 700; line-height: 1.35; white-space: nowrap;
+}
+.clean-label-extraction { top: 32.08%; left: 41.55%; }
+.clean-label-pollution { top: 50.83%; left: 33.6%; }
+.clean-label-climate { top: 69.27%; left: 41.55%; }
+.clean-label-consumption { top: 85.2%; left: 28.7%; }
+.clean-divider { position: absolute; z-index: 1; height: 0.93cqw; background: transparent; }
+.clean-divider span { position: absolute; top: 0; bottom: 0; }
+.clean-divider span:first-child { left: 0; background: linear-gradient(90deg, #12c3f4, rgba(18, 195, 244, 0.5)); }
+.clean-divider span:last-child { right: 0; background: linear-gradient(90deg, rgba(18, 195, 244, 0.55), rgba(18, 195, 244, 0.18)); }
+.clean-divider-extraction { top: 32.65%; left: 0; width: 100%; }
+.clean-divider-extraction span:first-child { width: 40.74%; }
+.clean-divider-extraction span:last-child { width: 44.56%; }
+.clean-divider-pollution { top: 51.55%; left: 0; width: 100%; }
+.clean-divider-pollution span:first-child { width: 32.8%; }
+.clean-divider-pollution span:last-child { width: 54%; }
+.clean-divider-climate { top: 70%; left: 0; width: 100%; }
+.clean-divider-climate span:first-child { width: 40.74%; }
+.clean-divider-climate span:last-child { width: 47.67%; }
+.clean-divider-consumption { top: 85.9%; left: 0; width: 100%; }
+.clean-divider-consumption span:first-child { width: 27.9%; }
+.clean-divider-consumption span:last-child { width: 53.64%; }
+.clean-vertical { position: absolute; width: 1.62%; background: linear-gradient(180deg, rgba(18, 195, 244, 0.75), rgba(64, 160, 195, 0.4)); }
+.clean-vertical-extraction { top: 34.1%; left: 41.44%; height: 15%; }
+.clean-vertical-pollution { top: 52.7%; left: 41.44%; height: 16.3%; }
+.clean-vertical-climate { top: 71.4%; left: 41.44%; height: 13.4%; }
+.clean-vertical-consumption { top: 87.4%; left: 41.44%; height: 12.6%; }
+.clean-copy {
+  position: absolute; z-index: 3; margin: 0;
+  color: #301360; font-size: 1.273cqw; line-height: 1.39cqw;
+}
+.clean-copy h3 { margin: 0 0 0.45cqw; font-size: 1.62cqw; font-style: italic; font-weight: 600; line-height: 1.9cqw; }
+.clean-copy p { margin: 0 0 1.39cqw; }
+.clean-social-copy { top: 34.25%; left: 7.26%; width: 31%; }
+.clean-mining-copy { top: 34.37%; left: 45.8%; width: 50%; }
+.clean-land-copy { top: 53.51%; left: 7.18%; width: 31%; }
+.clean-ocean-copy { top: 53.51%; left: 46.69%; width: 25%; }
+.clean-air-copy { top: 53.51%; left: 73.07%; width: 25%; }
+.clean-climate-copy { top: 71.49%; left: 6.77%; width: 33%; }
+.clean-fuels-copy { top: 71.57%; left: 48.33%; width: 45%; }
+.clean-overconsumption-copy { top: 87.65%; left: 47.8%; width: 48%; }
+
+/* Landscape-style calculator recreated from Estimating_CarbonFootprint.pdf. */
+.pdf-carbon-calculator {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 5.5rem) clamp(1.25rem, 6vw, 5rem);
+  background: linear-gradient(180deg, #f8fafb 0%, #d9e3e8 23%, #a6bdc8 64%, #5c8092 100%);
+  color: #fff;
+  font-family: Roboto, Arial, sans-serif;
+}
+.pdf-carbon-inner { width: min(100%, 960px); margin-inline: auto; }
+.pdf-carbon-heading { margin: 0 auto clamp(2.5rem, 5vw, 4.5rem); text-align: center; }
+.pdf-carbon-heading h2 {
+  margin: 0;
+  color: #f37886;
+  font-family: "Gill Sans Ultra Bold", "Arial Black", Arial, sans-serif;
+  font-size: clamp(2.1rem, 5.8vw, 4rem);
+  font-weight: 900;
+  line-height: 1.04;
+}
+.pdf-carbon-heading p { margin: 1rem 0 0; color: #fff; font-size: clamp(1rem, 2.1vw, 1.3rem); }
+.pdf-carbon-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 10vw, 7.5rem);
+  row-gap: clamp(1.35rem, 3.4vw, 2.6rem);
+}
+.pdf-carbon-fields label { display: grid; gap: 0.7rem; color: #fff; font-size: clamp(0.95rem, 1.65vw, 1.12rem); }
+.pdf-carbon-fields input,
+.pdf-carbon-fields select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: clamp(2.65rem, 4vw, 3.15rem);
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-radius: 2px;
+  background: #fff;
+  color: #301360;
+  font: inherit;
+}
+.pdf-carbon-fields input:focus-visible,
+.pdf-carbon-fields select:focus-visible { outline: 3px solid #f05864; outline-offset: 3px; }
+.pdf-carbon-submit {
+  display: block;
+  min-width: clamp(10rem, 20vw, 13.25rem);
+  min-height: 4rem;
+  margin: clamp(2.5rem, 5.5vw, 4rem) auto 0;
+  padding: 0.75rem 1.75rem;
+  border: 0;
+  border-radius: 1rem;
+  background: #465f6b;
+  color: #f05864;
+  cursor: pointer;
+  font: 600 clamp(1.35rem, 2.8vw, 1.8rem) Roboto, Arial, sans-serif;
+}
+.pdf-carbon-submit:hover { background: #354f5c; }
+.pdf-carbon-submit:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.pdf-carbon-results {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 1rem;
+  background: rgba(48, 70, 82, 0.55);
+}
+.pdf-carbon-results[hidden] { display: none; }
+.pdf-carbon-total,
+.pdf-carbon-breakdown,
+.pdf-carbon-donut-panel,
+.pdf-carbon-solutions { padding: 1.2rem; border-radius: 0.65rem; background: rgba(255, 255, 255, 0.12); }
+.pdf-carbon-total { border-left: 4px solid #f37886; }
+.pdf-carbon-total p { margin: 0 0 0.75rem; }
+.pdf-carbon-total h3 { margin: 0; color: #fff; font-size: clamp(2rem, 4vw, 3rem); }
+.pdf-carbon-total h3 small { display: block; margin-top: 0.45rem; font-size: 1rem; }
+.pdf-carbon-breakdown h3,
+.pdf-carbon-donut-panel h3,
+.pdf-carbon-solutions h3 { margin: 0 0 0.8rem; color: #f9a0a9; font-size: 1.15rem; }
+.pdf-carbon-donut-panel { grid-column: 1 / -1; }
+.pdf-carbon-donut-panel > p { margin: -0.35rem 0 0.9rem; color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; }
+.pdf-carbon-donut-layout { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 5vw, 4rem); }
+.pdf-carbon-donut-wrap { position: relative; flex: 0 1 300px; width: min(100%, 300px); aspect-ratio: 1; }
+.pdf-carbon-donut { display: block; width: 100%; height: 100%; overflow: visible; }
+.pdf-carbon-donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; text-align: center; }
+.pdf-carbon-donut-center strong { color: #fff; font-size: clamp(1.35rem, 3vw, 2rem); }
+.pdf-carbon-donut-center span { margin-top: 0.2rem; color: rgba(255, 255, 255, 0.82); font-size: 0.72rem; }
+.pdf-carbon-donut-legend { display: grid; width: min(100%, 360px); gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.pdf-carbon-donut-legend li { display: grid; grid-template-columns: 0.75rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; color: #fff; font-size: 0.85rem; }
+.pdf-carbon-donut-legend li.pdf-carbon-legend-group { margin-top: 0.45rem; color: #ffd5d9; }
+.pdf-carbon-donut-legend li.pdf-carbon-legend-child { padding-left: 0.7rem; color: rgba(255, 255, 255, 0.86); }
+.pdf-carbon-donut-legend strong { font-size: 0.78rem; white-space: nowrap; }
+.pdf-carbon-legend-swatch { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
+.pdf-carbon-breakdown ul,
+.pdf-carbon-solutions ul { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
+.pdf-carbon-breakdown li { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+.pdf-carbon-breakdown li strong { white-space: nowrap; }
+.pdf-carbon-solutions { grid-column: 1 / -1; }
+.pdf-carbon-solutions li { padding: 0.7rem 0.8rem; border-left: 3px solid #f37886; background: rgba(255, 255, 255, 0.08); line-height: 1.55; }
+.pdf-carbon-solutions li strong { color: #ffd5d9; }
+.pdf-carbon-note { grid-column: 1 / -1; margin: 0; color: rgba(255, 255, 255, 0.82); font-size: 0.86rem; line-height: 1.5; }
+@media (max-width: 640px) {
+  .pdf-carbon-fields,
+  .pdf-carbon-results { grid-template-columns: minmax(0, 1fr); }
+  .pdf-carbon-donut-panel { grid-column: auto; }
+  .pdf-carbon-donut-layout { flex-direction: column; }
+  .pdf-carbon-donut-wrap { flex-basis: auto; }
+  .pdf-carbon-solutions,
+  .pdf-carbon-note { grid-column: auto; }
+}

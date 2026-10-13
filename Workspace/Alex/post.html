@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create or view a Gaia-Net community post.">
+  <title>Gaia-Net — Create a Post</title>
+  <link rel="stylesheet" href="gaia.css">
+  <style>
+    .post-form-page {
+      max-width: 780px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    .post-form-page #create-section { margin-block: auto; }
+    .post-form-page .masthead {
+      width: min(1180px, calc(100vw - 40px));
+      margin-left: 50%;
+      transform: translateX(-50%);
+      border: 1px solid var(--ink);
+    }
+    .post-form-page .wordmark { font-size: clamp(3.3rem, 12vw, 9rem); }
+    .post-form-page .masthead .wordmark { margin: 28px 0 24px; line-height: .8; }
+    .post-form-page .wordmark span { color: var(--yellow); }
+    .post-form-page .footer { width: 100%; margin-top: auto; }
+    .post-form-page h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; }
+    .post-form-page > p { color: var(--muted); }
+    .post-form { display: grid; gap: 18px; margin-top: 34px; }
+    .post-form label { display: grid; gap: 7px; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    .post-form input, .post-form select, .post-form textarea {
+      width: 100%;
+      border: 1px solid var(--ink);
+      border-radius: 0;
+      background: transparent;
+      padding: 10px;
+      color: inherit;
+      font: inherit;
+      letter-spacing: normal;
+      text-transform: none;
+    }
+    .post-form textarea { min-height: 120px; resize: vertical; }
+    .post-form button { justify-self: start; border: 1px solid var(--ink); border-radius: 0; background: transparent; padding: 9px 14px; color: inherit; cursor: pointer; font: inherit; }
+    .post-form button:hover, .post-form button:focus-visible { background: var(--ink); color: var(--paper); }
+    .post-message { min-height: 1.5em; color: var(--muted); }
+    .created-post { margin-top: 38px; border-top: 1px solid var(--ink); padding-top: 24px; }
+    .created-post h2 { margin: 0 0 18px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; }
+    .created-post p { color: var(--muted); }
+    @media (max-width: 760px) {
+      .post-form-page .masthead { width: calc(100vw - 24px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page post-form-page">
+    <header class="masthead">
+      <div class="utility">
+        <div class="utility-location">
+          <p>Location / West Node Sec 01</p>
+          <p class="current-date" id="current-date"></p>
+        </div>
+        <div class="signal" aria-label="Gaia-Net signal: stable"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <h1 class="wordmark">GAIA-<span>NET</span></h1>
+      <hr class="rule">
+      <nav aria-label="Primary navigation">
+        <a href="gaia.html#posts">All posts</a>
+        <a href="post.html">Make a Post</a>
+        <a href="about.html">About us</a>
+        <a href="overseer.html">Overseer</a>
+      </nav>
+    </header>
+
+    <section id="create-section">
+      <h1>Create a post</h1>
+      <p>Share a verified guide, event, or notice with the network.</p>
+      <form class="post-form" id="post-form">
+        <label>Title <input name="title" required maxlength="100"></label>
+        <label>Type of notification
+          <select name="type" required>
+            <option value="guide">Guide</option>
+            <option value="event">Event</option>
+            <option value="notice">Notice</option>
+          </select>
+        </label>
+        <label>Node location <input name="node" required maxlength="80" placeholder="West Node"></label>
+        <label>Post card text <textarea name="cardText" required maxlength="240" placeholder="Short text shown on the Gaia-Net card."></textarea></label>
+        <label>Actual text <textarea name="actualText" required maxlength="4000" placeholder="Full details for the individual post."></textarea></label>
+        <button type="submit">Publish post</button>
+        <p class="post-message" id="post-message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="created-post" id="view-section" hidden>
+      <p class="about-label" id="view-meta"></p>
+      <h2 id="view-title"></h2>
+      <p id="view-text"></p>
+      <a href="gaia.html">Return to all posts &rarr;</a>
+    </section>
+
+    <footer class="footer">
+      <p>Gaia-Net / Connection for All</p>
+      <p><a href="gaia.html">Back to posts &rarr;</a></p>
+    </footer>
+  </main>
+  <script>
+    document.querySelectorAll('a[href="overseer.html"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (window.prompt('Enter Overseer password:') !== '1231') event.preventDefault();
+      });
+    });
+    const storageKey = 'gaia-user-posts';
+    const posts = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    const params = new URLSearchParams(window.location.search);
+    const viewPost = posts.find((post) => post.id === params.get('view'));
+    const currentDate = new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date());
+    document.querySelector('#current-date').textContent = `Current Date / ${currentDate}`;
+    const createSection = document.querySelector('#create-section');
+    const viewSection = document.querySelector('#view-section');
+
+    if (viewPost) {
+      createSection.hidden = true;
+      viewSection.hidden = false;
+      document.querySelector('#view-meta').textContent = `${viewPost.type} / ${viewPost.node}`;
+      document.querySelector('#view-title').textContent = viewPost.title;
+      document.querySelector('#view-text').textContent = viewPost.actualText;
+      document.title = `Gaia-Net — ${viewPost.title}`;
+    }
+
+    document.querySelector('#post-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const postingDate = new Date();
+      postingDate.setFullYear(2031);
+      const post = {
+        id: `custom-${Date.now()}`,
+        number: String(posts.reduce((highest, item) => Math.max(highest, Number(item.number) || 9), 9) + 1).padStart(2, '0'),
+        title: formData.get('title').trim(),
+        type: formData.get('type'),
+        node: formData.get('node').trim(),
+        cardText: formData.get('cardText').trim(),
+        actualText: formData.get('actualText').trim(),
+        date: new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).format(postingDate)
+      };
+      posts.push(post);
+      localStorage.setItem(storageKey, JSON.stringify(posts));
+      document.querySelector('#post-message').textContent = 'Post published. Returning to Gaia-Net...';
+      window.setTimeout(() => { window.location.href = 'gaia.html'; }, 500);
+    });
+  </script>
+</body>
+</html>
