@@ -7,6 +7,15 @@
     <title>Jon Jon</title>
 </head>
 <body>
+    <div class="intro-screen" id="intro-screen" aria-label="Welcome to BuySctuff">
+        <div class="intro-line intro-line-top"></div>
+        <div class="intro-content">
+            <p class="intro-kicker">Welcome to</p>
+            <h1>BuySctuff!</h1>
+            <p class="intro-subtitle">The world's most unnecessary marketplace</p>
+        </div>
+        <div class="intro-line intro-line-bottom"></div>
+    </div>
     <div class="background-layer" aria-hidden="true">
         <div class="stars stars-one"></div>
         <div class="stars stars-two"></div>
@@ -21,42 +30,53 @@
         </div>
     </div>
     <main class="title-template">
-        <h1>BuySumSctuff!</h1>
+        <h1>BuySctuff!</h1>
     </main>
+    <div class="balance-display" aria-live="polite">Balance: <span id="balance-amount">$1,000,000,000.00</span></div>
+    <button class="cart-button" id="cart-button" type="button" aria-haspopup="dialog" aria-controls="cart-window">
+        <span aria-hidden="true">Cart</span>
+        <span class="cart-count" id="cart-count">0</span>
+    </button>
     <div class="products-sections">
+    <div class="search-toolbar">
+        <label class="search-label" for="product-search">Search the shop</label>
+        <input id="product-search" class="product-search" type="search" placeholder="Try “Japan”, “pet”, or “music”" autocomplete="off">
+        <p class="search-status" id="search-status" aria-live="polite"></p>
+    </div>
     <h2 class="category-title">Products</h2>
     <section class="block-row" aria-label="Scrollable blocks">
         <div class="content-block" role="button" tabindex="0" data-description="A personal capybara companion."><img src="images/Capybara.jpg" alt="Capybara"><div class="block-title">A Personal Capybara Pet - $200</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="A Merkava Mk.4M Windbreaker Tank, functional and legal!"><img src="images/Tank.jpg" alt="Tank"><div class="block-title">A Merkava Mk.4M Windbreaker Tank - $100000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="A first class ticket to Japan."><img src="images/Japan.jpg" alt="Japan"><div class="block-title">A First Class Ticket to Japan - $2000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Become the owner of China... yes.. the whole country.."><img src="images/China.jpg" alt="China"><div class="block-title">Ownership of China - $1000000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Own a personal Sea Otter Pet"><img src="images/Otter.jpg" alt="Sea Otter"><div class="block-title">A Personal Sea Otter Pet - $20</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Become owned under the rights and privileges of the singer, Cee-Lo Green"><img src="images/CeeloGreen.jpg" alt="Cee-Lo Green"><div class="block-title">Be owned by Cee-Lo Green - $30000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Own every single game on the gaming software, Steam."><img src="images/Steam.jpg" alt="Steam"><div class="block-title">Own every game on Steam - $1500000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Receive an A+ from Andrew for the Art 101 class Fall 2026"><img src="images/APlus.jpg" alt="A+"><div class="block-title">A+ from Andrew - $13</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Donate everything to the bank MAX BALANCE REQUIRED"><img src="images/Bank.webp" alt="Bank"><div class="block-title">Donate EVERYTHING to the bank - $1000000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Buy oxygen, but then get fucked over by the IRS"><img src="images/Oxygen.jpg" alt="Oxygen"><div class="block-title">Oxygen(TAX INCLUDED) - $150000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Purchase money with money!"><img src="images/Million.webp" alt="Million"><div class="block-title">Purchase a Million Dollar Bill - $999999</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Receive a real life companion of any pokemon of your choice! (Needs and consequences for damages caused will not be applied)"><img src="images/Pokemon.jpg" alt="Pokemon"><div class="block-title">Pokemon companion of your choice - $10000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Taken from the #1 manga in the world, Berserk, wield the very greatsword that Guts uses"><img src="images/Sword.webp" alt="Movie"><div class="block-title">Comically Large Greatsword - $40000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Get delivered a complete clone of yourself. Whatever you decide to do with them is not my fuckin business."><img src="images/Spiderman.jpg" alt="Clone"><div class="block-title">Personal Clone - $7500000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Did you think a Bugatti like a single car? Nah I'm talking about the whole company."><img src="images/Bugatti.jpg" alt="Bugatti"><div class="block-title">Bugatti - $700000000</div></div>
     </section>
     <h2 class="category-title secondary-category-title">Services</h2>
     <section class="block-row" aria-label="Scrollable blocks">
         <div class="content-block" role="button" tabindex="0" data-description="Deliverable Back Massage"><img src="images/Back Massage.jpg" alt="Back Massage"><div class="block-title">Back Massage - $70</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
-        <div class="content-block" role="button" tabindex="0"><div class="image-placeholder">Replace image</div><div class="block-title">Title here</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Enjoy a dinner with Jay-Z the rapper at a fine dining restaurant."><img src="images/Jay_Z.webp" alt="Jay-Z"><div class="block-title">Dinner with Jay-Z - $2000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Become part of Mr. Beast's new video where you compete for money!"><img src="images/MrBeast.jpg" alt="MrBeast"><div class="block-title">Video with Mr. Beast - $300</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Shake hands with this website's creator"><img src="images/Myself.jpg" alt="Myself"><div class="block-title">Shake hands with Me. - $1000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Receive a shoutout from the singer, Cee-Lo Green"><img src="images/CeeloGreen.jpg" alt="Cee-Lo Green"><div class="block-title">A shoutout from Cee-Lo Green - $500</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Transform an individual of your choice into a femboy (Irreversible)"><img src="images/Astolfo.webp" alt="Astolfo"><div class="block-title">Transform SOMEONE into a Femboy - $800000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Revive a single video game of your choice."><img src="images/Game.jpg" alt="Game"><div class="block-title">Revive a Video Game - $10000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="See the final of the anime/manga: One Piece"><img src="images/OnePiece.jpg" alt="One Piece"><div class="block-title">See the final of One Piece - $600000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Watch any movie weeks before it's released"><img src="images/Movie.jpg" alt="Movie"><div class="block-title">Watch a Movie Early - $50000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Take a tour at America's top secret facilities and find out answers."><img src="images/Area51.jpg" alt="Area 51"><div class="block-title">Tour Area 51 - $1000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Choose your current height and change it! (Irreversible)"><img src="images/Height.jpeg" alt="Height"><div class="block-title">Change Your Height - $25000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Tired of Planet Earth? Transport to another universe! (You can't come back)"><img src="images/Isekai.jpg" alt="Isekai"><div class="block-title">Isekai (Dimensional Travel) - $500000000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Receive a music lesson from famous music artist Bruno Mars"><img src="images/Bruno.jpg" alt="Bruno Mars"><div class="block-title">Music Lesson with Bruno Mars - $300000</div></div>
+        <div class="content-block" role="button" tabindex="0" data-description="Forgot something? Restart your life so you could do it!"><img src="images/Life.jpg" alt="Life"><div class="block-title">Restart Your Life - $850000000</div></div>
     </section>
     </div>
     <dialog class="detail-window" id="detail-window">
@@ -66,40 +86,33 @@
             <h2 id="detail-title"></h2>
             <p id="detail-description"></p>
         </div>
-        <div class="detail-empty" aria-hidden="true"></div>
+        <div class="detail-actions">
+            <div class="detail-price" id="detail-price" aria-label="Price"></div>
+            <button class="purchase-button" type="button">Add to cart</button>
+        </div>
+        <p class="purchase-status" id="purchase-status" role="status" aria-live="polite"></p>
     </dialog>
 
-    <script>
-        const detailWindow = document.querySelector('#detail-window');
-        const detailImage = document.querySelector('#detail-image');
-        const detailTitle = document.querySelector('#detail-title');
-        const detailDescription = document.querySelector('#detail-description');
+    <dialog class="cart-window" id="cart-window" aria-labelledby="cart-title">
+        <div class="cart-header">
+            <div>
+                <p class="cart-eyebrow">Your selection</p>
+                <h2 id="cart-title">Cart</h2>
+            </div>
+            <button class="cart-close" id="cart-close" type="button" aria-label="Close cart">×</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Total</span><strong id="cart-total">$0.00</strong></div>
+            <button class="checkout-button" id="checkout-button" type="button">Checkout</button>
+            <p class="cart-status" id="cart-status" role="status" aria-live="polite"></p>
+        </div>
+    </dialog>
 
-        document.querySelectorAll('.content-block').forEach((block) => {
-            const openDetails = () => {
-                const image = block.querySelector('img');
-                const placeholder = block.querySelector('.image-placeholder');
-                const title = block.querySelector('.block-title').textContent.trim();
+    <footer class="store-footer">
+        <h2>@Jon-Jon Rodriguez Made with Codex on Visual Code Studio</h2>
+    </footer>
 
-                detailImage.replaceChildren((image || placeholder).cloneNode(true));
-                detailTitle.textContent = title;
-                detailDescription.textContent = block.dataset.description || 'Add a description for this item here.';
-                detailWindow.showModal();
-            };
-
-            block.addEventListener('click', openDetails);
-            block.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    openDetails();
-                }
-            });
-        });
-
-        document.querySelector('.detail-close').addEventListener('click', () => detailWindow.close());
-        detailWindow.addEventListener('click', (event) => {
-            if (event.target === detailWindow) detailWindow.close();
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>

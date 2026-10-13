@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("background.jpg") repeat center center fixed;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+            font-family: "Orbitron", Arial, sans-serif;
+            letter-spacing: 0.08em;
+        }
+
+        .jobs {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .job {
+            background: rgba(132, 118, 194, 0.772);
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .job h2 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta {
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .apply-btn {
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .apply-btn:hover {
+            background: #e65c00;
+        }
+
+        .apply-btn.disabled {
+            background: #bdbdbd;
+            color: #666;
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <h1>Open Positions</h1>
+
+    <div class="jobs">
+        <div class="job">
+            <h2>On The Field</h2>
+            <div class="meta"> Full-time</div>
+            <p>Do jobs on the field. May have to get your hands dirty.</p>
+            <button class="apply-btn" type="button">Apply Here</button>
+        </div>
+
+        <div class="job">
+            <h2>Spy</h2>
+            <div class="meta">Hybrid • Full-time</div>
+            <p>Fake being their friends and gather information for us.</p>
+            <button class="apply-btn" type="button">Apply Here</button>
+        </div>
+
+        <div class="job">
+            <h2>Operations Assistant</h2>
+            <div class="meta">Remote</div>
+            <p>Help with operations on the field through navigating the on field team.</p>
+            <button class="apply-btn disabled" type="button" disabled>Apply Here</button>
+        </div>
+
+        <div class="job">
+            <h2>Poster Putter-Uper</h2>
+            <div class="meta">On-site • Full-time</div>
+            <p>Put up posters in order to convince more people.</p>
+            <button class="apply-btn" type="button">Apply Here</button>
+        </div>
+    </div>
+</body>
+</html>

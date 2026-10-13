@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gaia-Net post oversight page.">
+  <title>Gaia-Net — Overseer</title>
+  <link rel="stylesheet" href="gaia.css">
+  <style>
+    .overseer-page { max-width: 780px; min-height: 100dvh; display: flex; flex-direction: column; }
+    .overseer-page .masthead {
+      width: min(1180px, calc(100vw - 40px));
+      margin-left: 50%;
+      transform: translateX(-50%);
+      border: 1px solid var(--ink);
+    }
+    .overseer-page .wordmark span { color: var(--yellow); }
+    .overseer-intro { margin: 48px 0 28px; }
+    .overseer-intro h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; }
+    .overseer-intro p { color: var(--muted); }
+    .post-list { display: grid; gap: 14px; }
+    .post-record { border-top: 1px solid var(--ink); padding: 14px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+    .post-record h2 { margin: 0 0 5px; font-size: 1.25rem; font-weight: 400; }
+    .post-record p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .post-actions { display: flex; gap: 8px; }
+    .post-action { border: 1px solid var(--ink); border-radius: 0; background: transparent; padding: 7px 10px; color: inherit; cursor: pointer; font: inherit; font-size: .78rem; }
+    .post-action:hover, .post-action:focus-visible { background: var(--ink); color: #fff; }
+    .post-action[data-action="delete"]:hover, .post-action[data-action="delete"]:focus-visible { background: var(--red); }
+    .empty-posts { color: var(--muted); }
+    .edit-section { margin-top: 42px; border-top: 1px solid var(--ink); padding-top: 24px; }
+    .edit-section h2 { margin: 0 0 18px; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; }
+    .edit-form { display: grid; gap: 18px; }
+    .edit-form label { display: grid; gap: 7px; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    .edit-form input, .edit-form select, .edit-form textarea { width: 100%; border: 1px solid var(--ink); border-radius: 0; background: transparent; padding: 10px; color: inherit; font: inherit; letter-spacing: normal; text-transform: none; }
+    .edit-form textarea { min-height: 120px; resize: vertical; }
+    .edit-actions { display: flex; gap: 10px; }
+    .overseer-page .footer { margin-top: auto; }
+    @media (max-width: 760px) { .overseer-page .masthead { width: calc(100vw - 24px); } }
+    @media (max-width: 560px) { .post-record { display: block; } .post-actions { margin-top: 12px; } }
+  </style>
+</head>
+<body>
+  <main class="page overseer-page">
+    <header class="masthead">
+      <div class="utility">
+        <div class="utility-location">
+          <p>Location / West Node Sec 01</p>
+          <p class="current-date" id="current-date"></p>
+        </div>
+        <div class="signal" aria-label="Gaia-Net signal: stable"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <h1 class="wordmark">GAIA-<span>NET</span></h1>
+      <hr class="rule">
+      <nav aria-label="Primary navigation">
+        <a href="gaia.html#posts">All posts</a>
+        <a href="post.html">Make a Post</a>
+        <a href="about.html">About us</a>
+        <a href="overseer.html" aria-current="page">Overseer</a>
+      </nav>
+    </header>
+
+    <section class="overseer-intro">
+      <h1>Overseer</h1>
+      <p>Manage posts created on Gaia-Net. Government issued posts are not able to be edited or deleted.</p>
+    </section>
+    <section class="post-list" id="post-list" aria-label="Created posts"></section>
+    <section class="edit-section" id="edit-section" hidden>
+      <h2>Edit post</h2>
+      <form class="edit-form" id="edit-form">
+        <label>Title <input name="title" required maxlength="100"></label>
+        <label>Type of notification
+          <select name="type" required>
+            <option value="guide">Guide</option>
+            <option value="event">Event</option>
+            <option value="notice">Notice</option>
+          </select>
+        </label>
+        <label>Node location <input name="node" required maxlength="80"></label>
+        <label>Post card text <textarea name="cardText" required maxlength="240"></textarea></label>
+        <label>Actual text <textarea name="actualText" required maxlength="4000"></textarea></label>
+        <div class="edit-actions">
+          <button class="post-action" type="submit">Save changes</button>
+          <button class="post-action" id="cancel-edit" type="button">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <p>Gaia-Net / Connection for All</p>
+      <p><a href="gaia.html">Back to posts &rarr;</a></p>
+    </footer>
+  </main>
+  <script>
+    const storageKey = 'gaia-user-posts';
+    const list = document.querySelector('#post-list');
+    const editSection = document.querySelector('#edit-section');
+    const editForm = document.querySelector('#edit-form');
+    let editingIndex = null;
+    const posts = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    const renderPosts = () => {
+      list.replaceChildren();
+      if (!posts.length) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-posts';
+        empty.textContent = 'No user-created posts to manage.';
+        list.appendChild(empty);
+        return;
+      }
+      posts.forEach((post, index) => {
+        const record = document.createElement('article');
+        record.className = 'post-record';
+        const details = document.createElement('div');
+        const title = document.createElement('h2');
+        title.textContent = post.title;
+        const meta = document.createElement('p');
+        meta.textContent = `${post.number || '—'} / ${post.type} / ${post.node}`;
+        details.append(title, meta);
+        const actions = document.createElement('div');
+        actions.className = 'post-actions';
+        ['Edit', 'Delete'].forEach((label) => {
+          const button = document.createElement('button');
+          button.className = 'post-action';
+          button.type = 'button';
+          button.dataset.action = label.toLowerCase();
+          button.dataset.index = index;
+          button.textContent = label;
+          actions.appendChild(button);
+        });
+        record.append(details, actions);
+        list.appendChild(record);
+      });
+    };
+    list.addEventListener('click', (event) => {
+      if (!event.target.matches('.post-action')) return;
+      const index = Number(event.target.dataset.index);
+      if (event.target.dataset.action === 'delete') {
+        if (!window.confirm(`Delete “${posts[index].title}”?`)) return;
+        posts.splice(index, 1);
+      } else {
+        const post = posts[index];
+        editingIndex = index;
+        editForm.elements.title.value = post.title;
+        editForm.elements.type.value = post.type;
+        editForm.elements.node.value = post.node;
+        editForm.elements.cardText.value = post.cardText;
+        editForm.elements.actualText.value = post.actualText;
+        editSection.hidden = false;
+        editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      localStorage.setItem(storageKey, JSON.stringify(posts));
+      renderPosts();
+    });
+    editForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (editingIndex === null) return;
+      const data = new FormData(editForm);
+      const post = posts[editingIndex];
+      post.title = data.get('title').trim();
+      post.type = data.get('type');
+      post.node = data.get('node').trim();
+      post.cardText = data.get('cardText').trim();
+      post.actualText = data.get('actualText').trim();
+      localStorage.setItem(storageKey, JSON.stringify(posts));
+      editSection.hidden = true;
+      editingIndex = null;
+      renderPosts();
+    });
+    document.querySelector('#cancel-edit').addEventListener('click', () => {
+      editSection.hidden = true;
+      editingIndex = null;
+    });
+    const currentDate = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date());
+    document.querySelector('#current-date').textContent = `Current Date / ${currentDate}`;
+    renderPosts();
+  </script>
+</body>
+</html>

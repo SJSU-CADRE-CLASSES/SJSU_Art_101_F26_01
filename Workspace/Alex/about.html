@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Edit the description and title when updating this page. -->
+  <meta name="description" content="About Gaia-Net: a community-driven network for sharing knowledge, resources, and local updates.">
+  <title>Gaia-Net &mdash; About Us</title>
+  <link rel="stylesheet" href="gaia.css">
+</head>
+<body class="about-page">
+  <main class="page" id="top">
+    <!-- Shared site header: keep navigation links consistent with gaia.html. -->
+    <header class="masthead">
+      <div class="utility">
+        <div class="utility-location">
+          <p>Location / West Node Sec 01</p>
+          <p class="current-date" id="current-date"></p>
+        </div>
+        <div class="signal" aria-label="Gaia-Net signal: stable"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <h1 class="wordmark">GAIA-<span>NET</span></h1>
+      <hr class="rule">
+      <nav aria-label="Primary navigation">
+        <a href="gaia.html#posts">All posts</a>
+        <a href="post.html">Make a Post</a>
+        <a href="about.html" aria-current="page">About us</a>
+        <a href="overseer.html">Overseer</a>
+      </nav>
+    </header>
+
+    <!-- EDIT: Page introduction. Replace the heading and paragraph below. -->
+    <section class="about-intro" aria-labelledby="about-title">
+      <p class="about-label">About us / Gaia-Net</p>
+      <h2 id="about-title">One Network for All.</h2>
+      <p>Gaia-Net is a community-driven space for sharing knowledge and resources in the Post-Storm World. <br> We connect people through practical guides, local events, and notices that help communities rebuild.</p>
+      <h3>Node System</h3>
+        Gaia-Net operates through a decentralized node system, allowing communities to connect and share information efficiently.<br><br>
+        You are currently connected to the West Node Sec 01.</p>
+    </section>
+
+    <!-- EDIT: Each section is independent. Copy a whole section to add a topic;
+         give it a unique id and update aria-labelledby to match its heading id. -->
+    <div class="about-sections">
+      <section class="about-section" id="mission" aria-labelledby="mission-title">
+        <p class="about-label">Code of Conduct One</p>
+        <h3 id="mission-title">Retain</h3>
+        <p>Our purpose is to make useful information easier to find, save, and pass on. From everyday skills to urgent updates, every contribution can help someone nearby.</p>
+      </section>
+
+      <!-- EDIT: Describe your community and the people behind the network. -->
+      <section class="about-section" aria-labelledby="community-title">
+        <p class="about-label">Code of Conduct Two</p>
+        <h3 id="community-title">Rebuild</h3>
+        <p>Gaia-Net brings together people who share what they know: neighbors, makers, organizers, and local nodes. The network grows through the knowledge and care of its community.</p>
+      </section>
+
+      <!-- EDIT: Update this section to reflect your actual moderation process. -->
+      <section class="about-section" aria-labelledby="verification-title">
+        <p class="about-label">Code of Conduct Three</p>
+        <h3 id="verification-title">Respect</h3>
+        <p>Gaia-Net uses a verification process while remaining a community-driven space. Include sources, dates, and locations when sharing information, and flag details that may have changed.</p>
+      </section>
+
+      <!-- EDIT: Add real submission or contact details here when available. -->
+      <section class="about-section" aria-labelledby="participate-title">
+        <p class="about-label">Code of Conduct Four</p>
+        <h3 id="participate-title">Render</h3>
+        <p>Share a useful skill, take part in a local event, or pass an important notice to someone who needs it. Browse the bulletin to see what your community is sharing.</p>
+        <a href="gaia.html#posts">Explore the posts &rarr;</a>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <p>Gaia-Net / Connection for All</p>
+      <p><a href="gaia.html">&larr; Back to posts</a> &nbsp;|&nbsp; <a href="#top">Back to top &uarr;</a></p>
+    </footer>
+  </main>
+  <script>
+    document.querySelectorAll('a[href="overseer.html"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (window.prompt('Enter Overseer password:') !== '1231') event.preventDefault();
+      });
+    });
+    const currentDate = new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date());
+    document.querySelector('#current-date').textContent = `Current Date / ${currentDate}`;
+  </script>
+</body>
+</html>

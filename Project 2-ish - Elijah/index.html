@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>???</title>
+    <style>
+        body {
+            background: url("background2.jpg") center center / cover fixed;
+            color: white;
+        }
+
+        button {
+            color: white;
+            background: #333;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="display: flex; justify-content: left; gap: 1rem; background: #f0f0f0; padding: 1rem; margin: 0 0 2rem 0;">
+        <a href="index4.html" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none; padding: 0.5rem 1rem; background: #333; border-radius: 6px;">Info</a>
+        <button type="button" style="color: white; padding: 0.5rem 1rem; background: #333; border: 0; border-radius: 6px; cursor: default;">About Us</button>
+        <a href="index3.html" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none; padding: 0.5rem 1rem; background: #333; border-radius: 6px;">Mission Statement</a>
+        <a href="index2.html" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none; padding: 0.5rem 1rem; background: #333; border-radius: 6px;">Jobs</a>
+    </nav>
+
+    <video id="surpriseVideo" hidden playsinline>
+        <source src="surprise.mp4" type="video/mp4">
+    </video>
+
+    <h1>are you sick and tired of all these ads?</h1>
+    <button type="button" onclick="document.getElementById('message').hidden = false; document.getElementById('secondButton').hidden = false;">Yeah!</button>
+    <p id="message" hidden style="font-size: 2rem; margin-top: 1rem;">Do You want a change to society?</p>
+    <button type="button" id="secondButton" hidden style="margin-top: 1rem;" onclick="document.getElementById('finalMessage').hidden = false; document.getElementById('revolutionButton').style.display = 'inline-block';">Yeah!!</button>
+    <p id="finalMessage" hidden style="font-size: 1.5rem; margin-top: 1rem;">Then JOIN OUR REVOLUTION! WE WILL NOT BE IGNORED!</p>
+    <a id="revolutionButton" href="index2.html" target="_blank" rel="noopener noreferrer" style="display: none; margin-top: 1rem; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #ff6600, #ff9933); color: white; text-decoration: none; border-radius: 999px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">Click to Learn More</a>
+
+    <script>
+        const surpriseVideo = document.getElementById("surpriseVideo");
+
+        // Each second has a 1-in-1,000,000 chance of starting the video.
+        setInterval(() => {
+            if (Math.random() < 1 / 1000000) {
+                surpriseVideo.hidden = false;
+                surpriseVideo.currentTime = 0;
+                surpriseVideo.play().catch(() => {
+                    // The browser may require a prior user interaction for sound.
+                });
+            }
+        }, 1000);
+    </script>
+</body>
