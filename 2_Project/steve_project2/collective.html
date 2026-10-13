@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | Empathy - shared mind</title>
+<style>
+  :root { --navy:#0b1f4d; --ink:#3a3f48; --mid:#8a9099; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+  .back { position:fixed; z-index:3; top:20px; left:24px; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+  .back:hover, .back:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .hud { position:fixed; z-index:2; pointer-events:none; color:var(--mid); font-size:10px; letter-spacing:.1em; line-height:1.7; text-transform:uppercase; }
+  #help { bottom:20px; left:24px; }
+  #readout { right:28px; bottom:20px; text-align:right; }
+  .legend { position:fixed; top:45%; left:28px; width:190px; color:#7d838c; font-size:9px; line-height:1.9; letter-spacing:.08em; text-align:left; text-transform:uppercase; pointer-events:none; }
+  .legend strong { color:var(--navy); font-weight:400; }
+  @media(max-width:600px) {
+    .legend { top:auto; right:14px; bottom:90px; width:150px; }
+    #help { left:14px; bottom:14px; font-size:8px; }
+    #readout { right:14px; bottom:14px; font-size:8px; }
+  }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body data-scene="collective">
+<canvas id="c" aria-label="Interactive three-dimensional network of shared human attention and empathic signals"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>Empathy - shared mind</b><span>Distinct minds sharing emotion by choice, with deeper convergence available</span></div>
+<div class="legend"><strong>Simulated collective field</strong><br>Shared attention / active<br>Empathy relay / active<br>Private thought / preserved</div>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom</div>
+<div class="hud" id="readout"></div>
+<script src="neural-view.js"></script>
+<script src="empathy-panel.js"></script>
+</body>
+</html>

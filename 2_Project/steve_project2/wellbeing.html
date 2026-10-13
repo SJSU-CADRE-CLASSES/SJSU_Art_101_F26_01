@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | Wellbeing - neural atlas</title>
+<style>
+  :root { --navy:#0b1f4d; --ink:#3a3f48; --mid:#8a9099; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+  .back { position:fixed; z-index:3; top:20px; left:24px; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+  .back:hover, .back:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .hud { position:fixed; z-index:2; pointer-events:none; color:var(--mid); font-size:10px; letter-spacing:.1em; line-height:1.7; text-transform:uppercase; }
+  #help { bottom:20px; left:24px; }
+  #readout { bottom:20px; left:50%; transform:translateX(-50%); text-align:center; }
+  .eyebrow { color:var(--mid); font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+  #data-panel { position:fixed; z-index:3; top:0; right:0; width:min(380px, 34vw); min-width:300px; height:100%; padding:22px 24px 18px; overflow-y:auto; border-left:1px solid #d4d7dc; background:rgba(255,255,255,.94); }
+  #data-panel h2 { margin:6px 0 12px; color:var(--navy); font:500 20px "Barlow",sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+  .index { display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-top:1px solid #d4d7dc; border-bottom:1px solid #d4d7dc; color:var(--mid); font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+  .index b { color:var(--navy); font-size:22px; font-weight:500; }
+  .stream { display:grid; grid-template-columns:10px 1fr auto 60px; gap:8px; align-items:center; width:100%; padding:9px 0 9px 8px; margin-left:-8px; border:0; border-bottom:1px solid #e7e9ec; border-left:3px solid transparent; background:none; color:var(--ink); font:inherit; text-align:left; cursor:pointer; }
+  .stream:hover, .stream:focus-visible, .stream.sel { background:rgba(11,31,77,.04); outline:none; }
+  .stream.sel { border-left-color:var(--c); }
+  .stream i { width:8px; height:8px; background:var(--c); }
+  .stream .n { color:var(--navy); font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+  .stream .v { color:#636a75; font-size:11px; white-space:nowrap; }
+  .stream svg { width:60px; height:14px; }
+  .detail { min-height:118px; padding:12px 0; border-bottom:1px solid #e7e9ec; font-size:12px; line-height:1.5; color:#636a75; }
+  .detail p { margin:5px 0 8px; }
+  .detail .hint { color:var(--mid); font-size:11px; }
+  .sect { padding:12px 0 2px; }
+  .tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+  .tags span { padding:3px 7px; border:1px solid #c0392b; color:#c0392b; font-size:9px; letter-spacing:.1em; text-decoration:line-through; text-transform:uppercase; }
+  dl { display:grid; grid-template-columns:70px 1fr; gap:4px 8px; margin-top:7px; font-size:11px; line-height:1.45; }
+  dt { color:var(--mid); font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding-top:2px; }
+  dd { color:#636a75; }
+  @media(max-width:700px) {
+    #data-panel { top:auto; bottom:0; width:100%; min-width:0; height:44vh; padding:14px 16px; border-left:0; border-top:1px solid #d4d7dc; }
+    #help, #readout { display:none; }
+  }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body data-scene="wellbeing">
+<canvas id="c" aria-label="Interactive three-dimensional neural atlas showing simulated wellbeing signals"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>Wellbeing - neural atlas</b><span>Seven simulated signals tracking wellbeing across the neural network</span></div>
+<aside id="data-panel" aria-label="Simulated wellbeing telemetry"></aside>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom<br>Pulses show where each signal is sensed</div>
+<div class="hud" id="readout"></div>
+<script src="wellbeing-data.js?v=7"></script>
+<script src="mind-simulator.js?v=9"></script>
+</body>
+</html>

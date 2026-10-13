@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | TADPOLE Console</title>
+<style>
+  :root { --navy:#0b1f4d; --navy2:#1c3a7a; --ink:#3a3f48; --mid:#8a9099; --line:#d4d7dc; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; }
+  .eyebrow { color:var(--mid); font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+  .masthead { position:fixed; z-index:2; top:24px; left:28px; }
+  .masthead strong { display:block; margin-bottom:5px; color:var(--navy); font-size:15px; letter-spacing:.24em; }
+  .masthead span { color:var(--mid); font-size:10px; letter-spacing:.09em; text-transform:uppercase; }
+  .intro { position:fixed; z-index:1; top:50%; left:7vw; width:min(440px, 39vw); transform:translateY(-45%); pointer-events:none; }
+  .intro h1 { max-width:420px; margin:14px 0 16px; color:var(--navy); font:500 clamp(34px, 5vw, 64px)/1 "Barlow","Segoe UI",sans-serif; letter-spacing:-.02em; text-transform:uppercase; }
+  .intro p { max-width:410px; color:#636a75; font:500 15px/1.6 "Barlow","Segoe UI",sans-serif; }
+  .intro .signal { margin-top:24px; color:var(--navy2); font:500 11px/1.7 "Barlow","Segoe UI",sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+  .intro .signal::before { content:""; display:inline-block; width:7px; height:7px; margin:0 9px 1px 0; background:var(--navy2); border-radius:50%; box-shadow:0 0 0 4px rgba(28,58,122,.1); }
+  .systems { position:fixed; z-index:3; top:0; right:0; display:flex; flex-direction:column; width:min(360px, 31vw); height:100%; padding:28px 28px 24px; border-left:1px solid var(--line); background:rgba(255,255,255,.92); }
+  .systems-head { padding:32px 0 19px; border-bottom:1px solid var(--line); }
+  .systems-head h2 { margin-top:8px; color:var(--navy); font:500 22px "Barlow","Segoe UI",sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+  .system-list { display:grid; }
+  .system-link { position:relative; display:grid; grid-template-columns:35px 1fr 16px; gap:8px; align-items:start; padding:18px 0 17px; border-bottom:1px solid #e7e9ec; color:inherit; text-decoration:none; transition:padding .18s, color .18s; }
+  .system-link:hover, .system-link:focus-visible { padding-left:7px; color:var(--navy); outline:none; }
+  .system-link:focus-visible { box-shadow:inset 2px 0 var(--navy); }
+  .system-index { padding-top:2px; color:#9aa0a8; font-size:10px; }
+  .system-link b { display:block; margin-bottom:6px; color:var(--navy); font-size:12px; font-weight:400; letter-spacing:.07em; text-transform:uppercase; }
+  .system-link small { display:block; color:#7d838c; font:500 12px/1.5 "Barlow","Segoe UI",sans-serif; }
+  .system-arrow { padding-top:1px; color:#8a9099; }
+  .systems-foot { margin-top:auto; padding-top:18px; color:#8a9099; font-size:9px; line-height:1.8; letter-spacing:.09em; text-transform:uppercase; }
+  .systems-foot strong { color:var(--navy2); font-weight:400; }
+  .readout { position:fixed; z-index:2; bottom:22px; left:28px; color:#78808a; font-size:9px; line-height:1.8; letter-spacing:.08em; text-transform:uppercase; }
+  .readout b { color:var(--navy2); font-weight:400; }
+  .reticle { position:fixed; z-index:0; top:50%; left:58%; width:250px; height:250px; border:1px solid rgba(11,31,77,.08); border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; }
+  .reticle::before, .reticle::after { position:absolute; content:""; background:rgba(11,31,77,.09); }
+  .reticle::before { top:50%; left:-14px; width:calc(100% + 28px); height:1px; }
+  .reticle::after { top:-14px; left:50%; width:1px; height:calc(100% + 28px); }
+  @media (max-width:760px) {
+    .systems { width:min(310px, 48vw); padding:20px 18px; }
+    .masthead { top:17px; left:18px; }
+    .intro { top:43%; left:6vw; width:44vw; }
+    .intro p { font-size:12px; }
+    .reticle { left:40%; width:190px; height:190px; }
+    .readout { left:18px; bottom:15px; }
+  }
+  @media (max-width:540px) {
+    canvas { opacity:.55; }
+    .masthead { top:14px; left:16px; }
+    .intro { top:115px; left:18px; width:calc(100vw - 36px); transform:none; }
+    .intro h1 { max-width:320px; margin:10px 0; font-size:38px; }
+    .intro p { max-width:330px; font-size:12px; line-height:1.55; }
+    .intro .signal { margin-top:12px; }
+    .systems { top:auto; right:0; bottom:0; width:100%; height:auto; max-height:45vh; overflow-y:auto; padding:12px 18px 14px; border-top:1px solid var(--line); border-left:0; }
+    .systems-head { padding:0 0 9px; }
+    .systems-head h2 { margin-top:3px; font-size:16px; }
+    .systems-head .eyebrow { display:none; }
+    .system-link { grid-template-columns:28px 1fr 14px; padding:9px 0; }
+    .system-link small { display:none; }
+    .system-link b { margin:2px 0; font-size:10px; }
+    .systems-foot { display:none; }
+    .readout { display:none; }
+    .reticle { top:44%; left:50%; }
+  }
+  @media (max-width:360px) {
+    .intro { top:94px; }
+    .intro h1 { font-size:32px; }
+  }
+</style>
+</head>
+<body data-scene="deck">
+<canvas id="c" aria-hidden="true"></canvas>
+<div class="reticle" aria-hidden="true"></div>
+<header class="masthead">
+  <strong>ILLITHID</strong>
+  <span>TADPOLE Console</span>
+</header>
+<main class="intro">
+  <div class="eyebrow">Active Session &nbsp;·&nbsp; 10.20.2189</div>
+  <h1>A world, experienced together.</h1>
+  <p>TADPOLE is ILLITHID's neural symbiont: a brain-computer interface (BCI) connecting minds through language, memory, feeling, and intelligence.</p>
+  <div class="signal">Neural mesh synchronized &nbsp; / &nbsp; wellbeing stable</div>
+</main>
+<aside class="systems" aria-label="Explore the collective interface">
+  <div class="systems-head">
+    <div class="eyebrow">Administrative access active</div>
+    <h2>TADPOLE behavior management system</h2>
+  </div>
+  <nav class="system-list">
+    <a class="system-link" href="wellbeing.html">
+      <span class="system-index">01</span><span><b>Wellbeing - neural atlas</b><small>Neural signals tracking the conditions for conscious flourishing.</small></span><span class="system-arrow">↗</span>
+    </a>
+    <a class="system-link" href="collective.html">
+      <span class="system-index">02</span><span><b>Empathy - shared mind</b><small>Emotional signals shared by choice across the human collective.</small></span><span class="system-arrow">↗</span>
+    </a>
+    <a class="system-link" href="biosphere.html">
+      <span class="system-index">03</span><span><b>M.T.H.L. network</b><small>More-than-human life: communication among human, animal, and emergent minds.</small></span><span class="system-arrow">↗</span>
+    </a>
+    <a class="system-link" href="web.html">
+      <span class="system-index">04</span><span><b>Knowledge infrastructure</b><small>A network connecting minds, memory, computation, and civic access.</small></span><span class="system-arrow">↗</span>
+    </a>
+    <a class="system-link" href="simulator.html">
+      <span class="system-index">05</span><span><b>Mind alteration emulator</b><small>Stimulate or suppress neural activity across an anatomical brain network.</small></span><span class="system-arrow">↗</span>
+    </a>
+    <a class="system-link" href="memory.html">
+      <span class="system-index">06</span><span><b>Memory bank</b><small>Search and explore a lifetime of stored memories.</small></span><span class="system-arrow">↗</span>
+    </a>
+  </nav>
+  <div class="systems-foot"><strong>Consent protocol: active</strong><br>Collective link: engaged</div>
+</aside>
+<div class="readout"><b>TADPOLE LINK: ESTABLISHED</b><br>SHARED FIELD / 8.4B MINDS<br>VISUAL CORTEX OVERLAY / ACTIVE<br>ENVIRONMENTAL SENSORS / ACTIVE<br>ENVIRONMENTAL STATUS: STABLE</div>
+<script src="neural-view.js"></script>
+</body>
+</html>

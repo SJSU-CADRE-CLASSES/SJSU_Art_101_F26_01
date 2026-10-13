@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | Memory bank</title>
+<style>
+  :root { --navy:#0b1f4d; --navy2:#1c3a7a; --ink:#3a3f48; --mid:#8a9099; --line:#d4d7dc; --hot:#e2721a; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+  .back { position:fixed; z-index:3; top:20px; left:24px; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+  .back:hover, .back:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .hud { position:fixed; z-index:2; pointer-events:none; color:var(--mid); font-size:10px; letter-spacing:.1em; line-height:1.7; text-transform:uppercase; }
+  #help { bottom:20px; left:24px; }
+  #readout { bottom:20px; right:calc(max(300px, min(360px, 34vw)) + 24px); text-align:right; color:var(--navy2); white-space:nowrap; }
+  #bank { position:fixed; z-index:3; top:0; right:0; bottom:0; width:min(360px, 34vw); min-width:300px; display:flex; flex-direction:column; border-left:1px solid var(--line); background:rgba(255,255,255,.93); }
+  #bank header { padding:26px 24px 14px; border-bottom:1px solid var(--line); }
+  #bank h2 { margin-top:6px; color:var(--navy); font:500 20px "Barlow",sans-serif; letter-spacing:.05em; text-transform:uppercase; }
+  .eyebrow { color:var(--mid); font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+  #search { position:relative; margin-top:12px; }
+  #q { width:100%; padding:9px 30px 9px 11px; border:1px solid var(--line); background:#fff; color:var(--navy); font:500 13px "Barlow",sans-serif; letter-spacing:.04em; }
+  #q:focus { outline:none; border-color:var(--navy); }
+  #clr { position:absolute; top:3px; right:3px; width:28px; height:28px; border:0; background:none; color:var(--mid); font-size:18px; cursor:pointer; }
+  #sug { position:absolute; z-index:5; top:100%; left:0; right:0; max-height:260px; overflow-y:auto; list-style:none; border:1px solid var(--navy); border-top:0; background:#fff; }
+  #sug li { padding:8px 11px; border-bottom:1px solid #eef0f2; color:var(--navy); font-size:12px; letter-spacing:.05em; text-transform:uppercase; cursor:pointer; }
+  #sug li small { margin-left:8px; color:var(--mid); font-size:10px; }
+  #sug li mark { background:none; color:var(--hot); font-weight:600; }
+  #sug li.act, #sug li:hover { background:#eef2fa; }
+  .none { padding:18px 0; color:var(--mid); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  #list { flex:1; min-height:0; overflow-y:auto; padding:6px 24px; }
+  .mem { display:grid; grid-template-columns:30px 1fr; width:100%; padding:11px 0; border:0; border-bottom:1px solid #e7e9ec; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+  .mem i { padding-top:2px; color:#9aa0a8; font-size:10px; font-style:normal; }
+  .mem b { display:block; color:var(--navy); font-size:12px; font-weight:400; letter-spacing:.07em; text-transform:uppercase; }
+  .mem[hidden], .none[hidden] { display:none; }
+  .mem i { white-space:nowrap; }
+  .mem small { display:block; margin-top:2px; color:#8a9099; font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+  .mem:hover b, .mem:focus-visible b { color:var(--navy2); }
+  .mem:focus-visible { outline:none; box-shadow:inset 2px 0 var(--navy); padding-left:6px; }
+  .mem.on { box-shadow:inset 3px 0 var(--hot); padding-left:10px; }
+  .mem.on b { color:var(--hot); }
+  #detail { padding:16px 24px 20px; border-top:1px solid var(--line); min-height:170px; max-height:42vh; overflow-y:auto; font-size:12.5px; line-height:1.55; color:#636a75; }
+  #detail h3 { margin-bottom:6px; color:var(--navy); font:500 14px "Barlow",sans-serif; letter-spacing:.07em; text-transform:uppercase; }
+  #detail .meta { margin-top:10px; color:var(--navy2); font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+  @media(max-width:760px) {
+    #bank { top:auto; width:100%; min-width:0; height:50vh; border-left:0; border-top:1px solid var(--line); }
+    #bank header { padding:12px 18px 8px; }
+    #bank h2 { font-size:15px; }
+    #list { padding:2px 18px; }
+    #detail { min-height:0; padding:10px 18px; font-size:11.5px; }
+    #help, #readout { display:none; }
+  }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body>
+<canvas id="c" aria-label="Interactive three-dimensional spiral galaxy of stored memories"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>Memory bank</b><span>A simulated personal archive, from earliest memories to recent experience</span></div>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom</div>
+<div class="hud" id="readout">Select a memory</div>
+<aside id="bank" aria-label="Memory explorer">
+  <header>
+    <div class="eyebrow" id="count">Archive</div><h2>Explore memories</h2>
+    <div id="search">
+      <input id="q" type="text" placeholder="Search memories…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="sug" aria-label="Search memories">
+      <button id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
+      <ul id="sug" role="listbox" hidden></ul>
+    </div>
+  </header>
+  <div id="list"></div>
+  <div id="detail"></div>
+</aside>
+<script src="memory-galaxy.js"></script>
+</body>
+</html>

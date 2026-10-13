@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | Mind alteration emulator</title>
+<style>
+  :root { --navy:#0b1f4d; --navy2:#1c3a7a; --ink:#3a3f48; --mid:#8a9099; --line:#d4d7dc; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+  .back { position:fixed; z-index:4; top:20px; left:24px; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+  .back:hover, .back:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .hud { position:fixed; z-index:2; pointer-events:none; color:var(--mid); font-size:10px; letter-spacing:.1em; line-height:1.7; text-transform:uppercase; }
+  #help { bottom:20px; left:24px; }
+  #status { bottom:20px; left:50%; transform:translateX(-50%); text-align:center; }
+  #status b { color:var(--navy2); font-weight:500; }
+  #status.warn b { color:#c0392b; }
+  .panel { position:fixed; z-index:3; top:0; right:0; display:flex; flex-direction:column; width:min(380px, 34vw); min-width:300px; height:100%; padding:22px 24px 18px; overflow-y:auto; border-left:1px solid var(--line); background:rgba(255,255,255,.94); }
+  .eyebrow { color:var(--mid); font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+  .panel h2 { margin:6px 0 14px; color:var(--navy); font:500 20px "Barlow",sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+  .presets { display:flex; flex-wrap:wrap; gap:6px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+  .presets .group { flex:0 0 100%; margin-top:6px; }
+  .presets .group:first-child { margin-top:0; }
+  .presets button { padding:6px 9px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 10px "Barlow",sans-serif; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; }
+  .presets button:hover, .presets button:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .presets button.warn { border-color:#c0392b; color:#c0392b; }
+  .presets button.warn:hover { background:#c0392b; color:#fff; }
+  .region { padding:9px 0 8px; border-bottom:1px solid #e7e9ec; cursor:pointer; border-left:3px solid transparent; padding-left:8px; margin-left:-8px; }
+  .region.sel { border-left-color:var(--c); background:rgba(11,31,77,.035); }
+  .region .row { display:flex; justify-content:space-between; align-items:baseline; }
+  .region b { color:var(--navy); font-size:11px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; }
+  .region b i { display:inline-block; width:8px; height:8px; margin-right:7px; background:var(--c); }
+  .region output { color:var(--navy2); font-size:11px; }
+  .region small { display:block; margin:2px 0 4px; color:#7d838c; font-size:11px; }
+  input[type=range] { width:100%; height:16px; accent-color:var(--navy2); cursor:pointer; }
+  .traits { margin-top:16px; }
+  .trait { display:grid; grid-template-columns:96px 1fr 30px; gap:8px; align-items:center; margin:6px 0; color:#636a75; font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+  .bar { position:relative; height:5px; background:#eceef1; }
+  .bar span { position:absolute; top:0; bottom:0; left:0; background:var(--navy2); transition:width .25s; }
+  .trait em { font-style:normal; text-align:right; color:var(--navy); }
+  .foot { margin-top:auto; padding-top:14px; color:#8a9099; font-size:9px; line-height:1.8; letter-spacing:.09em; text-transform:uppercase; }
+  .foot strong { color:var(--navy2); font-weight:400; }
+  @media(max-width:700px) {
+    .panel { top:auto; bottom:0; width:100%; min-width:0; height:48vh; padding:14px 16px; border-left:0; border-top:1px solid var(--line); }
+    #help, #status { display:none; }
+  }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body>
+<canvas id="c" aria-label="Interactive three-dimensional anatomical brain network used to simulate altering regions of the mind"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>Mind alteration emulator</b><span>Simulated stimulation and suppression across an anatomical brain network</span></div>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom<br>Click a region &mdash; select</div>
+<div class="hud" id="status"></div>
+<aside class="panel" aria-label="Alteration controls">
+  <div class="eyebrow">Simulated session / consent protocol active</div>
+  <h2>Alteration console</h2>
+  <div class="presets" id="presets"></div>
+  <div id="regions"></div>
+  <div class="traits" id="traits"></div>
+  <div class="foot"><strong>Consent protocol: active</strong><br>A fictional model. Not medical guidance. Every change can be reset.</div>
+</aside>
+<script src="mind-simulator.js"></script>
+</body>
+</html>

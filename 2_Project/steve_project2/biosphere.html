@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ILLITHID | M.T.H.L. network</title>
+<style>
+  :root { --navy:#0b1f4d; --ink:#3a3f48; --mid:#8a9099; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; overflow:hidden; background:#fff; color:var(--ink); font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; }
+  canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:grab; }
+  canvas:active { cursor:grabbing; }
+  .back { position:fixed; z-index:3; top:20px; left:24px; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-decoration:none; text-transform:uppercase; }
+  .back:hover, .back:focus-visible { background:var(--navy); color:#fff; outline:none; }
+  .hud { position:fixed; z-index:2; pointer-events:none; color:var(--mid); font-size:10px; letter-spacing:.1em; line-height:1.7; text-transform:uppercase; }
+  #help { bottom:20px; left:24px; }
+  #readout { right:28px; bottom:20px; text-align:right; }
+  .legend { position:fixed; top:45%; right:28px; width:195px; color:#7d838c; font-size:9px; line-height:1.9; letter-spacing:.08em; text-align:right; text-transform:uppercase; pointer-events:none; }
+  .legend strong { color:var(--navy); font-weight:400; }
+  #brain-panel { position:fixed; z-index:2; top:160px; left:24px; bottom:76px; width:350px; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }
+  .brain-card { display:grid; grid-template-columns:180px 1fr; gap:12px; align-items:center; border-top:1px solid #d4d7dc; padding-top:8px; }
+  .brain-card canvas { position:static; inset:auto; width:180px; height:min(180px, calc((100vh - 300px) / 3)); cursor:default; touch-action:auto; }
+  .brain-card h3 { margin-bottom:8px; color:var(--navy); font-size:11px; font-weight:400; letter-spacing:.14em; text-transform:uppercase; }
+  .data { transition:opacity .35s; }
+  .data.swap { opacity:0; }
+  .data-label { color:var(--mid); font-size:8px; letter-spacing:.12em; text-transform:uppercase; }
+  .data-value { margin-top:3px; color:#e2721a; font-size:10px; line-height:1.5; letter-spacing:.06em; }
+  @media(max-width:1200px) { #brain-panel { display:none; } }
+  @media(max-width:600px) {
+    .legend { top:auto; right:14px; bottom:90px; width:160px; }
+    #help { left:14px; bottom:14px; font-size:8px; }
+    #readout { right:14px; bottom:14px; font-size:8px; }
+  }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body data-scene="biosphere">
+<canvas id="c" aria-label="Interactive three-dimensional communication network connecting human and nonhuman minds"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>M.T.H.L. network</b><span>More-than-human life: communication across an expanding circle of sentience</span></div>
+<div class="legend"><strong>Simulated network</strong><br>Human collective / linked<br>Cephalopod assembly / linked<br>Primate sanctuary / linked<br>Consent protocol / active</div>
+<aside id="brain-panel" aria-label="Comparative brain models: human, primate, and cephalopod">
+  <div class="brain-card" data-brain="human"><canvas></canvas><div><h3>Human</h3><div class="data"><div class="data-label"></div><div class="data-value"></div></div></div></div>
+  <div class="brain-card" data-brain="primate"><canvas></canvas><div><h3>Primate</h3><div class="data"><div class="data-label"></div><div class="data-value"></div></div></div></div>
+  <div class="brain-card" data-brain="cephalopod"><canvas></canvas><div><h3>Cephalopod</h3><div class="data"><div class="data-label"></div><div class="data-value"></div></div></div></div>
+</aside>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom</div>
+<div class="hud" id="readout"></div>
+<script src="neural-view.js"></script>
+<script src="brain-panel.js"></script>
+</body>
+</html>

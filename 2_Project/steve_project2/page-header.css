@@ -1,0 +1,48 @@
+.back {
+  top: 20px;
+  left: 24px;
+}
+
+#title {
+  top: 70px;
+  left: 24px;
+  right: auto;
+  width: min(340px, calc(100vw - 48px));
+  text-align: left;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+#title b {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--navy);
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+#title span {
+  display: block;
+  max-width: 320px;
+}
+
+@media (max-width: 760px) {
+  .back {
+    top: 14px;
+    left: 14px;
+  }
+
+  #title {
+    top: 62px;
+    left: 14px;
+    width: min(340px, calc(100vw - 28px));
+  }
+
+  #title b {
+    font-size: 12px;
+  }
+
+  #title span {
+    display: none;
+  }
+}

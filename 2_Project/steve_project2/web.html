@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ILLITHID | Knowledge infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#0b1f4d; --navy2:#1c3a7a; --ink:#3a3f48; --mid:#8a9099; --line:#d4d7dc; }
+  * { box-sizing:border-box; margin:0; padding:0; border-radius:0; }
+  html, body { height:100%; background:#fff; overflow:hidden; font-family:"Barlow","Segoe UI",sans-serif; font-weight:500; font-variant-numeric:tabular-nums; color:var(--ink); }
+  canvas { position:fixed; inset:0; width:100%; height:100%; cursor:grab; touch-action:none; }
+  canvas.drag { cursor:grabbing; }
+  .back { position:fixed; top:20px; left:24px; z-index:3; padding:8px 12px; border:1px solid var(--navy); background:#fff; color:var(--navy); font:500 12px "Barlow","Segoe UI",sans-serif; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; }
+  .back:hover { background:var(--navy); color:#fff; }
+  .hud { position:fixed; z-index:2; pointer-events:none; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--mid); }
+  #help { bottom:20px; left:24px; line-height:1.7; }
+  #readout { bottom:20px; right:28px; text-align:right; line-height:1.7; }
+  #code { position:fixed; z-index:1; top:90px; bottom:70px; right:28px; width:230px; overflow:hidden; pointer-events:none; font-size:9.5px; line-height:1.45; color:var(--navy2); opacity:.75; border-right:2px solid var(--navy); padding-right:10px; text-align:right; white-space:pre;
+    -webkit-mask-image:linear-gradient(transparent, #000 15%, #000 85%, transparent); mask-image:linear-gradient(transparent, #000 15%, #000 85%, transparent); }
+  #code div { animation:scroll 28s linear infinite; will-change:transform; }
+  #code .dim { color:var(--mid); }
+  @keyframes scroll { from { transform:translateY(0); } to { transform:translateY(-50%); } }
+  @media (max-width:700px) { #code { display:none; } #help { display:none; } }
+</style>
+<link rel="stylesheet" href="page-header.css">
+</head>
+<body>
+<canvas id="c" aria-label="Interactive 3D exploration of web infrastructure"></canvas>
+<a class="back" href="index.html">&larr; Console</a>
+<div class="hud" id="title"><b>Knowledge infrastructure</b><span>Surface and deep network layers<br>Simulated node survey</span></div>
+<div class="hud" id="help">Drag &mdash; orbit<br>Wheel / pinch &mdash; zoom<br>W A S D &mdash; fly &nbsp; Q E &mdash; down / up<br>Shift &mdash; boost &nbsp; R &mdash; reset</div>
+<div class="hud" id="readout"></div>
+<div id="code" aria-hidden="true"><div id="code-inner"></div></div>
+
+<script>
+(function () {
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const NAVY = '11,31,77', GREY = '90,96,106', AQUA = [32, 220, 190];
+  let W, H, DPR, dprCap = Math.min(devicePixelRatio || 1, 1.5);
+  function resize() {
+    DPR = dprCap;
+    W = innerWidth; H = innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  addEventListener('resize', resize); resize();
+
+  // seeded random for a stable structure
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  // Black hole on its side: tilted accretion disk with spiral arms, photon ring, polar jets.
+  const TILT = 1.25, cT = Math.cos(TILT), sT = Math.sin(TILT);
+  const nodes = [];
+  const rot = (x, h, z) => [x * cT - h * sT, x * sT + h * cT, z];
+  function add(x, h, z, layer) { const p = rot(x, h, z); nodes.push({ x: p[0], y: p[1], z: p[2], layer, s: 1 + rnd() * 1.6 }); }
+  const gauss = () => (rnd() + rnd() + rnd() - 1.5) / 1.5;
+  for (let i = 0; i < 130; i++) {           // photon ring
+    const a = rnd() * Math.PI * 2, r = 46 + rnd() * 8;
+    add(Math.cos(a) * r, gauss() * 4, Math.sin(a) * r, 1);
+  }
+  for (let i = 0; i < 1100; i++) {          // accretion disk, logarithmic spiral arms
+    const r = 60 * Math.pow(4.6, Math.pow(rnd(), .9));
+    const a = Math.floor(rnd() * 3) * (Math.PI * 2 / 3) + Math.log(r / 60) * 2.6 + gauss() * (.45 + r / 500);
+    add(Math.cos(a) * r, gauss() * (3 + r * .05), Math.sin(a) * r, 1);
+  }
+  for (let i = 0; i < 150; i++) {           // polar jets
+    const s = i % 2 ? 1 : -1, h = 70 + Math.pow(rnd(), 1.3) * 260, a = rnd() * Math.PI * 2, r = (6 + h * .09) * rnd();
+    add(Math.cos(a) * r, s * h, Math.sin(a) * r, 0);
+  }
+  for (let i = 0; i < 220; i++) {           // outer drifting infrastructure
+    const a = rnd() * Math.PI * 2, r = 330 + rnd() * 450;
+    add(Math.cos(a) * r, gauss() * 200, Math.sin(a) * r, 2);
+  }
+  const edges = [];
+  const K = 2;
+  nodes.forEach((n, i) => {
+    const d = [];
+    for (let j = 0; j < nodes.length; j++) if (j !== i) {
+      const m = nodes[j], dx = n.x - m.x, dy = n.y - m.y, dz = n.z - m.z;
+      d.push([dx * dx + dy * dy + dz * dz, j]);
+    }
+    d.sort((p, q) => p[0] - q[0]);
+    for (let k = 0; k < K; k++) if (i < d[k][1]) edges.push([i, d[k][1]]);
+  });
+  for (let i = 0; i < 14; i++) {            // long backbone links
+    const a = (rnd() * nodes.length) | 0, b = (rnd() * nodes.length) | 0;
+    if (a !== b) edges.push([a, b, 1]);
+  }
+  const packets = [];
+  for (let i = 0; i < 90; i++) packets.push({ e: (rnd() * edges.length) | 0, t: rnd(), v: .004 + rnd() * .01 });
+
+  // Per-frame buffers and precomputed link data so the render loop does no allocation or lookups.
+  const nodeCount = nodes.length;
+  const nodeDist = Float32Array.from(nodes, n => Math.hypot(n.x, n.y, n.z));
+  const Wn = new Float32Array(nodeCount), PX = new Float32Array(nodeCount), PY = new Float32Array(nodeCount);
+  const PZ = new Float32Array(nodeCount), PF = new Float32Array(nodeCount), PV = new Uint8Array(nodeCount);
+  const eA = Uint32Array.from(edges, e => e[0]), eB = Uint32Array.from(edges, e => e[1]);
+  const eLong = Uint8Array.from(edges, e => e[2] ? 1 : 0);
+  const eDeep = Uint8Array.from(edges, e => nodes[e[0]].layer === 1 && nodes[e[1]].layer === 1 ? 1 : 0);
+  const edgeBatches = Array.from({ length: 216 }, () => []);
+  const nodeGroups = new Map();
+
+  const L = (x, h, z, t, s) => { const p = rot(x, h, z); return { x: p[0], y: p[1], z: p[2], t, s }; };
+  const labels = [
+    L(0, 210, 0, 'SURFACE WEB', '20.14% DATA PRESENCE'),
+    L(150, 0, 60, 'DEEP WEB', '79.86% DATA PRESENCE'),
+    L(-50, 0, 0, 'EVENT HORIZON', 'UNINDEXED / NO RETURN'),
+    L(0, -230, 0, 'DATA MINING', 'COLD STORAGE / INDEX'),
+    L(330, 40, 200, 'BACKBONE RELAY', 'TIER-1 PEERING'),
+    L(-380, 60, -250, 'DARK FIBRE', 'UNLISTED ROUTES')
+  ];
+  const marks = [];
+  for (let i = 0; i < 14; i++) marks.push({ x: (rnd() - .5) * 1400, y: (rnd() - .5) * 600, z: (rnd() - .5) * 1400 });
+
+  // camera
+  const home = { yaw: .6, pitch: .18, dist: 620, tx: 0, ty: 0, tz: 0 };
+  const cam = Object.assign({}, home);
+  const goal = Object.assign({}, home);
+
+  // Trig is cached once per frame instead of recomputed for every projected point.
+  let pcy = 1, psy = 0, pcp = 1, psp = 0;
+  function updateTrig() { pcy = Math.cos(cam.yaw); psy = Math.sin(cam.yaw); pcp = Math.cos(cam.pitch); psp = Math.sin(cam.pitch); }
+  function project(x, y, z) {
+    x -= cam.tx; y -= cam.ty; z -= cam.tz;
+    const x1 = x * pcy - z * psy, z1 = x * psy + z * pcy;
+    const y1 = y * pcp - z1 * psp, z2 = y * psp + z1 * pcp + cam.dist;
+    if (z2 < 8) return null;
+    const f = Math.min(W, H) * 1.05 / z2;
+    return { x: W / 2 + x1 * f, y: H / 2 - y1 * f, z: z2, f };
+  }
+
+  // input
+  const keys = {};
+  let drag = null; const pts = new Map(); let pinch = 0;
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, e); drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey }; cv.classList.add('drag'); });
+  cv.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId, e);
+    if (pts.size === 2) {
+      const [a, b] = [...pts.values()], d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      if (pinch) goal.dist = Math.max(60, Math.min(1800, goal.dist * pinch / d));
+      pinch = d; return;
+    }
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    drag.x = e.clientX; drag.y = e.clientY;
+    if (drag.pan) {
+      const s = goal.dist / 700, cy = Math.cos(goal.yaw), sy = Math.sin(goal.yaw);
+      goal.tx -= (dx * cy) * s; goal.tz += (dx * sy) * s; goal.ty += dy * s;
+    } else {
+      goal.yaw -= dx * .006;
+      goal.pitch = Math.max(-1.45, Math.min(1.45, goal.pitch + dy * .006));
+    }
+  });
+  const up = e => { pts.delete(e.pointerId); pinch = 0; if (!pts.size) { drag = null; cv.classList.remove('drag'); } };
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  cv.addEventListener('contextmenu', e => e.preventDefault());
+  cv.addEventListener('wheel', e => { e.preventDefault(); goal.dist = Math.max(60, Math.min(1800, goal.dist * Math.exp(e.deltaY * .0012))); }, { passive: false });
+  addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; if (e.key.toLowerCase() === 'r') Object.assign(goal, home); });
+  addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+
+  function fly(dt) {
+    const sp = (keys.shift ? 420 : 160) * dt, cy = Math.cos(goal.yaw), sy = Math.sin(goal.yaw);
+    // camera looks along +z in view space rotated by yaw; forward on the ground plane:
+    const fx = -sy, fz = -cy;
+    let mx = 0, mz = 0, my = 0;
+    if (keys.w || keys.arrowup) { mx += fx; mz += fz; }
+    if (keys.s || keys.arrowdown) { mx -= fx; mz -= fz; }
+    if (keys.a || keys.arrowleft) { mx -= cy; mz += sy; }
+    if (keys.d || keys.arrowright) { mx += cy; mz -= sy; }
+    if (keys.e) my += 1;
+    if (keys.q) my -= 1;
+    goal.tx += mx * sp; goal.tz += mz * sp; goal.ty += my * sp;
+  }
+
+  // scrolling fake net code
+  (function buildCode() {
+    const hex = n => Array.from({ length: n }, () => '0123456789abcdef'[(Math.random() * 16) | 0]).join('');
+    const ip = () => [10, 172, 192, 8, 203].sort(() => Math.random() - .5)[0] + '.' + [0, 1, 2, 3].map(() => (Math.random() * 255) | 0).slice(1).join('.');
+    const verbs = ['SYN', 'ACK', 'GET', 'POST', 'RST', 'FIN', 'QUERY', 'RESOLVE', 'ROUTE'];
+    let out = '';
+    for (let i = 0; i < 90; i++) {
+      const r = Math.random();
+      if (r < .3) out += `<span class="dim">${ip()}:${(Math.random() * 60000 + 1024) | 0}</span> ${verbs[(Math.random() * verbs.length) | 0]}\n`;
+      else if (r < .55) out += `0x${hex(8)} ${hex(8)} ${hex(8)}\n`;
+      else if (r < .75) out += `<span class="dim">ttl=${(Math.random() * 120 + 8) | 0} rtt=${(Math.random() * 180).toFixed(1)}ms</span>\n`;
+      else if (r < .9) out += `node[${(Math.random() * 999) | 0}] -> relay[${hex(4)}] OK\n`;
+      else out += `<span class="dim">// stratum ${Math.random() < .2 ? 'surface' : 'deep'} sync ${hex(6)}</span>\n`;
+    }
+    document.getElementById('code-inner').innerHTML = out + out;
+  })();
+
+  const mixCache = new Map();
+  const readout = document.getElementById('readout');
+  let last = performance.now(), frame = 0, avgDt = .016;
+  function draw(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now; frame++;
+    // If frames run slow, drop pixel density once (down to 1x) to cut fill cost.
+    avgDt += (dt - avgDt) * .05;
+    if (frame > 45 && avgDt > .026 && dprCap > 1) { dprCap = 1; resize(); }
+    fly(dt);
+    const k = 1 - Math.pow(.0005, dt);
+    for (const p of ['yaw', 'pitch', 'dist', 'tx', 'ty', 'tz']) cam[p] += (goal[p] - cam[p]) * k;
+    updateTrig();
+    if (!drag) goal.yaw += dt * .05;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+
+    // floor grid and waterline rings
+    ctx.lineWidth = 1;
+    for (let r = 100; r <= 700; r += 100) {
+      ctx.beginPath();
+      for (let i = 0; i <= 72; i++) {
+        const a = i / 72 * Math.PI * 2, p = project(Math.cos(a) * r, 0, Math.sin(a) * r);
+        if (!p) continue;
+        i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
+      }
+      ctx.strokeStyle = r === 100 ? `rgba(${NAVY},.55)` : 'rgba(150,155,165,.28)';
+      ctx.stroke();
+    }
+    for (let i = 0; i < 24; i++) {
+      const a = i / 24 * Math.PI * 2, p = project(Math.cos(a) * 100, 0, Math.sin(a) * 100), q = project(Math.cos(a) * 700, 0, Math.sin(a) * 700);
+      if (!p || !q) continue;
+      ctx.strokeStyle = 'rgba(150,155,165,.18)'; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+    }
+    // jet axis
+    const t = project(-Math.sin(TILT) * -330, Math.cos(TILT) * -330, 0), b = project(-Math.sin(TILT) * 330, Math.cos(TILT) * 330, 0);
+    if (t && b) { ctx.strokeStyle = `rgba(${NAVY},.35)`; ctx.setLineDash([2, 5]); ctx.beginPath(); ctx.moveTo(t.x, t.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.setLineDash([]); }
+
+    // pulses are emitted from the core and travel outward as a wavefront
+    const tt = now / 1000, PERIOD = 3.2, SPEED = 260, WIDTH = 55, REACH = 900;
+    const fronts = [];
+    for (let k = 0; k < 3; k++) {
+      const age = (tt % PERIOD) + k * PERIOD, f = age * SPEED;
+      if (f < REACH) fronts.push([f, 1 - f / REACH]);
+    }
+    const W_ = Wn;
+    for (let i = 0; i < nodeCount; i++) {
+      const d = nodeDist[i];
+      let w = 0;
+      for (let k = 0; k < fronts.length; k++) {
+        const u = (d - fronts[k][0]) / WIDTH;
+        if (u > -3 && u < 3) w += Math.exp(-u * u) * (.35 + .65 * fronts[k][1]);
+      }
+      W_[i] = w > 1.2 ? 1.2 : w;
+    }
+    const sx = W / 2, sy2 = H / 2, fScale = Math.min(W, H) * 1.05;
+    for (let i = 0; i < nodeCount; i++) {
+      const n = nodes[i], s = 1 + W_[i] * (n.layer === 2 ? .015 : .03);
+      const x = n.x * s - cam.tx, y = n.y * s - cam.ty, z = n.z * s - cam.tz;
+      const x1 = x * pcy - z * psy, z1 = x * psy + z * pcy;
+      const y1 = y * pcp - z1 * psp, z2 = y * psp + z1 * pcp + cam.dist;
+      if (z2 < 8) { PV[i] = 0; continue; }
+      const f = fScale / z2;
+      PV[i] = 1; PX[i] = sx + x1 * f; PY[i] = sy2 - y1 * f; PZ[i] = z2; PF[i] = f;
+    }
+
+    // edges: batched by quantised style so thousands of links cost only a few dozen stroke calls
+    const RGB = { [NAVY]: [11, 31, 77], [GREY]: [90, 96, 106] };
+    const mix = (base, w, al) => {
+      const wq = Math.round(Math.min(1, w * 1.4) * 20), aq = Math.round(al * 20), key = (base === NAVY ? 0 : 1) + wq * 2 + aq * 64;
+      let s = mixCache.get(key);
+      if (s === undefined) {
+        const c = RGB[base], m = wq / 20;
+        s = `rgba(${Math.round(c[0] + (AQUA[0] - c[0]) * m)},${Math.round(c[1] + (AQUA[1] - c[1]) * m)},${Math.round(c[2] + (AQUA[2] - c[2]) * m)},${aq / 20})`;
+        mixCache.set(key, s);
+      }
+      return s;
+    };
+    for (let k = 0; k < edgeBatches.length; k++) edgeBatches[k].length = 0;
+    const edgeCount = edges.length;
+    for (let ei = 0; ei < edgeCount; ei++) {
+      const a = eA[ei], b2 = eB[ei];
+      if (!PV[a] || !PV[b2]) continue;
+      const ax = PX[a], ay = PY[a], bx = PX[b2], by = PY[b2];
+      if ((ax < 0 && bx < 0) || (ax > W && bx > W) || (ay < 0 && by < 0) || (ay > H && by > H)) continue;
+      const w = (W_[a] + W_[b2]) / 2, long = eLong[ei], deep = eDeep[ei];
+      const z = (PZ[a] + PZ[b2]) / 2, al = Math.min(1, Math.max(.04, Math.min(.5, 1.6 - z / 700)) * (.8 + 2.2 * w));
+      const base = (long || w > .25 || deep) ? 0 : 1;
+      const alpha = (long || w > .25) ? al : deep ? al * .8 : al * .7;
+      const wq = Math.round(Math.min(1, w) * 5), aq = Math.max(1, Math.round(alpha * 8));
+      const segs = edgeBatches[(((base * 6 + wq) * 9 + aq) * 2) + long];
+      segs.push(ax, ay, bx, by);
+    }
+    for (let key = 0; key < edgeBatches.length; key++) {
+      const segs = edgeBatches[key];
+      if (!segs.length) continue;
+      const lw = key & 1, rest = key >> 1, aq = rest % 9, wq = Math.floor(rest / 9) % 6, base = Math.floor(rest / 54);
+      const w = wq / 5;
+      ctx.strokeStyle = mix(base ? GREY : NAVY, w, aq / 8);
+      ctx.lineWidth = (lw ? 1.2 : .7) + w * 1.3;
+      ctx.beginPath();
+      for (let i = 0; i < segs.length; i += 4) { ctx.moveTo(segs[i], segs[i + 1]); ctx.lineTo(segs[i + 2], segs[i + 3]); }
+      ctx.stroke();
+    }
+    // packets
+    ctx.fillStyle = `rgb(${NAVY})`;
+    ctx.strokeStyle = `rgba(${NAVY},.35)`; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (const k2 of packets) {
+      k2.t += k2.v; if (k2.t > 1) { k2.t = 0; k2.e = (Math.random() * edges.length) | 0; }
+      const a = eA[k2.e], b2 = eB[k2.e];
+      if (!PV[a] || !PV[b2]) continue;
+      const x = PX[a] + (PX[b2] - PX[a]) * k2.t, y = PY[a] + (PY[b2] - PY[a]) * k2.t;
+      ctx.moveTo(x + 1.5, y); ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+    }
+    ctx.fill();
+    ctx.beginPath();
+    for (const k2 of packets) {
+      const a = eA[k2.e], b2 = eB[k2.e];
+      if (!PV[a] || !PV[b2]) continue;
+      const x = PX[a] + (PX[b2] - PX[a]) * k2.t, y = PY[a] + (PY[b2] - PY[a]) * k2.t;
+      ctx.moveTo(x, y); ctx.lineTo(x - (PX[b2] - PX[a]) * .08, y - (PY[b2] - PY[a]) * .08);
+    }
+    ctx.stroke();
+    // nodes (circular points), grouped by fill so each style is a single fill call
+    nodeGroups.forEach(group => { group.length = 0; });
+    for (let i = 0; i < nodeCount; i++) {
+      if (!PV[i]) continue;
+      const n = nodes[i], w = W_[i], f = PF[i], z = PZ[i];
+      if (PX[i] < -10 || PX[i] > W + 10 || PY[i] < -10 || PY[i] > H + 10) continue;
+      const s = Math.max(1, n.s * f * 1.6 * (1 + w * .6)), al = Math.min(1, Math.max(.15, Math.min(1, 1.7 - z / 800)) + w * .4);
+      const style = mix((n.layer === 1 || w > .4) ? NAVY : GREY, w, al);
+      let group = nodeGroups.get(style);
+      if (!group) nodeGroups.set(style, group = []);
+      group.push(PX[i], PY[i], s / 2);
+    }
+    nodeGroups.forEach((group, style) => {
+      if (!group.length) return;
+      ctx.fillStyle = style;
+      ctx.beginPath();
+      for (let i = 0; i < group.length; i += 3) { ctx.moveTo(group[i] + group[i + 2], group[i + 1]); ctx.arc(group[i], group[i + 1], group[i + 2], 0, Math.PI * 2); }
+      ctx.fill();
+    });
+    // reference crosshairs
+    ctx.strokeStyle = 'rgba(120,126,136,.6)'; ctx.lineWidth = 1;
+    for (const m of marks) {
+      const p = project(m.x, m.y, m.z); if (!p) continue;
+      ctx.beginPath(); ctx.moveTo(p.x - 7, p.y); ctx.lineTo(p.x + 7, p.y); ctx.moveTo(p.x, p.y - 7); ctx.lineTo(p.x, p.y + 7); ctx.stroke();
+    }
+    // labels
+    ctx.textBaseline = 'alphabetic';
+    for (const l of labels) {
+      const p = project(l.x, l.y, l.z); if (!p) continue;
+      const al = Math.max(.25, Math.min(1, 1.9 - p.z / 700));
+      const ex = p.x + 46, ey = p.y - 26;
+      ctx.strokeStyle = `rgba(${NAVY},${al})`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(ex, ey); ctx.lineTo(ex + 150, ey); ctx.stroke();
+      ctx.fillStyle = `rgba(${NAVY},${al})`; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+      ctx.font = '600 13px "Barlow","Segoe UI",sans-serif'; ctx.fillText(l.t, ex + 4, ey - 5);
+            if (l.s) { ctx.fillStyle = `rgba(110,116,126,${al})`; ctx.font = '500 10px "Barlow","Segoe UI",sans-serif'; ctx.fillText(l.s, ex + 4, ey + 12); }
+    }
+    if (frame % 6 === 0) {
+      const f = n => n.toFixed(0).padStart(4, ' ');
+      readout.innerHTML = `YAW ${(cam.yaw * 57.3 % 360).toFixed(0)}&deg; &nbsp; PITCH ${(cam.pitch * 57.3).toFixed(0)}&deg;<br>POS ${f(cam.tx)} ${f(cam.ty)} ${f(cam.tz)}<br>RANGE ${f(cam.dist)} &nbsp; NODES ${nodes.length}`;
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
