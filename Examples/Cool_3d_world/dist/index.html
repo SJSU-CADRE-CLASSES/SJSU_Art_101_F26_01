@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valley Vista — Procedural City</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/index-uNls078t.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DGBaCvUT.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="canvas"></canvas>
+
+      <header class="hud-top">
+        <div class="brand">
+          <span class="brand-mark">Valley Vista</span>
+          <span class="brand-sub">Santa Clara Valley · Bird's Eye</span>
+        </div>
+        <div class="hint">
+          Drag to pan · Right-drag to rotate · Scroll to zoom · Click markers
+        </div>
+      </header>
+
+      <aside id="poi-panel" class="poi-panel" hidden>
+        <button type="button" id="poi-close" class="poi-close" aria-label="Close">
+          ×
+        </button>
+        <p class="poi-category" id="poi-category"></p>
+        <h2 id="poi-title"></h2>
+        <p id="poi-body"></p>
+      </aside>
+
+      <nav class="waypoint-rail" aria-label="Points of interest">
+        <p class="rail-label">Waypoints</p>
+        <div id="waypoint-list"></div>
+      </nav>
+    </div>
+  </body>
+</html>
