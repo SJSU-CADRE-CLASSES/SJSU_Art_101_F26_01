@@ -14,6 +14,10 @@ const cartClose = document.querySelector('#cart-close');
 const cartItems = document.querySelector('#cart-items');
 const cartTotal = document.querySelector('#cart-total');
 const checkoutButton = document.querySelector('#checkout-button');
+const paymentForm = document.querySelector('#payment-form');
+const completeCheckoutButton = document.querySelector('#complete-checkout-button');
+const deliveryWindow = document.querySelector('#delivery-window');
+const deliveryMessage = document.querySelector('#delivery-message');
 const cartStatus = document.querySelector('#cart-status');
 const productSearch = document.querySelector('#product-search');
 const searchStatus = document.querySelector('#search-status');
@@ -63,6 +67,19 @@ const setCartStatus = (message, type = '') => {
     cartStatus.className = `cart-status ${type}`;
 };
 
+const updatePaymentButton = () => {
+    const fields = [...paymentForm.querySelectorAll('input')];
+    completeCheckoutButton.disabled = fields.some((field) => !field.value.trim());
+};
+
+const resetCheckoutView = () => {
+    checkoutButton.hidden = false;
+    checkoutButton.textContent = 'Proceed to checkout';
+    paymentForm.hidden = true;
+    paymentForm.reset();
+    updatePaymentButton();
+};
+
 const getCartTotal = () => cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
 const renderCart = () => {
@@ -71,7 +88,7 @@ const renderCart = () => {
     cartCount.textContent = itemCount;
     cartCount.setAttribute('aria-label', `${itemCount} item${itemCount === 1 ? '' : 's'} in cart`);
     cartTotal.textContent = formatCurrency(total);
-    checkoutButton.disabled = cart.length === 0;
+    if (paymentForm.hidden) checkoutButton.disabled = cart.length === 0;
 
     if (cart.length === 0) {
         cartItems.innerHTML = '<p class="cart-empty">Your cart is empty. Buy some stuff damn it!</p>';
@@ -150,6 +167,7 @@ purchaseButton.addEventListener('click', () => {
 
 cartButton.addEventListener('click', () => {
     setCartStatus('');
+    resetCheckoutView();
     renderCart();
     cartWindow.showModal();
 });
@@ -157,15 +175,36 @@ cartButton.addEventListener('click', () => {
 checkoutButton.addEventListener('click', () => {
     const total = getCartTotal();
     if (!total) return;
+    checkoutButton.hidden = true;
+    paymentForm.hidden = false;
+    paymentForm.querySelector('input').focus();
+    updatePaymentButton();
+    setCartStatus('Payment details ready. Review the fictional information below.');
+    return;
+});
+
+paymentForm.addEventListener('input', updatePaymentButton);
+paymentForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (completeCheckoutButton.disabled) return;
+    const total = getCartTotal();
     if (total > balance) {
         setCartStatus(`Insufficient balance. You need ${formatCurrency(total - balance)} more.`, 'error');
         return;
     }
+    const purchasedItems = cart.map((item) => item.title).join(', ');
     balance -= total;
     balanceAmount.textContent = formatCurrency(balance);
     cart.length = 0;
+    checkoutButton.hidden = false;
+    paymentForm.hidden = true;
     renderCart();
-    setCartStatus('Checkout complete — You bought that? Weird....', 'success');
+    setCartStatus('');
+    deliveryMessage.textContent = `${purchasedItems} has been processed and will be delivered via teleportation.`;
+    deliveryWindow.showModal();
+    window.setTimeout(() => {
+        if (deliveryWindow.open) deliveryWindow.close();
+    }, 3500);
 });
 
 cartItems.addEventListener('click', (event) => {
