@@ -39,6 +39,10 @@
       letter-spacing: normal;
       text-transform: none;
     }
+    .post-form input:focus, .post-form select:focus, .post-form textarea:focus {
+      outline: none;
+      box-shadow: none;
+    }
     .post-form textarea { min-height: 120px; resize: vertical; }
     .post-form button { justify-self: start; border: 1px solid var(--ink); border-radius: 0; background: transparent; padding: 9px 14px; color: inherit; cursor: pointer; font: inherit; }
     .post-form button:hover, .post-form button:focus-visible { background: var(--ink); color: var(--paper); }
