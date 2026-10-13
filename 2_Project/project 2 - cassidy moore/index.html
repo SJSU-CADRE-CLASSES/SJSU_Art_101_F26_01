@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SUNFALL NETWORK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- FRAME 1: OPENING SCREEN -->
+    <div id="frame1" class="screen-state">
+        <img class="sigil-art opening-sigil" src="assets/thorned-sun.png" alt="" aria-hidden="true">
+        <h1>SUNFALL NETWORK</h1>
+        <p class="status-alert">NIGHT CYCLE: <strong class="active-status">ACTIVE</strong></p>
+        <p class="timer">DAYLIGHT ARRIVAL: 04:17:22</p>
+        
+        <div class="warning-box">
+            <p><span class="warning-mark" aria-hidden="true">!</span> Surface access is restricted. The sun is not safe. <span class="warning-mark" aria-hidden="true">!</span></p>
+        </div>
+
+        <!-- This button will take us to Frame 2 -->
+        <button onclick="goToFrame2()" class="mech-btn">ENTER NIGHT CYCLE</button>
+    </div>
+
+    <!-- FRAME 2: HEAT STORM MONITOR (Hidden by default) -->
+    <div id="frame2" class="screen-state hidden">
+        <img class="sigil-art monitor-sigil" src="assets/celestial-cross.png" alt="" aria-hidden="true">
+        <h1>HEAT STORM MONITOR</h1>
+        
+        <div class="monitor-data">
+            <p>Current Temperature: <span class="danger-text">128°F</span></p>
+            <p>Visibility: 12%</p>
+            <p>Surface Radiation: <span class="critical-status">CRITICAL</span></p>
+        </div>
+
+        <!-- A simple meter using HTML elements -->
+        <div class="meter-container">
+            <div id="storm-meter" class="meter-bar"></div>
+        </div>
+
+        <button onclick="simulateStorm()" class="mech-btn">STORM PATH METER</button>
+        <button onclick="goToFrame3()" class="mech-btn">OPEN SOLAR BROADCAST</button>
+    </div>
+
+    <!-- FRAME 3: SOLAR BROADCAST (Hidden by default) -->
+    <div id="frame3" class="screen-state hidden broadcast-screen">
+        <img class="sigil-art broadcast-sigil" src="assets/thorned-orbit.png" alt="" aria-hidden="true">
+        <h2 class="flashing-text">OVERRIDE TRANSMISSION INCOMING</h2>
+
+        <div class="broadcast-box">
+            <p class="cult-message">ᖶᕼᘿ Sᑘᘉ ᕲᓍᘿS ᘉᓍᖶ ᕲᘿSᖶᖇᓍᖻ.</p>
+            <p class="cult-message">ᖶᕼᘿ Sᑘᘉ ᖇᘿᐺᘿᗩᒪS.</p>
+            <p class="cult-message">Sᖶᘿᕵ ᓰᘉᖶᓍ ᖶᕼᘿ ᒪᓰᘜᕼᖶ ᗩᘉᕲ ᗷᘿ ᕵᑘᖇᓰᖴᓰᘿᕲ.</p>
+        </div>
+
+        <div id="hidden-message" class="survivor-warning hidden">
+            <p><span class="warning-mark" aria-hidden="true">!</span> <strong class="survivor-label">SURVIVOR ALERT</strong><br>DO NOT TRUST THE SUNFALL NETWORK. THE TRANSMISSION IS A TRAP. SEEK SHELTER IMMEDIATELY.
+            </p>
+        </div>
+
+        <div class="btn-group">
+            <button onclick="acceptTransmission()" class="mech-btn gold-btn">ACCEPT TRANSMISSION</button>
+            <button onclick="blockTransmission()" class="mech-btn danger-btn">BLOCK TRANSMISSION</button>
+            <button onclick="decodeMessage()" class="mech-btn decode-btn">DECODE HIDDEN MESSAGE</button>
+        </div>
+
+        <p id="transmission-status" aria-live="polite"></p>
+
+        <button id="next-to-frame4" onclick="goToFrame4()" class="mech-btn next-btn hidden">PROCEED TO NEXT SIGNAL ➔</button>
+    </div>
+
+    <!-- FRAME 4: BAKED ENCOUNTER ALERT (Hidden by default) -->
+    <div id="frame4" class="screen-state hidden alert-screen">
+        <img class="sigil-art encounter-sigil encounter-sigil-left" src="assets/ornate-sigil.png" alt="" aria-hidden="true">
+        <img class="sigil-art encounter-sigil encounter-sigil-right" src="assets/eclipse-sigil.png" alt="" aria-hidden="true">
+        <h2 class="critical-blink">MOVEMENT DETECTED</h2>
+
+        <div class="radar-container" aria-label="Radar showing an unknown nearby movement">
+            <div class="radar-sweep"></div>
+            <div id="radar-blip" class="radar-blip"></div>
+            <span class="radar-blip radar-blip-secondary" aria-hidden="true"></span>
+            <span class="radar-blip radar-blip-tertiary" aria-hidden="true"></span>
+            <span class="radar-blip radar-blip-distant" aria-hidden="true"></span>
+        </div>
+
+        <div class="encounter-specs">
+            <p>SPECIES: <span class="warning-text">UNKNOWN</span></p>
+            <p>HEAT SIGNATURE: <span class="warning-text">UNSTABLE</span></p>
+            <p>DISTANCE: <span id="distance-display">400 METERS</span></p>
+            <p>THREAT LEVEL: <span class="critical-text">HIGH</span></p>
+        </div>
+
+        <div id="action-feedback" class="feedback-box hidden" aria-live="polite"></div>
+
+        <div class="action-grid">
+            <button onclick="hideSignal()" class="action-btn">HIDE SIGNAL</button>
+            <button onclick="reroute()" class="action-btn">REROUTE</button>
+            <button onclick="scanCreature()" class="action-btn">SCAN CREATURE</button>
+            <button onclick="returnToShelter()" class="action-btn">RETURN TO SHELTER</button>
+        </div>
+
+        <button id="next-to-frame5" onclick="goToFrame5()" class="mech-btn next-btn hidden">OPEN SURFACE MAP ➔</button>
+    </div>
+
+    <div id="system-notification" class="notification-overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="notification-title" aria-describedby="notification-message">
+        <div class="notification-panel">
+            <p class="notification-kicker">SUNFALL NETWORK / SYSTEM NOTICE</p>
+            <h2 id="notification-title">SIGNAL ALERT</h2>
+            <p id="notification-message"></p>
+            <button id="notification-acknowledge" class="mech-btn" type="button" onclick="closeSystemNotification()">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <!-- We link our JavaScript logic file here -->
+    <script src="script.js"></script>
+</body>
+</html>

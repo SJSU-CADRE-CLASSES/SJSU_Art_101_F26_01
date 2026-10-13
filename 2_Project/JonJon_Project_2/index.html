@@ -104,9 +104,29 @@
         <div class="cart-items" id="cart-items"></div>
         <div class="cart-footer">
             <div class="cart-total"><span>Total</span><strong id="cart-total">$0.00</strong></div>
-            <button class="checkout-button" id="checkout-button" type="button">Checkout</button>
+            <button class="checkout-button" id="checkout-button" type="button">Proceed to checkout</button>
             <p class="cart-status" id="cart-status" role="status" aria-live="polite"></p>
         </div>
+        <form class="payment-form" id="payment-form" autocomplete="off" hidden>
+            <div class="payment-heading">
+                <p class="cart-eyebrow">Payment details</p>
+                <p>Enter anything you like. This is a fictional checkout.</p>
+            </div>
+            <label>Cardholder name<input name="cardholder" type="text" value="Jon Jon Rodriguez"></label>
+            <label>Card number<input name="cardNumber" type="text" inputmode="numeric" value="4242 4242 4242 4242"></label>
+            <div class="payment-row">
+                <label>Expiration<input name="expiration" type="text" value="12/30"></label>
+                <label>CVV<input name="cvv" type="text" inputmode="numeric" value="123"></label>
+            </div>
+            <label>Billing ZIP code<input name="zip" type="text" inputmode="numeric" value="95112"></label>
+            <button class="checkout-button" id="complete-checkout-button" type="submit">Complete purchase</button>
+        </form>
+    </dialog>
+
+    <dialog class="delivery-window" id="delivery-window" aria-labelledby="delivery-title">
+        <p class="cart-eyebrow">Teleportation confirmed</p>
+        <h2 id="delivery-title">Order processed</h2>
+        <p id="delivery-message"></p>
     </dialog>
 
     <footer class="store-footer">
