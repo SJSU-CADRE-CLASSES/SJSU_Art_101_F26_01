@@ -902,13 +902,29 @@ body.clean-pdf-page {
 .pdf-carbon-results[hidden] { display: none; }
 .pdf-carbon-total,
 .pdf-carbon-breakdown,
+.pdf-carbon-donut-panel,
 .pdf-carbon-solutions { padding: 1.2rem; border-radius: 0.65rem; background: rgba(255, 255, 255, 0.12); }
 .pdf-carbon-total { border-left: 4px solid #f37886; }
 .pdf-carbon-total p { margin: 0 0 0.75rem; }
 .pdf-carbon-total h3 { margin: 0; color: #fff; font-size: clamp(2rem, 4vw, 3rem); }
 .pdf-carbon-total h3 small { display: block; margin-top: 0.45rem; font-size: 1rem; }
 .pdf-carbon-breakdown h3,
+.pdf-carbon-donut-panel h3,
 .pdf-carbon-solutions h3 { margin: 0 0 0.8rem; color: #f9a0a9; font-size: 1.15rem; }
+.pdf-carbon-donut-panel { grid-column: 1 / -1; }
+.pdf-carbon-donut-panel > p { margin: -0.35rem 0 0.9rem; color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; }
+.pdf-carbon-donut-layout { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 5vw, 4rem); }
+.pdf-carbon-donut-wrap { position: relative; flex: 0 1 300px; width: min(100%, 300px); aspect-ratio: 1; }
+.pdf-carbon-donut { display: block; width: 100%; height: 100%; overflow: visible; }
+.pdf-carbon-donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; text-align: center; }
+.pdf-carbon-donut-center strong { color: #fff; font-size: clamp(1.35rem, 3vw, 2rem); }
+.pdf-carbon-donut-center span { margin-top: 0.2rem; color: rgba(255, 255, 255, 0.82); font-size: 0.72rem; }
+.pdf-carbon-donut-legend { display: grid; width: min(100%, 360px); gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+.pdf-carbon-donut-legend li { display: grid; grid-template-columns: 0.75rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; color: #fff; font-size: 0.85rem; }
+.pdf-carbon-donut-legend li.pdf-carbon-legend-group { margin-top: 0.45rem; color: #ffd5d9; }
+.pdf-carbon-donut-legend li.pdf-carbon-legend-child { padding-left: 0.7rem; color: rgba(255, 255, 255, 0.86); }
+.pdf-carbon-donut-legend strong { font-size: 0.78rem; white-space: nowrap; }
+.pdf-carbon-legend-swatch { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
 .pdf-carbon-breakdown ul,
 .pdf-carbon-solutions ul { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
 .pdf-carbon-breakdown li { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
@@ -920,6 +936,9 @@ body.clean-pdf-page {
 @media (max-width: 640px) {
   .pdf-carbon-fields,
   .pdf-carbon-results { grid-template-columns: minmax(0, 1fr); }
+  .pdf-carbon-donut-panel { grid-column: auto; }
+  .pdf-carbon-donut-layout { flex-direction: column; }
+  .pdf-carbon-donut-wrap { flex-basis: auto; }
   .pdf-carbon-solutions,
   .pdf-carbon-note { grid-column: auto; }
 }

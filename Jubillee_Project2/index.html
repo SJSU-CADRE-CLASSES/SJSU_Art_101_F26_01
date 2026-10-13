@@ -192,6 +192,21 @@
                     <p>Your estimated annual footprint</p>
                     <h3 id="pdf-carbon-results-title"><span id="pdf-carbon-total-value">0</span> <small>kg CO<sub>2</sub>e/year</small></h3>
                 </div>
+                <div class="pdf-carbon-donut-panel">
+                    <h3>Your footprint, by source</h3>
+                    <p>Inner ring: lifestyle group · outer ring: individual sources</p>
+                    <div class="pdf-carbon-donut-layout">
+                        <div class="pdf-carbon-donut-wrap">
+                            <svg id="pdf-carbon-donut" class="pdf-carbon-donut" viewBox="0 0 300 300" role="img" aria-labelledby="pdf-carbon-donut-title pdf-carbon-donut-description">
+                                <title id="pdf-carbon-donut-title">Nested donut chart of your carbon footprint</title>
+                                <desc id="pdf-carbon-donut-description">The inner ring groups emissions into household energy, transportation, and food. The outer ring shows each source.</desc>
+                                <g id="pdf-carbon-donut-rings"></g>
+                            </svg>
+                            <div class="pdf-carbon-donut-center" aria-hidden="true"><strong id="pdf-carbon-donut-total">0</strong><span>kg CO₂e/year</span></div>
+                        </div>
+                        <ul id="pdf-carbon-donut-legend" class="pdf-carbon-donut-legend" aria-label="Chart legend"></ul>
+                    </div>
+                </div>
                 <div class="pdf-carbon-breakdown">
                     <h3>What to be aware of</h3>
                     <ul id="pdf-carbon-sources"></ul>
@@ -211,6 +226,138 @@
             const results = document.getElementById('pdf-carbon-results');
             const getValue = (name) => Number(form.elements[name].value) || 0;
             const format = (value) => new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Math.round(value));
+            const svgNamespace = 'http://www.w3.org/2000/svg';
+            const chartColors = {
+                Electricity: '#50c6b2',
+                'Natural gas': '#f3b65b',
+                Driving: '#f07883',
+                Flights: '#8ba6f6',
+                Diet: '#bf91e8'
+            };
+            const groupColors = {
+                'Household energy': '#388d88',
+                Transportation: '#b84e5b',
+                Food: '#8057a6'
+            };
+
+            function annularPath(startAngle, endAngle, innerRadius, outerRadius) {
+                const center = 150;
+                const point = (radius, angle) => [center + radius * Math.cos(angle), center + radius * Math.sin(angle)];
+                const pointText = ([x, y]) => `${x.toFixed(3)} ${y.toFixed(3)}`;
+                const sweep = endAngle - startAngle;
+                if (sweep >= Math.PI * 2 - 0.0001) {
+                    const outerStart = point(outerRadius, startAngle);
+                    const outerHalf = point(outerRadius, startAngle + Math.PI);
+                    const innerHalf = point(innerRadius, startAngle + Math.PI);
+                    const innerStart = point(innerRadius, startAngle);
+                    return `M ${pointText(outerStart)} A ${outerRadius} ${outerRadius} 0 1 1 ${pointText(outerHalf)} A ${outerRadius} ${outerRadius} 0 1 1 ${pointText(outerStart)} L ${pointText(innerStart)} A ${innerRadius} ${innerRadius} 0 1 0 ${pointText(innerHalf)} A ${innerRadius} ${innerRadius} 0 1 0 ${pointText(innerStart)} Z`;
+                }
+                const outerStart = point(outerRadius, startAngle);
+                const outerEnd = point(outerRadius, endAngle);
+                const innerEnd = point(innerRadius, endAngle);
+                const innerStart = point(innerRadius, startAngle);
+                const largeArc = sweep > Math.PI ? 1 : 0;
+                return `M ${pointText(outerStart)} A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${pointText(outerEnd)} L ${pointText(innerEnd)} A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${pointText(innerStart)} Z`;
+            }
+
+            function drawDonut(sources, total) {
+                const ringGroup = document.getElementById('pdf-carbon-donut-rings');
+                const legend = document.getElementById('pdf-carbon-donut-legend');
+                const sourceAmounts = Object.fromEntries(sources.map((source) => [source.name, source.amount]));
+                const groups = [
+                    { name: 'Household energy', sources: ['Electricity', 'Natural gas'] },
+                    { name: 'Transportation', sources: ['Driving', 'Flights'] },
+                    { name: 'Food', sources: ['Diet'] }
+                ].map((group) => ({
+                    ...group,
+                    amount: group.sources.reduce((sum, name) => sum + (sourceAmounts[name] || 0), 0)
+                }));
+
+                ringGroup.replaceChildren();
+                legend.replaceChildren();
+                document.getElementById('pdf-carbon-donut-total').textContent = format(total);
+                document.getElementById('pdf-carbon-donut-description').textContent = `Annual estimate: ${format(total)} kilograms of carbon dioxide equivalent. The inner ring groups emissions into household energy, transportation, and food; the outer ring shows electricity, natural gas, driving, flights, and diet.`;
+
+                if (total <= 0) {
+                    [[48, 88], [96, 132]].forEach(([innerRadius, outerRadius]) => {
+                        const circle = document.createElementNS(svgNamespace, 'circle');
+                        circle.setAttribute('cx', '150');
+                        circle.setAttribute('cy', '150');
+                        circle.setAttribute('r', String((innerRadius + outerRadius) / 2));
+                        circle.setAttribute('fill', 'none');
+                        circle.setAttribute('stroke', 'rgba(255,255,255,0.2)');
+                        circle.setAttribute('stroke-width', String(outerRadius - innerRadius));
+                        ringGroup.append(circle);
+                    });
+                } else {
+                    let groupAngle = -Math.PI / 2;
+                    groups.forEach((group) => {
+                        const groupSweep = group.amount / total * Math.PI * 2;
+                        if (groupSweep > 0) {
+                            const path = document.createElementNS(svgNamespace, 'path');
+                            path.setAttribute('d', annularPath(groupAngle, groupAngle + groupSweep, 49, 88));
+                            path.setAttribute('fill', groupColors[group.name]);
+                            path.setAttribute('stroke', 'rgba(255,255,255,0.82)');
+                            path.setAttribute('stroke-width', '2');
+                            path.setAttribute('aria-label', `${group.name}: ${format(group.amount)} kg CO₂e per year`);
+                            const title = document.createElementNS(svgNamespace, 'title');
+                            title.textContent = `${group.name}: ${format(group.amount)} kg CO₂e/year`;
+                            path.append(title);
+                            ringGroup.append(path);
+                        }
+
+                        let sourceAngle = groupAngle;
+                        group.sources.forEach((name) => {
+                            const amount = sourceAmounts[name] || 0;
+                            const sweep = amount / total * Math.PI * 2;
+                            if (sweep > 0) {
+                                const path = document.createElementNS(svgNamespace, 'path');
+                                path.setAttribute('d', annularPath(sourceAngle, sourceAngle + sweep, 96, 132));
+                                path.setAttribute('fill', chartColors[name]);
+                                path.setAttribute('stroke', 'rgba(255,255,255,0.82)');
+                                path.setAttribute('stroke-width', '2');
+                                path.setAttribute('aria-label', `${name}: ${format(amount)} kg CO₂e per year`);
+                                const title = document.createElementNS(svgNamespace, 'title');
+                                title.textContent = `${name}: ${format(amount)} kg CO₂e/year`;
+                                path.append(title);
+                                ringGroup.append(path);
+                            }
+                            sourceAngle += sweep;
+                        });
+                        groupAngle += groupSweep;
+                    });
+                }
+
+                groups.forEach((group) => {
+                    const groupItem = document.createElement('li');
+                    groupItem.className = 'pdf-carbon-legend-group';
+                    const swatch = document.createElement('span');
+                    swatch.className = 'pdf-carbon-legend-swatch';
+                    swatch.style.backgroundColor = groupColors[group.name];
+                    swatch.setAttribute('aria-hidden', 'true');
+                    const label = document.createElement('span');
+                    label.textContent = group.name;
+                    const value = document.createElement('strong');
+                    value.textContent = `${format(group.amount)} kg · ${total > 0 ? Math.round(group.amount / total * 100) : 0}%`;
+                    groupItem.append(swatch, label, value);
+                    legend.append(groupItem);
+                    group.sources.forEach((name) => {
+                        const sourceItem = document.createElement('li');
+                        sourceItem.className = 'pdf-carbon-legend-child';
+                        const sourceSwatch = document.createElement('span');
+                        sourceSwatch.className = 'pdf-carbon-legend-swatch';
+                        sourceSwatch.style.backgroundColor = chartColors[name];
+                        sourceSwatch.setAttribute('aria-hidden', 'true');
+                        const sourceLabel = document.createElement('span');
+                        sourceLabel.textContent = name;
+                        const sourceValue = document.createElement('strong');
+                        const amount = sourceAmounts[name] || 0;
+                        sourceValue.textContent = `${format(amount)} kg · ${total > 0 ? Math.round(amount / total * 100) : 0}%`;
+                        sourceItem.append(sourceSwatch, sourceLabel, sourceValue);
+                        legend.append(sourceItem);
+                    });
+                });
+            }
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
@@ -223,7 +370,9 @@
                     { name: 'Diet', amount: Number(form.elements.diet.value), advice: 'Choose more plant-based meals and reduce food waste. Diet values are broad averages.' }
                 ].sort((a, b) => b.amount - a.amount);
 
-                document.getElementById('pdf-carbon-total-value').textContent = format(sources.reduce((sum, source) => sum + source.amount, 0));
+                const total = sources.reduce((sum, source) => sum + source.amount, 0);
+                document.getElementById('pdf-carbon-total-value').textContent = format(total);
+                drawDonut(sources, total);
                 document.getElementById('pdf-carbon-sources').replaceChildren(...sources.map((source) => {
                     const item = document.createElement('li');
                     const label = document.createElement('span');
