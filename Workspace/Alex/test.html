@@ -5,14 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Gaia-Net post detail page template.">
-  <title>Gaia-Net — Post Detail</title>
+  <title>Gaia-Net — Post</title>
   <style>
     /* Keep the post page simple, printable, and close to the paper prototype. */
     :root {
       --ink: #171717;
       --muted: #686868;
       --paper: #fff;
-      --accent: #a55248;
     }
 
     * { box-sizing: border-box; }
@@ -26,27 +25,40 @@
       font: 16px/1.45 "Times New Roman", Times, serif;
     }
 
-    /* Outer page frame from the sketch. */
-    .page-frame {
-      width: min(1500px, calc(100% - 56px));
-      min-height: calc(100vh - 56px);
+    /* Reserve a viewport row for the footer; longer posts scroll in the main area. */
+    body.post-page {
+      height: 100vh;
+      height: 100dvh;
       display: grid;
-      grid-template-columns: 92px 1fr;
-      margin: 28px auto;
-      /* The notice-colored bar wraps the top, bottom, and left edge of the page. */
-      border-top: 7px solid var(--accent);
-      border-bottom: 7px solid var(--accent);
-      border-left: 7px solid var(--accent);
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: clamp(8px, 1.5vh, 20px);
+      padding-block: clamp(12px, 2vh, 28px);
+      overflow-x: hidden;
     }
 
-    /* Vertical label along the left edge of the page. */
+    /* Outer page frame from the sketch. */
+    .page-frame {
+      --accent: var(--muted);
+      width: min(1500px, calc(100% - clamp(24px, 7vw, 56px)));
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      margin: 0 auto;
+      overflow: auto;
+    }
+
+    /* Match the category colors used by the cards in gaia.css. */
+    .page-frame[data-type="guide"] { --accent: var(--green); }
+    .page-frame[data-type="event"] { --accent: var(--blue); }
+    .page-frame[data-type="notice"] { --accent: var(--red); }
+
+    /* A filled category bar along the left edge of the page. */
     .side-label {
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Notice posts use the red category bar on the left side. */
-      border-right: 7px solid var(--accent);
-      color: var(--muted);
+      background: var(--accent);
+      color: #fff;
       font-size: .9rem;
       letter-spacing: .16em;
       text-transform: uppercase;
@@ -55,39 +67,53 @@
     }
 
     /* Main content area to the right of the vertical label. */
-    .content { min-width: 0; padding: 32px 38px 24px; }
-
-    /* Header follows the wide horizontal structure in the reference image. */
-    .masthead {
+    .content {
+      min-width: 0;
       display: flex;
-      align-items: end;
-      justify-content: space-between;
+      flex-direction: column;
+      padding: clamp(20px, 4vw, 32px) clamp(18px, 4vw, 38px) 0;
+    }
+
+    /* Center the site name above a single thin rule. */
+    .post-page .masthead {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 24px;
+      border: 0;
       border-bottom: 1px solid var(--ink);
-      padding-bottom: 22px;
+      padding: 0 0 22px;
     }
 
-    .wordmark {
-      margin: 0;
-      font-size: clamp(2.5rem, 7vw, 6rem);
-      font-weight: 400;
-      letter-spacing: .16em;
-      line-height: .85;
+    .post-page .wordmark {
+      width: 100%;
+      text-align: center;
     }
 
-    .wordmark span { color: var(--accent); }
+    /* Tint NET to match the current post category. */
+    .post-page .wordmark span { color: var(--accent); }
     .node-label { margin: 0; color: var(--muted); font-size: .8rem; text-transform: uppercase; }
+    .post-page .node-label { align-self: flex-end; }
+    .post-page .current-date {
+      align-self: flex-end;
+      margin: -18px 0 0;
+      color: var(--muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+    }
 
     /* Two-column body: editable post on the left, page/panel area on the right. */
     .post-layout {
+      flex: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(260px, .9fr);
-      min-height: 600px;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, .9fr);
     }
 
     .post {
-      max-width: 720px;
-      padding: 58px 8% 54px 10%;
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(20px, 5vh, 58px) clamp(24px, 6vw, 72px) clamp(20px, 5vh, 54px);
     }
 
     .post-meta {
@@ -112,7 +138,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px 32px;
-      margin-top: 52px;
+      margin-top: auto;
       border-top: 1px solid var(--ink);
       padding-top: 14px;
       color: var(--muted);
@@ -124,87 +150,277 @@
 
     /* Empty panel reserved for a map, image, diagram, or additional notes. */
     .panel {
-      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-left: 1px solid var(--ink);
-      padding: 24px;
+      margin: 24px 0 12px;
+      padding: clamp(16px, 2.5vw, 24px);
+      text-align: center;
     }
 
     .panel-label { margin: 0; color: var(--muted); font-size: .8rem; text-transform: uppercase; }
-
-    /* Footer navigation mirrors the long line at the bottom of the sketch. */
-    .footer {
+    .panel-content {
+      width: 100%;
+      max-width: 520px;
+      height: 100%;
       display: flex;
-      justify-content: space-between;
-      gap: 20px;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .comments {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .comments h2 {
+      order: 1;
+      margin: 18px 0 14px;
       border-top: 1px solid var(--ink);
-      padding-top: 14px;
-      font-size: .85rem;
+      padding-top: 18px;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    .comment-form { order: 2; display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+    .comment-form label { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
+    .comment-form textarea {
+      min-height: 76px;
+      resize: vertical;
+      border: 1px solid var(--ink);
+      border-radius: 0;
+      background: transparent;
+      padding: 8px;
+      color: inherit;
+      font: inherit;
+    }
+    .comment-form button {
+      align-self: flex-start;
+      border: 1px solid var(--ink);
+      border-radius: 0;
+      background: transparent;
+      padding: 7px 12px;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-size: .8rem;
+    }
+    .comment-form button:hover, .comment-form button:focus-visible { background: var(--ink); color: var(--paper); }
+    .comment-list { order: 0; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .comment-empty { order: 0; }
+    .comment { border-top: 1px solid var(--muted); padding-top: 8px; }
+    .comment p { margin: 0; }
+    .comment time { color: var(--muted); font-size: .72rem; text-transform: uppercase; }
+    .comment-actions { display: flex; gap: 10px; margin-top: 6px; }
+    .comment-action {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-size: .72rem;
+      text-decoration: underline;
+    }
+    .comment-empty { margin: 18px 0 0; color: var(--muted); font-size: .85rem; }
+
+    /* Scale footer gutters, spacing, and type smoothly with the viewport. */
+    .footer.post-footer {
+      --footer-gutter: clamp(12px, 2.25vw, 40px);
+      width: calc(100% - var(--footer-gutter) - var(--footer-gutter));
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: clamp(8px, 1.1vw, 16px) clamp(16px, 2.2vw, 32px);
+      border-top: 1px solid var(--ink);
+      padding: clamp(14px, 1.8vw, 26px) clamp(2px, .35vw, 6px) clamp(6px, .7vw, 12px);
+      font-size: clamp(.75rem, .65rem + .25vw, .95rem);
+      letter-spacing: .04em;
+      line-height: 1.5;
+      text-transform: uppercase;
     }
 
-    .footer p { margin: 0; }
-    .footer a { color: inherit; }
+    .footer.post-footer p { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+    .footer.post-footer p + p { margin-top: 0; }
+    .post-footer a { color: inherit; }
+    .post-footer a:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+
+    @media (max-width: 480px) {
+      .footer.post-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
 
     /* Stack the sketch's columns on smaller screens. */
     @media (max-width: 760px) {
       .page-frame {
         width: calc(100% - 24px);
         grid-template-columns: 1fr;
-        margin: 12px auto;
+        margin: 0 auto;
       }
 
       .side-label {
         min-height: 42px;
-        border-right: 0;
-        border-bottom: 7px solid var(--accent);
         writing-mode: horizontal-tb;
         transform: none;
       }
 
       .content { padding: 24px 18px 18px; }
-      .masthead { align-items: start; flex-direction: column; }
       .post-layout { display: block; min-height: 0; }
       .post { padding: 42px 0; }
       .panel { min-height: 240px; border-top: 1px solid var(--ink); border-left: 0; padding: 22px 0; }
-      .footer { display: block; line-height: 1.8; }
     }
   </style>
+  <link rel="stylesheet" href="gaia.css">
 </head>
-<body>
+<body class="post-page">
   <!-- Change the text inside this page to create a new individual post. -->
-  <main class="page-frame">
-    <aside class="side-label">Responsive Color</aside>
+  <!-- Set data-type to guide, event, or notice to change the category bar color. -->
+  <main class="page-frame" data-type="notice">
+    <aside class="side-label" aria-hidden="true"></aside>
 
     <div class="content">
       <header class="masthead">
         <h1 class="wordmark">GAIA-<span>NET</span></h1>
-        <p class="node-label">West Node / Post 10</p>
+        <p class="node-label">West Node / Sec 01</p>
+        <p class="current-date" id="current-date"></p>
       </header>
 
       <div class="post-layout">
         <article class="post">
           <!-- Edit these values for each new card destination. -->
-          <p class="post-meta">10 / Notice</p>
+          <p class="post-meta">01 / Notice</p>
           <h2>Test notification</h2>
-          <p>Emergency broadcasts will be signaled at 3:00 PST for all West Node users.</p>
-          <p>Keep your radio or local receiver nearby and pass this notice to anyone who may not be connected to Gaia-Net.</p>
+          <p class="post-copy">This broadcast test initializes Gaia-Net communication functionality for all West Node users.</p>
+          <p class="post-copy">Keep your radio or local receiver nearby at 3:00 PST and listen for the test signal. Confirm that the message arrives clearly so the network can identify working receivers and repair gaps in coverage.</p>
 
           <div class="post-details">
             <p>Posted: West Node</p>
-            <p>Valid through Friday</p>
+            <p>Posted on: March 7, 2030</p>
           </div>
         </article>
 
         <!-- Replace this panel with an image, map, diagram, or supporting notes. -->
         <aside class="panel" aria-label="Supporting post panel">
-          <p class="panel-label">Supporting page / media</p>
+          <div class="panel-content">
+            <section class="comments" aria-labelledby="comments-title">
+              <h2 id="comments-title">Comments</h2>
+              <form class="comment-form" id="comment-form">
+                <label for="comment-text">Leave a comment</label>
+                <textarea id="comment-text" maxlength="500" required></textarea>
+                <button type="submit">Post comment</button>
+              </form>
+              <p class="comment-empty" id="comment-empty">No comments yet.</p>
+              <ul class="comment-list" id="comment-list"></ul>
+            </section>
+          </div>
         </aside>
       </div>
 
-      <footer class="footer">
-        <p>Gaia-Net / keep the signal human</p>
-        <p><a href="gaia.html">&larr; Back to posts</a></p>
-      </footer>
     </div>
   </main>
+  <script>
+    const posts = {
+      'guide-01': ['guide', 'West Node', '01', 'Guide', 'Field water safety', 'Three ways to make a questionable water source safer with what is already around you.', 'Begin by selecting the clearest available water and allowing sediment to settle before transferring it. Strain the water through clean cloth, then boil it whenever fuel is available. If boiling is not possible, use sunlight, a clean container, and a trusted purification method. Keep treated water covered, label it with the treatment time, and avoid mixing it with untreated supplies.', 'May 10, 2030'],
+      'event-02': ['event', 'South Node', '02', 'Event', 'Seed & story exchange', 'Bring one useful thing and leave with another at the old library steps.', 'The exchange begins Saturday at 10:00 at the old library steps. Bring labeled seeds, a growing tip, or a story about what has worked in your neighborhood. Participants are encouraged to trade fairly, record planting conditions, and leave enough stock for future gardeners. New growers are welcome, even if they arrive with nothing to exchange.', 'June 20, 2030'],
+      'notice-03': ['notice', 'North Node', '03', 'Notice', 'North road open', 'The bridge crossing has been checked and is open for travel.', 'The bridge crossing has been inspected and the main span is open to foot traffic. Travel in pairs, carry a light after dusk, and mark your return route before leaving. Avoid the eastern shoulder where the ground remains unstable. Report fallen branches, damaged railings, or stranded travelers to the North Node when you return.', 'November 30, 2030'],
+      'guide-04': ['guide', 'West Node', '04', 'Guide', 'Build a solar still', 'A low-tech method for collecting cleaner water when fuel, filters, and power are scarce.', 'Dig a shallow basin in warm, open ground and place a clean cup at its center. Cover the basin with clear plastic, seal the edges with soil, and set a small weight above the cup so condensation runs toward it. The process is slow, but it can collect cleaner water from damp soil or vegetation. Keep the cup and plastic clean, and treat the collected water before drinking.', 'April 1, 2030'],
+      'event-05': ['event', 'All Nodes', '05', 'Event', 'Evening radio check', 'Nodes check in at dusk on channel 4.', 'At dusk, each node should listen before transmitting and wait for the channel to clear. State your node name, signal condition, and any urgent supply or travel information. Keep routine messages brief so distant communities can check in. If your signal is weak, move to a higher location and try again rather than repeating the message continuously.', 'September 5, 2030'],
+      'notice-06': ['notice', 'East Node', '06', 'Notice', 'Clinic needs supplies', 'Bandages, clean jars, and soap are needed at the east clinic.', 'The East Node clinic is collecting rolled bandages, sealed soap, clean jars with lids, and unopened medical supplies. Please check packaging before delivery and separate damaged or contaminated materials. Drop-offs are welcome until Friday during daylight hours. A volunteer will record each contribution so urgent shortages can be identified before the next supply run.', 'December 24, 2030'],
+      'guide-07': ['guide', 'West Node', '07', 'Guide', 'Food without power', 'Drying, salting, and storing a harvest when refrigeration is no longer a given.', 'Clean and sort the harvest before choosing a preservation method. Slice fruits and vegetables thinly for drying, use measured salt for foods that tolerate curing, and store finished goods in clean, dry containers away from heat and pests. Mark every container with its contents and date. Discard anything with a sour smell, unexpected moisture, or visible mold rather than trying to salvage it.', 'August 1, 2030'],
+      'event-08': ['event', 'South Node', '08', 'Event', 'Repair circle', 'Tools and hands are welcome at the repair circle.', 'The repair circle meets with shared tools, spare parts, and a sign-in list for items that need attention. Bring lamps, radios, bikes, or anything else that can be opened safely. Owners should describe the problem and any previous repairs before work begins. Volunteers will prioritize essential equipment first and return unusable parts to their owners for reuse or sorting.', 'October 10, 2030'],
+      'notice-09': ['notice', 'All Nodes', '09', 'Notice', 'Heat warning', 'High temperatures are expected for the next three days.', 'High temperatures are expected through the next three days, especially between midday and late afternoon. Check on elders, children, and anyone working outdoors. Refill shared water points before they run low, keep rooms shaded when possible, and schedule strenuous travel for early morning or evening. Report heat illness immediately and stay with anyone who becomes confused, faint, or unusually weak.', 'November 1, 2030'],
+      'notice-01': ['notice', 'West Node', '01', 'Notice', 'Test notification', 'This broadcast test initializes Gaia-Net communication functionality for all West Node users.', 'Keep your radio or local receiver nearby at 3:00 PST and listen for the test signal. Confirm that the message arrives clearly so the network can identify working receivers and repair gaps in coverage. Report missing or distorted signals to the West Node after the test concludes.', 'March 7, 2030']
+    };
+    const postKey = new URLSearchParams(window.location.search).get('post');
+    const customPost = JSON.parse(localStorage.getItem('gaia-user-posts') || '[]').find((item) => item.id === postKey);
+    const customPostData = customPost && [
+      customPost.type,
+      customPost.node,
+      customPost.number || '00',
+      customPost.type.charAt(0).toUpperCase() + customPost.type.slice(1),
+      customPost.title,
+      customPost.cardText,
+      customPost.actualText,
+      customPost.date
+    ];
+    const post = posts[postKey] || customPostData || posts['notice-01'];
+    document.querySelector('.page-frame').dataset.type = post[0];
+    document.querySelector('.node-label').textContent = `${post[1]} / Post ${post[2]}`;
+    document.querySelector('.post-meta').textContent = `${post[2]} / ${post[3]}`;
+    document.querySelector('.post h2').textContent = post[4];
+    document.querySelectorAll('.post-copy')[0].textContent = post[5];
+    document.querySelectorAll('.post-copy')[1].textContent = post[6];
+    if (post[4] === 'Food without power') {
+      document.querySelectorAll('.post-copy')[1].innerHTML += ' <a href="https://www.foodpreserving.org/" target="_blank" rel="noopener noreferrer">Learn more about food preservation.</a>';
+    }
+    document.querySelector('.post-details p:first-child').textContent = `Posted: ${post[1]}`;
+    document.querySelector('.post-details p:last-child').textContent = `Posted on: ${post[7]}`;
+
+    // Store and display comments separately for each individual post.
+    const commentStorageKey = `gaia-comments-${postKey || 'notice-01'}`;
+    const commentForm = document.querySelector('#comment-form');
+    const commentText = document.querySelector('#comment-text');
+    const commentList = document.querySelector('#comment-list');
+    const commentEmpty = document.querySelector('#comment-empty');
+    const savedComments = JSON.parse(localStorage.getItem(commentStorageKey) || '[]');
+
+    const renderComments = () => {
+      commentList.replaceChildren();
+      commentEmpty.hidden = savedComments.length > 0;
+      savedComments.forEach((comment) => {
+        const item = document.createElement('li');
+        item.className = 'comment';
+        const message = document.createElement('p');
+        message.textContent = comment.text;
+        const date = document.createElement('time');
+        date.textContent = comment.date;
+        const actions = document.createElement('div');
+        actions.className = 'comment-actions';
+        actions.innerHTML = `<button class="comment-action" type="button" data-action="edit" data-index="${savedComments.indexOf(comment)}">Edit</button><button class="comment-action" type="button" data-action="remove" data-index="${savedComments.indexOf(comment)}">Remove</button>`;
+        item.append(message, date, actions);
+        commentList.appendChild(item);
+      });
+    };
+
+    commentForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = commentText.value.trim();
+      if (!text) return;
+      savedComments.push({ text, date: new Date().toLocaleString() });
+      localStorage.setItem(commentStorageKey, JSON.stringify(savedComments));
+      commentText.value = '';
+      renderComments();
+    });
+    commentList.addEventListener('click', (event) => {
+      const button = event.target.closest('.comment-action');
+      if (!button) return;
+      const index = Number(button.dataset.index);
+      if (button.dataset.action === 'remove') {
+        savedComments.splice(index, 1);
+      } else {
+        const updatedText = window.prompt('Edit your comment:', savedComments[index].text)?.trim();
+        if (!updatedText) return;
+        savedComments[index].text = updatedText;
+        savedComments[index].date = new Date().toLocaleString();
+      }
+      localStorage.setItem(commentStorageKey, JSON.stringify(savedComments));
+      renderComments();
+    });
+    renderComments();
+
+    const currentDate = new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date());
+    document.querySelector('#current-date').textContent = `Current Date / ${currentDate}`;
+  </script>
+  <footer class="footer post-footer">
+    <p>Gaia-Net / Connection for All</p>
+    <p><a href="gaia.html">&larr; Back to posts</a></p>
+  </footer>
 </body>
 </html>

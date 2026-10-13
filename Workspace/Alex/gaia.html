@@ -9,29 +9,31 @@
   <!-- All page styling is maintained in this external stylesheet. -->
   <link rel="stylesheet" href="gaia.css">
 </head>
-<body>
+<body class="home-page">
   <!-- Main wrapper for all visible Gaia-Net content. -->
   <main class="page">
     <!-- Site identity, connection status, and primary navigation. -->
     <header class="masthead">
       <div class="utility">
-        <p>Location / West Node Sec 01</p>
+        <div class="utility-location">
+          <p>Location / West Node Sec 01</p>
+          <p class="current-date" id="current-date"></p>
+        </div>
         <div class="signal" aria-label="Gaia-Net signal: stable"><i></i><i></i><i></i><i></i></div>
       </div>
       <h1 class="wordmark">GAIA-<span>NET</span></h1>
       <hr class="rule">
       <nav aria-label="Primary navigation">
         <a href="#posts">All posts</a>
-        <a href="#about">Storm Watch</a>
-        <a href="#about">Information</a>
-        <a href="#about">About us</a>
+        <a href="post.html">Make a Post</a>
+        <a href="about.html">About us</a>
+        <a href="overseer.html">Overseer</a>
       </nav>
     </header>
 
     <!-- Short explanation of Gaia-Net's purpose. -->
     <section class="intro" id="about">
-      <h2>Knowledge survives when we share it.</h2>
-      <p>A small, resilient bulletin for people rebuilding after the old internet went quiet. Save what you need. Pass it on.</p>
+      <h2> Notice : While Gaia-Net is moderated by a strict verification process, it remains a world wide community-driven space for sharing knowledge and resources.<br> Please keep this in mind when sharing information.</h2>
     </section>
 
     <!-- Buttons used by the script at the bottom of the page to filter cards. -->
@@ -40,107 +42,198 @@
       <button class="filter" type="button" data-filter="guide" aria-pressed="false">Guides</button>
       <button class="filter" type="button" data-filter="event" aria-pressed="false">Events</button>
       <button class="filter" type="button" data-filter="notice" aria-pressed="false">Notices</button>
+      <label class="post-search">
+        <span class="sr-only">Search posts by keyword or notice number</span>
+        <input id="post-search" type="search" placeholder="Search posts" autocomplete="off">
+      </label>
     </div>
 
     <!-- All individual guides, events, and notices live in this grid. -->
     <section class="grid" aria-label="Gaia-Net posts">
       <!-- Each article has a data-type value so the filter script can identify it. -->
-      <article class="card" data-type="guide" id="guides">
-        <a class="card-visual" href="test.html" aria-label="Read Field water safety guide">
+      <article class="card" data-type="guide">
+        <a class="card-visual" href="test.html?post=guide-01" aria-label="Read Field water safety guide">
           <span class="card-number">01 / GUIDE</span><h3>Field water safety</h3>
-        </a><p>Three ways to make a questionable water source safer with what is already around you.</p>
-        <div class="card-meta"><span>6 min read</span><span>Updated today</span></div>
+          <p>Three ways to make a questionable water source safer with what is already around you.</p>
+        </a>
+        <div class="card-meta"><span>May 10, 2030</span><span>West Node</span></div>
       </article>
-      <article class="card" data-type="event" id="events">
-        <a class="card-visual" href="test.html" aria-label="Read about the seed and story exchange">
+      <article class="card" data-type="event">
+        <a class="card-visual" href="test.html?post=event-02" aria-label="Read about the seed and story exchange">
           <span class="card-number">02 / EVENT</span><h3>Seed &amp; story exchange</h3>
-        </a><p>Bring one useful thing and leave with another. Saturday, 10:00, the old library steps.</p>
-        <div class="card-meta"><span>Saturday / 10:00</span><span>South node</span></div>
+          <p>Bring one useful thing and leave with another. Saturday, 10:00, the old library steps.</p>
+        </a>
+        <div class="card-meta"><span>June 20, 2030</span><span>South node</span></div>
       </article>
-      <article class="card" data-type="notice" id="notices">
-        <a class="card-visual" href="test.html" aria-label="Read the north road notice">
+      <article class="card" data-type="notice">
+        <a class="card-visual" href="test.html?post=notice-03" aria-label="Read the north road notice">
           <span class="card-number">03 / NOTICE</span><h3>North road open</h3>
-        </a><p>The bridge crossing has been checked. Travel in pairs and mark your return route.</p>
-        <div class="card-meta"><span>Posted 2 hrs ago</span><span>Verified</span></div>
+          <p>The bridge crossing has been checked. Travel in pairs and mark your return route.</p>
+        </a>
+        <div class="card-meta"><span>November 30, 2030</span><span>North Node</span></div>
       </article>
       <article class="card" data-type="guide">
-        <a class="card-visual" href="test.html" aria-label="Read how to build a solar still">
+        <a class="card-visual" href="test.html?post=guide-04" aria-label="Read how to build a solar still">
           <span class="card-number">04 / GUIDE</span><h3>Build a solar still</h3>
-        </a><p>A low-tech method for collecting cleaner water when fuel, filters, and power are scarce.</p>
-        <div class="card-meta"><span>12 min read</span><span>Field tested</span></div>
+          <p>A low-tech method for collecting cleaner water when fuel, filters, and power are scarce.</p>
+        </a>
+        <div class="card-meta"><span>April 1, 2030</span><span>West Node</span></div>
       </article>
       <article class="card" data-type="event">
-        <a class="card-visual" href="test.html" aria-label="Read about the radio check-in">
+        <a class="card-visual" href="test.html?post=event-05" aria-label="Read about the radio check-in">
           <span class="card-number">05 / EVENT</span><h3>Evening radio check</h3>
-        </a><p>Nodes check in at dusk. Tune to channel 4 and keep messages short for everyone listening.</p>
-        <div class="card-meta"><span>Daily / 19:00</span><span>All nodes</span></div>
+          <p>Nodes check in at dusk. Tune to channel 4 and keep messages short for everyone listening.</p>
+        </a>
+        <div class="card-meta"><span>September 5, 2030</span><span>All nodes</span></div>
       </article>
       <article class="card" data-type="notice">
-        <a class="card-visual" href="test.html" aria-label="Read the clinic supply notice">
+        <a class="card-visual" href="test.html?post=notice-06" aria-label="Read the clinic supply notice">
           <span class="card-number">06 / NOTICE</span><h3>Clinic needs supplies</h3>
-        </a><p>Bandages, clean jars, and soap are needed at the east clinic. Drop-offs welcome until Friday.</p>
-        <div class="card-meta"><span>Priority: medium</span><span>East node</span></div>
+          <p>Bandages, clean jars, and soap are needed at the east clinic. Drop-offs welcome until Friday.</p>
+        </a>
+        <div class="card-meta"><span>December 24, 2030</span><span>East node</span></div>
       </article>
       <article class="card" data-type="guide">
-        <a class="card-visual" href="test.html" aria-label="Read how to preserve food without power">
+        <a class="card-visual" href="test.html?post=guide-07" aria-label="Read how to preserve food without power">
           <span class="card-number">07 / GUIDE</span><h3>Food without power</h3>
-        </a><p>Drying, salting, and storing a harvest when refrigeration is no longer a given.</p>
-        <div class="card-meta"><span>8 min read</span><span>Kitchen series</span></div>
+          <p>Drying, salting, and storing a harvest when refrigeration is no longer a given.</p>
+        </a>
+        <div class="card-meta"><span>August 1, 2030</span><span>West Node</span></div>
       </article>
       <article class="card" data-type="event">
-        <a class="card-visual" href="test.html" aria-label="Read about the repair circle">
+        <a class="card-visual" href="test.html?post=event-08" aria-label="Read about the repair circle">
           <span class="card-number">08 / EVENT</span><h3>Repair circle</h3>
-        </a><p>Tools and hands welcome. We fix lamps, radios, bikes, and anything else that can be opened.</p>
-        <div class="card-meta"><span>Tuesday / 16:00</span><span>Workshop node</span></div>
+          <p>Tools and hands welcome. We fix lamps, radios, bikes, and anything else that can be opened.</p>
+        </a>
+        <div class="card-meta"><span>October 10, 2030</span><span>South node</span></div>
       </article>
       <article class="card" data-type="notice">
-        <a class="card-visual" href="test.html" aria-label="Read the weather warning">
+        <a class="card-visual" href="test.html?post=notice-09" aria-label="Read the weather warning">
           <span class="card-number">09 / NOTICE</span><h3>Heat warning</h3>
-        </a><p>High temperatures expected for the next three days. Check on elders and refill shared water points.</p>
-        <div class="card-meta"><span>Valid through Friday</span><span>All nodes</span></div>
+          <p>High temperatures expected for the next three days. Check on elders and refill shared water points.</p>
+        </a>
+        <div class="card-meta"><span>November 1, 2030</span><span>All nodes</span></div>
       </article>
       <article class="card" data-type="notice">
-        <a class="card-visual" href="test.html" aria-label="Read the test notification">
-          <span class="card-number">10 / NOTICE</span><h3>Test Notification</h3>
-        </a><p>Emergency broadcasts will be signaled at 3:00 PST for all West Node Users.</p>
-        <div class="card-meta"><span>Valid through Friday</span><span>All nodes</span></div>
+        <a class="card-visual" href="test.html?post=notice-01" aria-label="Read the test notification">
+          <span class="card-number">01 / NOTICE</span><h3>Test Notification</h3>
+          <p>Broadcast test initializes Gaia-Net communication functionality for all West Node users.</p>
+        </a>
+        <div class="card-meta"><span>March 7, 2030</span><span>All nodes</span></div>
       </article>
     </section>
 
     <!-- Footer links and the site's closing message. -->
     <footer class="footer">
       <p>Gaia-Net / Connection for All</p>
-      <p><a href="#about">About us</a> &nbsp;|&nbsp; <a href="#posts">Back to Top &uarr;</a></p>
+      <p><a href="post.html">Create a post</a> &nbsp;|&nbsp; <a href="about.html">About us</a> &nbsp;|&nbsp; <a href="#posts">Back to Top &uarr;</a></p>
     </footer>
   </main>
 
   <script>
+    // Always start normal Gaia loads at the top without overriding intentional anchors.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const startAtTop = () => {
+      if (!window.location.hash) window.scrollTo(0, 0);
+    };
+    startAtTop();
+    window.addEventListener('pageshow', startAtTop);
+
+    document.querySelectorAll('a[href="overseer.html"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (window.prompt('Enter Overseer password:') !== '1231') event.preventDefault();
+      });
+    });
+
+    // Display the visitor's current date beneath the node location.
+    const currentDate = new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date());
+    document.querySelector('#current-date').textContent = `Current Date / ${currentDate}`;
+
     // Collect all filter buttons and all post cards on the page.
     const buttons = document.querySelectorAll('.filter');
     const grid = document.querySelector('.grid');
+    const page = document.querySelector('.page');
+    const searchInput = document.querySelector('#post-search');
+    let activeFilter = 'all';
+
+    // Add locally created posts to the bulletin before filtering and ordering begin.
+    const userPosts = JSON.parse(localStorage.getItem('gaia-user-posts') || '[]');
+    userPosts.forEach((post) => {
+      if (post.title.toLowerCase().startsWith('new overseer appointed')) {
+        post.date = 'October 13, 2031';
+      }
+      const article = document.createElement('article');
+      article.className = 'card';
+      article.dataset.type = post.type;
+      article.dataset.postId = post.id;
+      const link = document.createElement('a');
+      link.className = 'card-visual';
+      link.href = `test.html?post=${encodeURIComponent(post.id)}`;
+      link.setAttribute('aria-label', `Read ${post.title}`);
+      const number = document.createElement('span');
+      number.className = 'card-number';
+      number.textContent = `${post.number || '00'} / ${post.type.toUpperCase()}`;
+      const heading = document.createElement('h3');
+      heading.textContent = post.title;
+      const summary = document.createElement('p');
+      summary.textContent = post.cardText;
+      link.append(number, heading, summary);
+      const meta = document.createElement('div');
+      meta.className = 'card-meta';
+      const date = document.createElement('span');
+      date.textContent = post.date;
+      const node = document.createElement('span');
+      node.textContent = post.node;
+      meta.append(date, node);
+      article.append(link, meta);
+      grid.appendChild(article);
+    });
+
     const cards = Array.from(document.querySelectorAll('.card'));
 
-    // Read the number at the beginning of each card label, such as "10 / NOTICE".
-    const cardNumber = (card) => Number(card.querySelector('.card-number').textContent.match(/\d+/)[0]);
+    // Sort posts by date and assign one unique number to each post.
+    const postDate = (card) => Date.parse(card.querySelector('.card-meta span:first-child').textContent);
+    const orderedCards = [...cards].sort((firstCard, secondCard) => postDate(secondCard) - postDate(firstCard));
+    orderedCards.forEach((card, index) => {
+      const number = String(orderedCards.length - index).padStart(2, '0');
+      const category = card.querySelector('.card-number').textContent.replace(/^\s*\d+\s*\/\s*/, '');
+      card.querySelector('.card-number').textContent = `${number} / ${category}`;
+      const customPost = userPosts.find((post) => post.id === card.dataset.postId);
+      if (customPost) customPost.number = number;
+      grid.appendChild(card);
+    });
+    localStorage.setItem('gaia-user-posts', JSON.stringify(userPosts));
 
-    // Show the newest/highest numbered card first in the grid.
-    cards.sort((firstCard, secondCard) => cardNumber(secondCard) - cardNumber(firstCard));
-    cards.forEach((card) => grid.appendChild(card));
+    // Apply the category filter and keyword/notice-number search together.
+    const updateVisibleCards = () => {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      page.classList.toggle('filtered-posts', activeFilter !== 'all' || Boolean(searchTerm));
+      cards.forEach((card) => {
+        const matchesFilter = activeFilter === 'all' || card.dataset.type === activeFilter;
+        const matchesSearch = !searchTerm || card.textContent.toLowerCase().includes(searchTerm);
+        card.classList.toggle('hidden', !matchesFilter || !matchesSearch);
+      });
+    };
 
     // Add the same click behavior to every filter button.
     buttons.forEach((button) => button.addEventListener('click', () => {
       // Read the category selected by the clicked button.
-      const filter = button.dataset.filter;
+      activeFilter = button.dataset.filter;
 
       // Update the accessibility state so screen readers know which filter is active.
       buttons.forEach((item) => item.setAttribute('aria-pressed', item === button));
 
       // Use a horizontal card row whenever a specific category is selected.
-      grid.classList.toggle('filtered-view', filter !== 'all');
+      grid.classList.toggle('filtered-view', activeFilter !== 'all');
 
-      // Hide cards with a different category; "all" keeps every card visible.
-      cards.forEach((card) => card.classList.toggle('hidden', filter !== 'all' && card.dataset.type !== filter));
+      updateVisibleCards();
     }));
+
+    searchInput.addEventListener('input', updateVisibleCards);
   </script>
 </body>
 </html>
