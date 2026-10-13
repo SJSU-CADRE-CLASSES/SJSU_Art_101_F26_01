@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dff2e2">
+  <title> Sustainable City | Growing our world </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+    } }
+  </script>
+  <style>
+    :root { --ink: #183b32; --moss: #477756; --leaf: #a9d77c; --coral: #ec8064; --paper: #f1f5e9; --mono: "DM Mono", monospace; --body: "Manrope", sans-serif; --serif: "Playfair Display", Georgia, serif; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { color: var(--ink); background: #dcebdd; font-family: var(--body); }
+    #city { position: fixed; inset: 0; display: block; width: 100%; height: 100%; }
+    .market-tooltip { position: fixed; z-index: 4; top: 0; left: 0; padding: 8px 11px; border: 1px solid #183b3222; background: #f1f5e9ef; color: var(--ink); font: 10px var(--mono); text-transform: uppercase; white-space: nowrap; pointer-events: none; opacity: 0; translate: 0 3px; transition: opacity .12s, translate .12s; }
+    .market-tooltip.visible { opacity: 1; translate: 0 0; }
+    .grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .16; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"); }
+    .topline { position: fixed; z-index: 2; inset: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 22px 30px; border-bottom: 1px solid #183b3222; background: #f1f5e9cf; backdrop-filter: blur(14px); }
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: var(--ink); color: var(--leaf); font-family: var(--serif); font-size: 17px; }
+    .live { display: flex; align-items: center; gap: 9px; color: #466257; font: 10px var(--mono); letter-spacing: .3px; text-transform: uppercase; }
+    .live i { width: 8px; height: 8px; border-radius: 50%; background: #61a96e; box-shadow: 0 0 0 4px #61a96e22; }
+    .top-meta { color: #627a6e; font: 10px var(--mono); text-transform: uppercase; }
+    .left-panel { position: fixed; z-index: 2; top: 50%; left: 30px; width: min(310px, calc(100vw - 44px)); transform: translateY(-45%); animation: rise .8s .1s both; pointer-events: none; }
+    .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 15px; color: #568367; font: 10px var(--mono); letter-spacing: 1px; text-transform: uppercase; }
+    .eyebrow::before { width: 18px; height: 1px; background: var(--coral); content: ""; }
+    h1 { margin: 0; color: var(--ink); font: 700 clamp(43px, 5vw, 66px)/.98 var(--serif); letter-spacing: 0; }
+    h1 span { color: #699665; font-style: italic; }
+    .intro { max-width: 285px; margin: 17px 0 25px; color: #536d60; font-size: 12px; line-height: 1.8; }
+    .statline { display: grid; grid-template-columns: 1fr 1fr; max-width: 280px; border-top: 1px solid #23473735; }
+    .stat { padding: 14px 8px 11px 0; }
+    .stat + .stat { padding-left: 16px; border-left: 1px solid #23473735; }
+    .stat strong { display: block; color: var(--ink); font: 700 22px var(--serif); }
+    .stat span { color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .right-rail { position: fixed; z-index: 2; top: 50%; right: 30px; width: 196px; transform: translateY(-37%); animation: rise .8s .25s both; }
+    .rail-heading { margin: 0 0 14px; color: #597368; font: 10px var(--mono); letter-spacing: .7px; text-transform: uppercase; }
+    .system { padding: 12px 0; border-top: 1px solid #23473728; }
+    a.system { display: block; color: inherit; text-decoration: none; transition: padding .2s, background .2s; }
+    a.system:hover { padding-right: 7px; padding-left: 7px; background: #f1f5e980; }
+    a.system:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+    .system-head { display: flex; justify-content: space-between; gap: 8px; color: var(--ink); font-size: 11px; font-weight: 700; }
+    .system-head small { color: #6b9a6b; font: 9px var(--mono); }
+    .system p { margin: 5px 0 0; color: #698073; font-size: 10px; line-height: 1.5; }
+    .meter { height: 3px; margin-top: 9px; background: #183b3219; }
+    .meter i { display: block; width: var(--value); height: 100%; background: #83b774; }
+    .bottomline { position: fixed; z-index: 2; right: 30px; bottom: 21px; left: 30px; display: flex; align-items: end; justify-content: space-between; pointer-events: none; }
+    .coordinates { color: #60776c; font: 9px var(--mono); letter-spacing: .4px; text-transform: uppercase; }
+    .coordinates strong { color: #355948; font-weight: 500; }
+    .controls { display: flex; align-items: center; gap: 7px; pointer-events: auto; }
+    .control { display: grid; width: 37px; height: 37px; place-items: center; border: 1px solid #21493945; border-radius: 50%; background: #f1f5e9ad; color: var(--ink); cursor: pointer; transition: background .18s, transform .18s; }
+    .control:hover { transform: translateY(-2px); background: #fff; }
+    .control svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .hint { margin-right: 9px; color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .place-dialog { width: min(390px, calc(100vw - 36px)); padding: 25px; border: 1px solid #183b3225; background: var(--paper); color: var(--ink); box-shadow: 0 18px 55px #183b3230; }
+    .place-dialog::backdrop { background: #183b3245; backdrop-filter: blur(3px); }
+    .place-dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .place-dialog .eyebrow { margin-bottom: 9px; }
+    .place-dialog h2 { margin: 0 0 12px; font: 600 30px/1.08 var(--serif); letter-spacing: 0; }
+    .place-dialog p { margin: 0 0 19px; color: #536d60; font-size: 12px; line-height: 1.75; }
+    .place-close { display: grid; width: 32px; height: 32px; flex: 0 0 auto; place-items: center; border: 1px solid #21493945; border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; font-size: 19px; line-height: 1; }
+    .place-close:hover { background: #fff; }
+    .place-close:focus-visible, .place-link:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+    .place-link { color: var(--ink); font-size: 11px; font-weight: 700; text-decoration-color: var(--coral); text-underline-offset: 4px; }
+    .loading { position: fixed; z-index: 3; inset: 0; display: grid; place-items: center; background: #dcebdd; color: var(--ink); font: 11px var(--mono); letter-spacing: .6px; text-transform: uppercase; transition: opacity .5s; }
+    .loading.done { opacity: 0; pointer-events: none; }
+    .loading span { display: flex; align-items: center; gap: 12px; }
+    .loading span::before { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); content: ""; animation: pulse 1s infinite alternate; }
+    @keyframes pulse { to { opacity: .3; transform: scale(.7); } }
+    @keyframes rise { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+    @media (max-width: 740px) {
+      .topline { padding: 15px 18px; }
+      .top-meta { display: none; }
+      .left-panel { top: auto; bottom: 76px; left: 19px; width: min(260px, calc(100vw - 38px)); transform: none; }
+      .eyebrow { margin-bottom: 8px; font-size: 9px; }
+      h1 { max-width: 240px; font-size: 44px; }
+      .intro { max-width: 230px; margin: 9px 0 12px; font-size: 10px; line-height: 1.55; }
+      .statline { max-width: 220px; }
+      .stat { padding-top: 8px; }
+      .stat strong { font-size: 18px; }
+      .right-rail { top: auto; right: 17px; bottom: 79px; width: 137px; transform: none; }
+      .rail-heading { margin-bottom: 6px; font-size: 9px; }
+      .system { padding: 7px 0; }
+      .system-head { font-size: 9px; }
+      .system p { margin-top: 3px; font-size: 8px; }
+      .meter { margin-top: 5px; }
+      .bottomline { right: 16px; bottom: 15px; left: 19px; }
+      .hint { font-size: 8px; }
+      .control { width: 33px; height: 33px; }
+    }
+    @media (max-width: 370px) { .right-rail { width: 120px; } .intro { max-width: 205px; } h1 { font-size: 39px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <canvas id="city" aria-label="Interactive 3D model of a sustainable food city"></canvas>
+  <span class="market-tooltip" id="market-tooltip" role="tooltip" aria-hidden="true">Farmer's market</span>
+  <div class="grain" aria-hidden="true"></div>
+  <dialog class="place-dialog" id="place-dialog" aria-labelledby="place-title">
+    <div class="place-dialog-head">
+      <div><p class="eyebrow" id="place-type">City place</p><h2 id="place-title">A place in the city</h2></div>
+      <button class="place-close" id="place-close" type="button" aria-label="Close place details">×</button>
+    </div>
+    <p id="place-description"></p>
+    <a class="place-link" id="place-link" href="hydroponics.html" hidden>Explore the hydroponics network</a>
+  </dialog>
+  <header class="topline">
+    <a class="brand" href="#"><span class="brand-mark">V</span> Verdant Table</a>
+    <span class="live"><i></i> Biosphere stable</span>
+    <span class="top-meta">Field study 01 / New Eden, 2086</span>
+  </header>
+  <main>
+    <section class="left-panel" aria-labelledby="title">
+      <p class="eyebrow">A living city, in balance</p>
+      <h1 id="title">Built to <span>blossom.</span></h1>
+      <p class="intro">A neighborhood where farms reach for the sun, water loops through every block, and the harvest is always shared.</p>
+      <div class="statline">
+        <div class="stat"><strong>92%</strong><span>Food grown here</span></div>
+        <div class="stat"><strong>0.8 km</strong><span>To the harvest</span></div>
+      </div>
+    </section>
+    <aside class="right-rail" aria-label="City systems">
+      <p class="rail-heading">Living infrastructure</p>
+      <a class="system" href="hydroponics.html" aria-label="Explore how hydroponics powers the city's vertical farms"><div class="system-head"><span>Vertical farms</span><small>EXPLORE</small></div><p>Hydroponics grows leafy greens, floor to floor.</p><div class="meter"><i style="--value: 88%"></i></div></a>
+      <a class="system" href="bio-dome.html" aria-label="Explore sustainable farming inside the Bio-dome"><div class="system-head"><span>The Bio-dome</span><small>EXPLORE</small></div><p>A protected growing space for a healthy, year-round harvest.</p><div class="meter"><i style="--value: 98%"></i></div></a>
+      <a class="system" href="sustainable-homes.html" aria-label="Explore how sustainable homes save energy and water"><div class="system-head"><span>Sustainable homes</span><small>EXPLORE</small></div><p>Homes designed for comfort, low energy, and less waste.</p><div class="meter"><i style="--value: 74%"></i></div></a>
+    </aside>
+  </main>
+  <footer class="bottomline">
+    <span class="coordinates">North garden district &nbsp;·&nbsp; <strong>35° 41' N / 139° 41' E</strong></span>
+    <div class="controls">
+      <span class="hint">Click a place · drag to explore</span>
+      <button class="control" id="reset" type="button" aria-label="Reset city view" title="Reset view"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 0 2.6-6.4L3 7"/><path d="M3 3v4h4"/></svg></button>
+      <button class="control" id="spin" type="button" aria-label="Pause rotation" title="Pause rotation"><svg viewBox="0 0 24 24"><path d="M10 5H6v14h4zM18 5h-4v14h4z"/></svg></button>
+    </div>
+  </footer>
+  <div class="loading" id="loading"><span>Growing your city</span></div>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const canvas = document.querySelector('#city');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#dcebdd');
+    scene.fog = new THREE.Fog('#dcebdd', 24, 50);
+    const camera = new THREE.PerspectiveCamera(34, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(12, 10, 15);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.12;
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1.1, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = .055;
+    controls.minDistance = 9;
+    controls.maxDistance = 26;
+    controls.maxPolarAngle = Math.PI * .48;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = .42;
+
+    scene.add(new THREE.HemisphereLight('#fff9dc', '#719477', 2.15));
+    const sun = new THREE.DirectionalLight('#fff3d6', 3.1);
+    sun.position.set(-8, 14, 10);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -13; sun.shadow.camera.right = 13; sun.shadow.camera.top = 13; sun.shadow.camera.bottom = -13;
+    scene.add(sun);
+
+    const materials = {};
+    const mat = (name, color, roughness = .78, metalness = 0) => materials[name] ||= new THREE.MeshStandardMaterial({ color, roughness, metalness });
+    const m = {
+      ground: mat('ground', '#d9dfbd'), soil: mat('soil', '#876749'), concrete: mat('concrete', '#f3e7cf'),
+      pale: mat('pale', '#f8f0d9'), mint: mat('mint', '#96c9a0'), glass: mat('glass', '#8ab7a2', .24, .12),
+      deep: mat('deep', '#315e49'), leaf: mat('leaf', '#72a968'), bright: mat('bright', '#add37c'),
+      coral: mat('coral', '#df8063'), yellow: mat('yellow', '#edc968'), water: mat('water', '#78c6c1', .18, .15),
+      dark: mat('dark', '#4b6656'), white: mat('white', '#fff9e9'), fruit: mat('fruit', '#ed9c64'),
+    };
+    const city = new THREE.Group();
+    scene.add(city);
+
+    function box(parent, x, y, z, sx, sy, sz, material, bevel = 0) {
+      const geometry = bevel ? new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1) : new THREE.BoxGeometry(sx, sy, sz);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function cylinder(parent, x, y, z, rt, rb, height, material, segments = 16) {
+      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, height, segments), material);
+      mesh.position.set(x, y, z); mesh.castShadow = true; mesh.receiveShadow = true; parent.add(mesh); return mesh;
+    }
+    function sphere(parent, x, y, z, sx, sy, sz, material) {
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 10), material);
+      mesh.position.set(x, y, z); mesh.scale.set(sx, sy, sz); mesh.castShadow = true; parent.add(mesh); return mesh;
+    }
+    function groupAt(parent, x, y, z, rotation = 0) {
+      const group = new THREE.Group(); group.position.set(x, y, z); group.rotation.y = rotation; parent.add(group); return group;
+    }
+
+    // Tiered edible landscape on a floating, layered garden platter.
+    cylinder(city, 0, -.55, 0, 6.7, 6.7, .4, m.deep, 64);
+    cylinder(city, 0, -.32, 0, 6.55, 6.55, .18, m.concrete, 64);
+    cylinder(city, 0, -.19, 0, 6.37, 6.37, .12, m.soil, 64);
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(6.27, 64), m.ground);
+    ground.rotation.x = -Math.PI / 2; ground.position.y = -.115; ground.receiveShadow = true; city.add(ground);
+
+    // Concentric aqua canals trace the food-growing neighborhoods.
+    for (const [radius, tube] of [[5.55, .095], [3.92, .075], [2.55, .065]]) {
+      const canal = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 8, 100), m.water);
+      canal.rotation.x = Math.PI / 2; canal.position.y = -.07; city.add(canal);
+    }
+    const hub = groupAt(city, 0, 0, 0);
+    cylinder(hub, 0, .12, 0, 1.26, 1.43, .5, m.pale, 32);
+    cylinder(hub, 0, .38, 0, 1.14, 1.14, .08, m.coral, 32);
+    cylinder(hub, 0, .48, 0, .96, 1.05, .17, m.pale, 32);
+    cylinder(hub, 0, .66, 0, .57, .65, .25, m.mint, 24);
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(.55, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), m.glass);
+    dome.position.y = .79; dome.castShadow = true; hub.add(dome);
+    cylinder(hub, 0, .94, 0, .55, .55, .05, m.yellow, 24);
+    for (let index = 0; index < 9; index++) {
+      const angle = index * Math.PI * 2 / 9;
+      const planter = groupAt(hub, Math.cos(angle) * .82, .58, Math.sin(angle) * .82, angle);
+      box(planter, 0, 0, 0, .16, .25, .2, m.deep);
+      sphere(planter, 0, .21, 0, .17, .19, .13, index % 2 ? m.leaf : m.bright);
+      sphere(planter, .08, .28, .02, .085, .1, .08, m.leaf);
+    }
+
+    // Three greenhouse towers: stacked grow beds, visible water pipes, and leafy crowns.
+    function greenhouse(x, z, height, rotation = 0) {
+      const tower = groupAt(city, x, 0, z, rotation);
+      const levels = Math.floor(height / .62);
+      cylinder(tower, 0, .09, 0, .8, .86, .28, m.concrete, 8);
+      cylinder(tower, 0, .25, 0, .59, .64, .08, m.deep, 8);
+      for (let level = 0; level < levels; level++) {
+        const y = .42 + level * .62;
+        cylinder(tower, 0, y, 0, .5, .56, .08, level % 2 ? m.yellow : m.coral, 8);
+        cylinder(tower, 0, y + .28, 0, .39, .42, .46, m.glass, 8);
+        cylinder(tower, 0, y + .52, 0, .52, .45, .07, m.pale, 8);
+        for (let leaf = 0; leaf < 8; leaf++) {
+          const angle = leaf * Math.PI / 4 + level * .28;
+          const plant = sphere(tower, Math.cos(angle) * .47, y + .62, Math.sin(angle) * .47, .12, .09, .21, leaf % 3 ? m.leaf : m.bright);
+          plant.rotation.y = -angle;
+        }
+        if (level < levels - 1) cylinder(tower, 0, y + .77, 0, .035, .035, .16, m.water, 8);
+      }
+      cylinder(tower, 0, .42 + levels * .62, 0, .44, .48, .1, m.deep, 8);
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(.43, .43, 8), m.mint);
+      roof.position.y = .7 + levels * .62; roof.castShadow = true; tower.add(roof);
+      cylinder(tower, .67, height * .43, 0, .045, .045, height * .78, m.water, 8);
+      return tower;
+    }
+    const greenhouses = [
+      greenhouse(-3.55, -1.35, 2.5, .2),
+      greenhouse(3.45, -1.3, 3.1, .15),
+      greenhouse(-2.55, 3.12, 1.9, .4),
+    ];
+
+    // Low-rise homes with edible roof gardens and colorful awnings.
+    function home(x, z, rotation, accent) {
+      const building = groupAt(city, x, -.05, z, rotation);
+      box(building, 0, .42, 0, 1.03, .93, .88, m.pale);
+      box(building, 0, .93, 0, 1.15, .12, 1.02, accent);
+      box(building, -.23, .48, .452, .2, .32, .035, m.glass);
+      box(building, .23, .48, .452, .2, .32, .035, m.glass);
+      box(building, 0, .29, .456, .18, .52, .05, m.dark);
+      box(building, 0, 1.08, 0, .82, .16, .75, m.soil);
+      for (let i = 0; i < 5; i++) {
+        const px = -.3 + i * .15;
+        const sprout = sphere(building, px, 1.28 + (i % 2) * .05, 0, .09, .16, .1, i % 2 ? m.leaf : m.bright);
+        sprout.rotation.z = (i % 2 ? 1 : -1) * .3;
+      }
+      return building;
+    }
+    const homes = [
+      home(-4.75, 1.1, .35, m.yellow), home(4.55, 1.35, -.2, m.coral),
+      home(-4.7, -3.4, -.3, m.mint), home(2.8, 3.75, .7, m.yellow),
+      home(4.2, -3.5, .4, m.mint), home(-.8, 4.65, .1, m.coral),
+    ];
+
+    // Long aqua hydroponic troughs, leafy beds, and orchard trees.
+    function growBed(x, z, length, angle = 0) {
+      const bed = groupAt(city, x, -.02, z, angle);
+      box(bed, 0, .08, 0, length, .18, .6, m.deep);
+      box(bed, 0, .18, 0, length - .12, .055, .43, m.water);
+      const count = Math.floor(length * 2.8);
+      for (let i = 0; i < count; i++) {
+        const px = -length / 2 + .17 + i * (length - .34) / Math.max(1, count - 1);
+        for (const side of [-.11, .11]) {
+          sphere(bed, px, .36 + (i % 2) * .035, side, .11, .1, .13, (i + Math.round(side * 10)) % 3 ? m.leaf : m.bright);
+        }
+      }
+      return bed;
+    }
+    growBed(-.6, -4.9, 2.1, .1); growBed(1.3, 4.55, 2.4, -.2);
+    growBed(-4.85, -.95, 1.55, Math.PI / 2); growBed(4.75, -.95, 1.7, Math.PI / 2);
+    growBed(-3.85, 3.9, 1.35, -.65); growBed(3.7, 3.45, 1.35, .6);
+    growBed(-4.4, -4.25, 1.25, -.4); growBed(4.05, -4.3, 1.4, .5);
+
+    function tree(x, z, scale = 1) {
+      const orchard = groupAt(city, x, 0, z);
+      cylinder(orchard, 0, .48 * scale, 0, .09 * scale, .12 * scale, .9 * scale, m.soil, 8);
+      sphere(orchard, 0, 1.05 * scale, 0, .48 * scale, .53 * scale, .47 * scale, m.leaf);
+      sphere(orchard, -.22 * scale, 1.25 * scale, .13 * scale, .27 * scale, .3 * scale, .29 * scale, m.bright);
+      for (let i = 0; i < 3; i++) sphere(orchard, -.15 * scale + i * .26 * scale, .98 * scale, -.34 * scale, .1 * scale, .1 * scale, .1 * scale, m.fruit);
+    }
+    tree(-5.15, 2.75, .8); tree(5.2, 2.85, .85); tree(-5.1, -2.5, .75); tree(5, -2.55, .8);
+
+    // Footpaths connect the central commons with every growing block.
+    for (let index = 0; index < 8; index++) {
+      const angle = index * Math.PI / 4 + Math.PI / 8;
+      const path = box(city, Math.cos(angle) * 4.55, -.045, Math.sin(angle) * 4.55, 2.15, .035, .28, m.concrete);
+      path.rotation.y = -angle;
+      const steppingStone = box(city, Math.cos(angle) * 3.1, -.012, Math.sin(angle) * 3.1, .45, .025, .19, m.pale);
+      steppingStone.rotation.y = -angle;
+    }
+    // A cluster of produce tents fills the open back-center of the neighborhood.
+    const market = groupAt(city, 0, 0, -2.9);
+    const stallColors = [m.coral, m.yellow, m.mint, m.yellow, m.coral, m.mint];
+    for (let index = 0; index < stallColors.length; index++) {
+      const row = Math.floor(index / 3);
+      const column = index % 3;
+      const stall = groupAt(market, (column - 1) * .72, 0, (row - .5) * .74);
+      box(stall, 0, .23, 0, .53, .24, .43, m.soil);
+      for (const x of [-.22, .22]) for (const z of [-.17, .17]) cylinder(stall, x, .43, z, .018, .018, .42, m.dark, 6);
+      const canopy = new THREE.Mesh(new THREE.ConeGeometry(.4, .26, 4), stallColors[index]);
+      canopy.rotation.y = Math.PI / 4;
+      canopy.position.y = .72;
+      canopy.castShadow = true;
+      stall.add(canopy);
+      for (let produce = 0; produce < 3; produce++) sphere(stall, -.16 + produce * .16, .39, .22, .065, .065, .06, produce % 2 ? m.fruit : m.bright);
+    }
+    const marketTooltip = document.querySelector('#market-tooltip');
+    const marketRaycaster = new THREE.Raycaster();
+    const marketPointer = new THREE.Vector2();
+    let marketPointerStart = null;
+    function pointerIsOverMarket(event) {
+      const bounds = canvas.getBoundingClientRect();
+      marketPointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      marketPointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      marketRaycaster.setFromCamera(marketPointer, camera);
+      return marketRaycaster.intersectObjects(market.children, true).length > 0;
+    }
+    function pointerIsOverHome(event) {
+      const bounds = canvas.getBoundingClientRect();
+      marketPointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      marketPointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      marketRaycaster.setFromCamera(marketPointer, camera);
+      return marketRaycaster.intersectObjects(homes, true).length > 0;
+    }
+    function pointerIsOverDome(event) {
+      const bounds = canvas.getBoundingClientRect();
+      marketPointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      marketPointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      marketRaycaster.setFromCamera(marketPointer, camera);
+      return marketRaycaster.intersectObjects([hub], true).length > 0;
+    }
+    function pointerIsOverGreenhouse(event) {
+      const bounds = canvas.getBoundingClientRect();
+      marketPointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      marketPointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      marketRaycaster.setFromCamera(marketPointer, camera);
+      return marketRaycaster.intersectObjects(greenhouses, true).length > 0;
+    }
+    canvas.addEventListener('pointerdown', event => {
+      marketPointerStart = { x: event.clientX, y: event.clientY };
+    });
+    canvas.addEventListener('pointerup', event => {
+      if (!marketPointerStart) return;
+      const moved = Math.hypot(event.clientX - marketPointerStart.x, event.clientY - marketPointerStart.y) > 6;
+      marketPointerStart = null;
+      if (moved) return;
+      if (pointerIsOverMarket(event)) {
+        window.location.assign('farmers-market.html');
+      } else if (pointerIsOverHome(event)) {
+        window.location.assign('sustainable-homes.html');
+      } else if (pointerIsOverGreenhouse(event)) {
+        window.location.assign('hydroponics.html');
+      } else if (pointerIsOverDome(event)) {
+        window.location.assign('bio-dome.html');
+      }
+    });
+    canvas.addEventListener('pointercancel', () => { marketPointerStart = null; });
+    canvas.addEventListener('pointermove', event => {
+      if (event.pointerType === 'touch') {
+        marketTooltip.classList.remove('visible');
+        canvas.style.cursor = 'grab';
+        return;
+      }
+      const overMarket = pointerIsOverMarket(event);
+      const overHome = !overMarket && pointerIsOverHome(event);
+      const overGreenhouse = !overMarket && !overHome && pointerIsOverGreenhouse(event);
+      const overDome = !overMarket && !overHome && !overGreenhouse && pointerIsOverDome(event);
+      const overPlace = overMarket || overHome || overGreenhouse || overDome;
+      marketTooltip.textContent = overHome ? 'Sustainable homes' : overGreenhouse ? 'Hydroponics' : overDome ? 'The Bio-dome' : "Farmer's market";
+      marketTooltip.classList.toggle('visible', overPlace);
+      canvas.style.cursor = overPlace ? 'pointer' : 'grab';
+      if (overPlace) {
+        const left = Math.min(event.clientX + 12, innerWidth - marketTooltip.offsetWidth - 8);
+        const top = Math.min(event.clientY + 12, innerHeight - marketTooltip.offsetHeight - 8);
+        marketTooltip.style.left = `${Math.max(8, left)}px`;
+        marketTooltip.style.top = `${Math.max(8, top)}px`;
+      }
+    });
+    canvas.addEventListener('pointerleave', () => {
+      marketTooltip.classList.remove('visible');
+      canvas.style.cursor = 'grab';
+    });
+
+    const resetButton = document.querySelector('#reset');
+    const spinButton = document.querySelector('#spin');
+    resetButton.addEventListener('click', () => {
+      camera.position.set(12, 10, 15);
+      controls.target.set(0, 1.1, 0);
+      controls.autoRotate = true;
+      spinButton.setAttribute('aria-label', 'Pause rotation');
+    });
+    spinButton.addEventListener('click', () => {
+      controls.autoRotate = !controls.autoRotate;
+      spinButton.setAttribute('aria-label', controls.autoRotate ? 'Pause rotation' : 'Resume rotation');
+    });
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    });
+    const clock = new THREE.Clock();
+    function render() {
+      requestAnimationFrame(render);
+      const time = clock.getElapsedTime();
+      hub.position.y = Math.sin(time * .65) * .035;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    render();
+    document.querySelector('#loading').classList.add('done');
+  </script>
+</body>
+</html>

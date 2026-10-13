@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f5e9">
+  <meta name="description" content="Meet the growers and neighbors at New Eden's farmers market, where the city harvest comes together.">
+  <title>Farmers' Market | Sustainable City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+    } }
+  </script>
+  <style>
+    :root {
+      --ink: #183b32;
+      --moss: #477756;
+      --leaf: #a9d77c;
+      --coral: #ec8064;
+      --paper: #f1f5e9;
+      --body: "Manrope", sans-serif;
+      --serif: "Playfair Display", Georgia, serif;
+      --mono: "DM Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--body); }
+    a { color: inherit; }
+    .topline { display: flex; min-height: 74px; align-items: center; justify-content: space-between; padding: 16px max(24px, calc((100vw - 1180px) / 2)); border-bottom: 1px solid #183b3222; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 30px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: var(--ink); color: var(--leaf); font: 17px var(--serif); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #466257; font: 10px var(--mono); text-decoration: none; text-transform: uppercase; }
+    .back-link:hover, .closing a:hover { color: var(--coral); }
+    .back-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    main { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .hero { display: flex; min-height: 350px; align-items: center; padding: 54px 0 42px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--moss); font: 10px var(--mono); letter-spacing: .5px; text-transform: uppercase; }
+    .eyebrow::before { width: 20px; height: 1px; background: var(--coral); content: ""; }
+    h1, h2, p { margin-top: 0; }
+    h1 { max-width: 480px; margin-bottom: 20px; font: 700 clamp(48px, 6vw, 76px)/1.02 var(--serif); letter-spacing: 0; }
+    h1 em { color: #699665; font-weight: 600; }
+    .lead { max-width: 450px; margin-bottom: 27px; color: #536d60; font-size: 14px; line-height: 1.85; }
+    .market-facts { display: grid; grid-template-columns: 1fr 1fr; max-width: 400px; border-top: 1px solid #23473735; }
+    .fact { padding: 13px 14px 0 0; }
+    .fact + .fact { padding-left: 17px; border-left: 1px solid #23473735; }
+    .fact strong { display: block; margin-bottom: 5px; font: 600 19px var(--serif); }
+    .fact span { color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .market-map { position: relative; width: calc(100% + 48px); height: min(72svh, 690px); min-height: 460px; margin-left: -24px; overflow: hidden; background: #dcebdd; }
+    #market-map-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+    .map-heading { position: absolute; top: 22px; left: max(22px, calc((100vw - 1180px) / 2)); pointer-events: none; }
+    .map-heading .eyebrow { margin-bottom: 8px; }
+    .map-heading h2 { font: 600 27px/1.1 var(--serif); }
+    .map-loading { position: absolute; inset: 0; display: grid; place-items: center; background: #dcebdd; color: var(--ink); font: 10px var(--mono); text-transform: uppercase; transition: opacity .35s; }
+    .map-loading.done { opacity: 0; pointer-events: none; }
+    .stall-tooltip { position: fixed; z-index: 4; padding: 8px 11px; border: 1px solid #183b3222; background: #f1f5e9ef; color: var(--ink); font: 10px var(--mono); text-transform: uppercase; pointer-events: none; opacity: 0; translate: 0 3px; transition: opacity .12s, translate .12s; }
+    .stall-tooltip.visible { opacity: 1; translate: 0 0; }
+    .map-controls { position: absolute; right: max(18px, calc((100vw - 1180px) / 2)); bottom: 18px; display: flex; gap: 7px; }
+    .map-control { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid #21493945; border-radius: 50%; background: #f1f5e9d9; color: var(--ink); cursor: pointer; }
+    .map-control:hover { background: #fff; }
+    .map-control:focus-visible, .stand-button:focus-visible, .food-close:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+    .map-control svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .stand-index { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid #23473735; }
+    .stand-button { display: flex; min-height: 58px; align-items: center; gap: 10px; padding: 12px 16px 12px 0; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+    .stand-button + .stand-button { padding-left: 16px; border-left: 1px solid #23473735; }
+    .stand-swatch { width: 11px; height: 11px; flex: 0 0 auto; border-radius: 50%; background: var(--stall-color); }
+    .food-dialog { width: min(460px, calc(100vw - 34px)); padding: 26px; border: 1px solid #183b3225; background: var(--paper); color: var(--ink); box-shadow: 0 18px 55px #183b3230; }
+    .food-dialog::backdrop { background: #183b3245; backdrop-filter: blur(3px); }
+    .food-dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .food-dialog .eyebrow { margin-bottom: 9px; }
+    .food-dialog h2 { margin: 0 0 10px; font: 600 32px/1.08 var(--serif); }
+    .food-intro { margin-bottom: 20px; color: #536d60; font-size: 12px; line-height: 1.7; }
+    .food-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; margin: 0; padding: 0; border-top: 1px solid #23473735; list-style: none; }
+    .food-list li { padding: 11px 0; border-bottom: 1px solid #23473720; color: #355948; font-size: 11px; }
+    .food-close { display: grid; width: 32px; height: 32px; flex: 0 0 auto; place-items: center; border: 1px solid #21493945; border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; font-size: 19px; line-height: 1; }
+    .story { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(36px, 8vw, 120px); padding: 86px 0 92px; border-top: 1px solid #23473735; }
+    h2 { max-width: 340px; margin-bottom: 0; font: 600 clamp(34px, 4vw, 48px)/1.1 var(--serif); letter-spacing: 0; }
+    .story-copy > p { max-width: 650px; margin-bottom: 18px; color: #536d60; font-size: 13px; line-height: 1.85; }
+    .market-details { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 33px; border-top: 1px solid #23473735; }
+    .detail { padding: 17px 18px 0 0; }
+    .detail + .detail { padding-left: 18px; border-left: 1px solid #23473735; }
+    .detail span { color: var(--coral); font: 9px var(--mono); text-transform: uppercase; }
+    .detail h3 { margin: 10px 0 7px; font-size: 12px; }
+    .detail p { margin: 0; color: #627a6e; font-size: 11px; line-height: 1.65; }
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0 28px; border-top: 1px solid #23473735; color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .closing a { color: var(--ink); text-decoration: none; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-copy { animation: arrive .65s both; }
+    @media (max-width: 760px) {
+      .topline { min-height: 64px; padding: 13px 18px; }
+      main { padding: 0 19px; }
+      .hero { min-height: auto; padding: 46px 0 35px; }
+      h1 { font-size: clamp(48px, 12vw, 66px); }
+      .lead { font-size: 13px; }
+      .market-map { width: calc(100% + 38px); height: 58svh; min-height: 410px; margin-left: -19px; }
+      .map-heading { top: 17px; left: 19px; }
+      .map-heading h2 { font-size: 23px; }
+      .map-controls { right: 16px; bottom: 13px; }
+      .stand-index { grid-template-columns: 1fr 1fr; }
+      .stand-button { min-height: 49px; padding: 10px 8px 10px 0; font-size: 11px; }
+      .stand-button + .stand-button { padding-left: 10px; }
+      .stand-button:nth-child(3), .stand-button:nth-child(5) { padding-left: 0; border-left: 0; }
+      .stand-button:nth-child(n + 3) { border-top: 1px solid #23473720; }
+      .story { grid-template-columns: 1fr; gap: 24px; padding: 62px 0; }
+      .market-details { grid-template-columns: 1fr; }
+      .detail, .detail + .detail { padding: 15px 0; border: 0; border-bottom: 1px solid #23473720; }
+      .detail h3 { margin: 6px 0; }
+      .closing { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topline">
+    <a class="brand" href="index.html"><span class="brand-mark">V</span> Sustainable City</a>
+    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg>Back to the city</a>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">New Eden / Neighborhood commons</p>
+        <h1 id="page-title">The farmers' <em>market.</em></h1>
+        <p class="lead">Five specialty stalls turn the neighborhood harvest into a shared table. Growers bring in just-picked greens, seasonal fruit, herbs, and treats from farms and kitchens throughout the city.</p>
+        <div class="market-facts" aria-label="Farmers market highlights">
+          <div class="fact"><strong>Grown close</strong><span>Harvested across New Eden</span></div>
+          <div class="fact"><strong>Shared daily</strong><span>Meet the people who grow it</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="market-map" aria-label="Interactive 3D farmers market map">
+      <canvas id="market-map-canvas" aria-label="3D market with baked goods, fruit, vegetables, fresh drinks, and ice cream stands"></canvas>
+      <div class="map-heading"><p class="eyebrow">Five stalls / One shared table</p><h2>Explore the market</h2></div>
+      <div class="map-controls">
+        <button class="map-control" id="map-reset" type="button" aria-label="Reset market view" title="Reset view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 0 2.6-6.4L3 7"/><path d="M3 3v4h4"/></svg></button>
+      </div>
+      <div class="map-loading" id="map-loading">Setting up the market</div>
+    </section>
+    <nav class="stand-index" aria-label="Market stalls">
+      <button class="stand-button" type="button" data-stand="baked"><span class="stand-swatch" style="--stall-color: #df8063"></span>Baked goods</button>
+      <button class="stand-button" type="button" data-stand="fruit"><span class="stand-swatch" style="--stall-color: #ed9c64"></span>Fresh fruit</button>
+      <button class="stand-button" type="button" data-stand="vegetables"><span class="stand-swatch" style="--stall-color: #79a96d"></span>Vegetables</button>
+      <button class="stand-button" type="button" data-stand="drinks"><span class="stand-swatch" style="--stall-color: #78c6c1"></span>Fresh drinks</button>
+      <button class="stand-button" type="button" data-stand="ice-cream"><span class="stand-swatch" style="--stall-color: #d59caa"></span>Ice cream</button>
+    </nav>
+    <span class="stall-tooltip" id="stall-tooltip" role="tooltip" aria-hidden="true"></span>
+    <dialog class="food-dialog" id="food-dialog" aria-labelledby="food-title">
+      <div class="food-dialog-head">
+        <div><p class="eyebrow" id="food-type">Market stall</p><h2 id="food-title">Stand</h2></div>
+        <button class="food-close" id="food-close" type="button" aria-label="Close stall menu">×</button>
+      </div>
+      <p class="food-intro" id="food-intro"></p>
+      <ul class="food-list" id="food-list"></ul>
+    </dialog>
+    <section class="story" aria-labelledby="story-title">
+      <h2 id="story-title">More than a place to shop.</h2>
+      <div class="story-copy">
+        <p>The market is where the city’s growers and neighbors meet. Produce travels a short distance from hydroponic towers, rooftop beds, and community gardens to the stalls, so it can be picked ripe and shared fresh.</p>
+        <p>Each tent has its own small harvest: crisp greens, bright fruit, fragrant herbs, and starts for a windowsill or garden plot. Neighbors trade recipes, growers share what is in season, and the commons becomes part of the food system too.</p>
+        <div class="market-details">
+          <article class="detail"><span>01 / THE HARVEST</span><h3>Picked nearby</h3><p>Seasonal produce comes in from growing blocks across the city.</p></article>
+          <article class="detail"><span>02 / THE GROWERS</span><h3>Know your food</h3><p>Small producers share how each crop was raised and what is ready next.</p></article>
+          <article class="detail"><span>03 / THE COMMONS</span><h3>Food brings us together</h3><p>A lively public square makes fresh food part of everyday neighborhood life.</p></article>
+        </div>
+      </div>
+    </section>
+    <footer class="closing"><span>Sustainable City / New Eden, 2086</span><a href="index.html">Return to the city map ↗</a></footer>
+  </main>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const canvas = document.querySelector('#market-map-canvas');
+    const map = document.querySelector('.market-map');
+    const loading = document.querySelector('#map-loading');
+    const tooltip = document.querySelector('#stall-tooltip');
+    const dialog = document.querySelector('#food-dialog');
+    const title = document.querySelector('#food-title');
+    const type = document.querySelector('#food-type');
+    const intro = document.querySelector('#food-intro');
+    const foodList = document.querySelector('#food-list');
+    const stalls = [
+      { id: 'baked', name: 'Baked goods', color: '#df8063', intro: 'Small-batch loaves and treats baked nearby, ready for the walk home.', foods: ['Sourdough loaf', 'Seeded rye', 'Apple hand pies', 'Honey oat rolls'], position: [-3, 0, 2.3], kind: 'bakery' },
+      { id: 'fruit', name: 'Fresh fruit', color: '#ed9c64', intro: 'Sweet, sun-ripened fruit picked from neighborhood orchards and rooftop gardens.', foods: ['New Eden apples', 'Market strawberries', 'Citrus', 'Rooftop melons'], position: [0, 0, 2.3], kind: 'fruit' },
+      { id: 'vegetables', name: 'Vegetables', color: '#79a96d', intro: 'Crisp greens, roots, and herbs harvested from the city’s hydroponic farms and garden beds.', foods: ['Leafy greens', 'Heirloom tomatoes', 'Rainbow carrots', 'Fresh herbs'], position: [3, 0, 2.3], kind: 'vegetables' },
+      { id: 'drinks', name: 'Fresh drinks', color: '#78c6c1', intro: 'Bright, refreshing drinks pressed and poured with the market harvest.', foods: ['Citrus spritz', 'Garden lemonade', 'Pressed apple juice', 'Mint-lime cooler'], position: [-2.25, 0, -2.4], kind: 'drinks' },
+      { id: 'ice-cream', name: 'Ice cream', color: '#d59caa', intro: 'Creamy small-batch scoops made with fruit and milk from nearby farms.', foods: ['Strawberry cream', 'Honey vanilla', 'Peach sorbet', 'Mint chip'], position: [2.25, 0, -2.4], kind: 'icecream' },
+    ];
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#dcebdd');
+    scene.fog = new THREE.Fog('#dcebdd', 18, 34);
+    const camera = new THREE.PerspectiveCamera(38, map.clientWidth / map.clientHeight, .1, 100);
+    camera.position.set(10, 9, 12);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(map.clientWidth, map.clientHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, .7, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = .06;
+    controls.minDistance = 8;
+    controls.maxDistance = 19;
+    controls.maxPolarAngle = Math.PI * .47;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = .35;
+    scene.add(new THREE.HemisphereLight('#fff9dc', '#719477', 2.2));
+    const sun = new THREE.DirectionalLight('#fff3d6', 3.2);
+    sun.position.set(-7, 12, 8);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(1024, 1024);
+    scene.add(sun);
+
+    const material = (color, roughness = .78) => new THREE.MeshStandardMaterial({ color, roughness });
+    const materials = {
+      grass: material('#b7ca91'),
+      soil: material('#876749'),
+      wood: material('#806b4a'),
+      cream: material('#f8f0d9'),
+      mint: material('#96c9a0'),
+      green: material('#72a968'),
+      bright: material('#add37c'),
+      red: material('#df8063'),
+      gold: material('#edc968'),
+      aqua: material('#78c6c1', .25),
+      white: material('#fff9e9'),
+      pink: material('#d59caa'),
+      dark: material('#315e49'),
+      fruit: material('#ed9c64'),
+    };
+    const market = new THREE.Group();
+    scene.add(market);
+    const ground = new THREE.Mesh(new THREE.CylinderGeometry(7.1, 7.1, .35, 64), materials.dark);
+    ground.position.y = -.28;
+    ground.receiveShadow = true;
+    market.add(ground);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(6.95, 6.95, .12, 64), materials.grass);
+    top.position.y = -.055;
+    top.receiveShadow = true;
+    market.add(top);
+    const paths = material('#eadfbe');
+    for (const x of [-4.1, 4.1]) {
+      const path = new THREE.Mesh(new THREE.BoxGeometry(.22, .025, 6.8), paths);
+      path.position.set(x, .015, 0);
+      market.add(path);
+    }
+    for (const x of [-3.55, 3.55]) {
+      const path = new THREE.Mesh(new THREE.BoxGeometry(2, .03, .28), paths);
+      path.position.set(x, .025, 0);
+      market.add(path);
+    }
+
+    function box(parent, x, y, z, width, height, depth, mat) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), mat);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function sphere(parent, x, y, z, radius, mat, scaleY = 1) {
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, 14, 10), mat);
+      mesh.position.set(x, y, z);
+      mesh.scale.y = scaleY;
+      mesh.castShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function cylinder(parent, x, y, z, topRadius, bottomRadius, height, mat, segments = 12) {
+      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(topRadius, bottomRadius, height, segments), mat);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function picnicTable(x) {
+      const table = new THREE.Group();
+      table.position.set(x, 0, 0);
+      table.scale.setScalar(.88);
+      for (let plank = 0; plank < 3; plank++) box(table, 0, .83, -.2 + plank * .2, 1.5, .09, .18, materials.wood);
+      box(table, 0, .62, 0, 1.05, .1, .12, materials.dark);
+      for (const legX of [-.48, .48]) for (const legZ of [-.22, .22]) cylinder(table, legX, .4, legZ, .045, .045, .74, materials.wood, 8);
+      for (const benchZ of [-.68, .68]) {
+        box(table, 0, .48, benchZ, 1.4, .1, .22, materials.wood);
+        for (const legX of [-.48, .48]) cylinder(table, legX, .23, benchZ, .035, .035, .42, materials.wood, 8);
+      }
+      market.add(table);
+    }
+    picnicTable(-1.15);
+    picnicTable(1.15);
+    function buildCanopy(group, color) {
+      for (const x of [-.56, .56]) for (const z of [-.43, .43]) cylinder(group, x, .65, z, .035, .035, 1.2, materials.wood, 8);
+      const canopy = new THREE.Mesh(new THREE.ConeGeometry(.82, .5, 4), material(color));
+      canopy.rotation.y = Math.PI / 4;
+      canopy.position.y = 1.34;
+      canopy.castShadow = true;
+      group.add(canopy);
+      box(group, 0, .44, .12, 1.15, .18, .66, materials.wood);
+      box(group, 0, .55, .12, 1.2, .06, .7, materials.cream);
+    }
+    function makeFruit(group) {
+      for (let index = 0; index < 6; index++) {
+        const x = -.43 + (index % 3) * .43;
+        const z = -.02 + Math.floor(index / 3) * .27;
+        sphere(group, x, .73, z, .14, index % 3 === 0 ? materials.red : index % 3 === 1 ? materials.fruit : materials.gold, .9);
+        cylinder(group, x, .88, z, .012, .012, .08, materials.green, 6);
+        sphere(group, x + .055, .88, z, .045, materials.green, .55);
+      }
+    }
+    function makeVegetables(group) {
+      for (let index = 0; index < 5; index++) {
+        const x = -.4 + index * .2;
+        sphere(group, x, .73, .02, .13, index % 2 ? materials.green : materials.bright, 1.1);
+        sphere(group, x - .055, .84, .01, .09, materials.green, .75);
+      }
+      for (let index = 0; index < 3; index++) {
+        const carrot = new THREE.Mesh(new THREE.ConeGeometry(.09, .32, 8), materials.fruit);
+        carrot.rotation.z = Math.PI;
+        carrot.position.set(-.25 + index * .25, .72, .31);
+        carrot.castShadow = true;
+        group.add(carrot);
+        sphere(group, -.25 + index * .25, .9, .31, .06, materials.green, .7);
+      }
+    }
+    function makeBakery(group) {
+      box(group, 0, .73, -.01, .84, .34, .42, materials.soil);
+      for (let index = 0; index < 4; index++) {
+        const bread = sphere(group, -.3 + index * .2, .92, .04, .11, materials.gold, .72);
+        bread.scale.x = 1.35;
+        cylinder(group, -.3 + index * .2, .91, .04, .012, .012, .13, materials.cream, 6);
+      }
+      box(group, -.1, .68, .27, .35, .14, .1, materials.red);
+      box(group, .28, .68, .27, .32, .14, .1, materials.gold);
+    }
+    function makeDrinks(group) {
+      for (let index = 0; index < 3; index++) {
+        const x = -.34 + index * .34;
+        cylinder(group, x, .79, .06, .105, .12, .34, materials.aqua, 12);
+        cylinder(group, x, .98, .06, .075, .075, .04, materials.cream, 12);
+        cylinder(group, x + .025, 1.08, .06, .012, .012, .2, materials.red, 6);
+      }
+      cylinder(group, 0, .71, .35, .13, .13, .18, materials.fruit, 16);
+    }
+    function makeIceCream(group) {
+      const cones = [materials.gold, materials.pink, materials.cream];
+      for (let index = 0; index < 3; index++) {
+        const x = -.34 + index * .34;
+        const cone = new THREE.Mesh(new THREE.ConeGeometry(.11, .28, 8), materials.gold);
+        cone.position.set(x, .72, .04);
+        cone.castShadow = true;
+        group.add(cone);
+        sphere(group, x, .91, .04, .13, cones[index], .92);
+        sphere(group, x - .07, .96, .04, .07, cones[index]);
+      }
+    }
+
+    for (const stall of stalls) {
+      const group = new THREE.Group();
+      group.position.set(...stall.position);
+      buildCanopy(group, stall.color);
+      if (stall.kind === 'bakery') makeBakery(group);
+      if (stall.kind === 'fruit') makeFruit(group);
+      if (stall.kind === 'vegetables') makeVegetables(group);
+      if (stall.kind === 'drinks') makeDrinks(group);
+      if (stall.kind === 'icecream') makeIceCream(group);
+      group.userData.stall = stall;
+      market.add(group);
+      stall.group = group;
+    }
+    for (let index = 0; index < 8; index++) {
+      const angle = index * Math.PI / 4;
+      const tree = new THREE.Group();
+      tree.position.set(Math.cos(angle) * 5.6, 0, Math.sin(angle) * 5.6);
+      cylinder(tree, 0, .47, 0, .08, .1, .88, materials.soil, 8);
+      sphere(tree, 0, 1.05, 0, .44, materials.green, 1.1);
+      market.add(tree);
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let pointerStart = null;
+    function stallAt(event) {
+      const bounds = canvas.getBoundingClientRect();
+      pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(stalls.map(stall => stall.group), true)[0];
+      if (!hit) return null;
+      let group = hit.object;
+      while (group && !group.userData.stall) group = group.parent;
+      return group?.userData.stall || null;
+    }
+    function openStall(stall) {
+      type.textContent = "Today's selection";
+      title.textContent = stall.name;
+      intro.textContent = stall.intro;
+      foodList.replaceChildren(...stall.foods.map(food => {
+        const item = document.createElement('li');
+        item.textContent = food;
+        return item;
+      }));
+      controls.autoRotate = false;
+      dialog.showModal();
+    }
+    canvas.addEventListener('pointerdown', event => {
+      pointerStart = { x: event.clientX, y: event.clientY };
+    });
+    canvas.addEventListener('pointerup', event => {
+      if (!pointerStart) return;
+      const dragged = Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 6;
+      pointerStart = null;
+      if (!dragged) {
+        const stall = stallAt(event);
+        if (stall) openStall(stall);
+      }
+    });
+    canvas.addEventListener('pointercancel', () => { pointerStart = null; });
+    canvas.addEventListener('pointermove', event => {
+      if (event.pointerType === 'touch') return;
+      const stall = stallAt(event);
+      tooltip.classList.toggle('visible', Boolean(stall));
+      canvas.style.cursor = stall ? 'pointer' : 'grab';
+      if (stall) {
+        tooltip.textContent = stall.name;
+        tooltip.style.left = `${Math.min(event.clientX + 12, innerWidth - tooltip.offsetWidth - 8)}px`;
+        tooltip.style.top = `${Math.min(event.clientY + 12, innerHeight - tooltip.offsetHeight - 8)}px`;
+      }
+    });
+    canvas.addEventListener('pointerleave', () => {
+      tooltip.classList.remove('visible');
+      canvas.style.cursor = 'grab';
+    });
+    document.querySelectorAll('.stand-button').forEach(button => {
+      button.addEventListener('click', () => openStall(stalls.find(stall => stall.id === button.dataset.stand)));
+    });
+    document.querySelector('#food-close').addEventListener('click', () => dialog.close());
+    document.querySelector('#map-reset').addEventListener('click', () => {
+      camera.position.set(10, 9, 12);
+      controls.target.set(0, .7, 0);
+      controls.autoRotate = true;
+    });
+    window.addEventListener('resize', () => {
+      camera.aspect = map.clientWidth / map.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(map.clientWidth, map.clientHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    });
+    function render() {
+      requestAnimationFrame(render);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    render();
+    loading.classList.add('done');
+  </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f5e9">
+  <meta name="description" content="Explore sustainable farming in New Eden's Bio-dome, where healthy soil, diverse crops, and careful water use support a resilient harvest.">
+  <title>The Bio-dome | Sustainable City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+    } }
+  </script>
+  <style>
+    :root {
+      --ink: #183b32;
+      --moss: #477756;
+      --leaf: #a9d77c;
+      --coral: #ec8064;
+      --paper: #f1f5e9;
+      --body: "Manrope", sans-serif;
+      --serif: "Playfair Display", Georgia, serif;
+      --mono: "DM Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--body); }
+    a { color: inherit; }
+    .topline { display: flex; min-height: 74px; align-items: center; justify-content: space-between; padding: 16px max(24px, calc((100vw - 1180px) / 2)); border-bottom: 1px solid #183b3222; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .5px; text-decoration: none; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 30px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: var(--ink); color: var(--leaf); font: 17px var(--serif); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #466257; font: 10px var(--mono); text-decoration: none; text-transform: uppercase; }
+    .back-link:hover, .closing a:hover { color: var(--coral); }
+    .back-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    main { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .hero { display: grid; min-height: min(690px, calc(100svh - 74px)); grid-template-columns: 1fr 1.05fr; align-items: center; gap: clamp(35px, 7vw, 100px); padding: 58px 0 72px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--moss); font: 10px var(--mono); letter-spacing: .6px; text-transform: uppercase; }
+    .eyebrow::before { width: 20px; height: 1px; background: var(--coral); content: ""; }
+    h1, h2, p { margin-top: 0; }
+    h1 { max-width: 510px; margin-bottom: 20px; font: 700 clamp(48px, 6vw, 78px)/1.02 var(--serif); letter-spacing: 0; }
+    h1 em { color: #699665; font-weight: 600; }
+    .lead { max-width: 470px; margin-bottom: 30px; color: #536d60; font-size: 15px; line-height: 1.8; }
+    .hero-link { display: inline-flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #183b3260; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .hero-link span { color: var(--coral); font-size: 18px; transition: transform .2s; }
+    .hero-link:hover span { transform: translateY(3px); }
+    .dome-scene { position: relative; min-height: 430px; overflow: hidden; background: #dcebdd; isolation: isolate; }
+    .dome-scene::before, .dome-scene::after { position: absolute; z-index: 0; border: 1px solid #47775625; border-radius: 50%; content: ""; pointer-events: none; }
+    .dome-scene::before { width: 370px; aspect-ratio: 1; }
+    .dome-scene::after { width: 500px; aspect-ratio: 1; }
+    #dome-model { position: absolute; z-index: 1; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+    .scene-label, .scene-note, .model-status { position: absolute; z-index: 2; color: #61796c; font: 9px var(--mono); letter-spacing: .3px; pointer-events: none; text-transform: uppercase; }
+    .scene-label { top: 20px; left: 22px; }
+    .scene-note { right: 21px; bottom: 18px; text-align: right; }
+    .model-status { top: 50%; left: 50%; max-width: 80%; padding: 9px 12px; background: #f1f5e9dd; text-align: center; transform: translate(-50%, -50%); }
+    .model-status[hidden] { display: none; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #23473735; border-bottom: 1px solid #23473735; }
+    .principle { padding: 19px 18px 19px 0; }
+    .principle + .principle { padding-left: 22px; border-left: 1px solid #23473735; }
+    .principle strong { display: block; margin-bottom: 4px; font: 700 22px var(--serif); }
+    .principle span { color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .story { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(35px, 8vw, 120px); padding: 108px 0 96px; }
+    h2 { max-width: 360px; margin-bottom: 0; font: 600 clamp(32px, 4vw, 48px)/1.1 var(--serif); letter-spacing: 0; }
+    .story-copy > p { max-width: 650px; margin-bottom: 18px; color: #536d60; font-size: 14px; line-height: 1.85; }
+    .practices { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 37px; border-top: 1px solid #23473735; }
+    .practice { padding: 18px 20px 0 0; }
+    .practice + .practice { padding-left: 20px; border-left: 1px solid #23473735; }
+    .practice-number { color: var(--coral); font: 10px var(--mono); }
+    .practice h3 { margin: 10px 0 7px; font-size: 12px; }
+    .practice p { margin: 0; color: #627a6e; font-size: 11px; line-height: 1.65; }
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 23px 0 28px; border-top: 1px solid #23473735; color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .closing a { color: var(--ink); text-decoration: none; }
+    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-copy { animation: appear .65s both; }
+    .dome-scene { animation: appear .65s .12s both; }
+    @media (max-width: 760px) {
+      .topline { min-height: 64px; padding: 13px 18px; }
+      main { padding: 0 19px; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 34px; padding: 56px 0 45px; }
+      h1 { max-width: 440px; font-size: clamp(48px, 12vw, 66px); }
+      .lead { font-size: 13px; }
+      .dome-scene { min-height: 340px; }
+      .principles { grid-template-columns: 1fr; }
+      .principle, .principle + .principle { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border: 0; }
+      .principle + .principle { border-top: 1px solid #23473720; }
+      .principle strong { margin: 0; font-size: 22px; }
+      .principle span { text-align: right; }
+      .story { grid-template-columns: 1fr; gap: 24px; padding: 67px 0 61px; }
+      .practices { grid-template-columns: 1fr; }
+      .practice, .practice + .practice { padding: 16px 0; border: 0; border-bottom: 1px solid #23473720; }
+      .practice h3 { margin-top: 6px; }
+      .closing { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topline">
+    <a class="brand" href="index.html"><span class="brand-mark">V</span> Verdant Table</a>
+    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg>Back to the city</a>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">New Eden / Sustainable growing</p>
+        <h1 id="page-title">Inside the <em>Bio-dome.</em></h1>
+        <p class="lead">The Bio-dome is a shared growing space where farming works with nature. Healthy soil, many kinds of crops, and careful water use help the community grow fresh food through the seasons.</p>
+        <a class="hero-link" href="#how-it-works">Explore sustainable farming <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="dome-scene" role="img" aria-label="3D model of a Bio-dome combining soil garden beds and recirculating hydroponic channels">
+        <span class="scene-label">Protected growing / Shared harvest</span>
+        <canvas id="dome-model" aria-label="Interactive 3D Bio-dome greenhouse with soil beds, hydroponic channels, leafy crops, and nutrient-water return pipes"></canvas>
+        <span class="model-status" id="model-status" role="status" aria-live="polite">Growing the Bio-dome model</span>
+        <span class="scene-note">Drag to explore<br>Grow with nature / Share the harvest</span>
+      </div>
+    </section>
+    <section class="principles" aria-label="Sustainable farming principles">
+      <div class="principle"><strong>Healthy soil</strong><span>Compost feeds the ground</span></div>
+      <div class="principle"><strong>Many crops</strong><span>Variety builds resilience</span></div>
+      <div class="principle"><strong>Less waste</strong><span>Water and nutrients reused</span></div>
+    </section>
+    <section class="story" id="how-it-works" aria-labelledby="story-title">
+      <h2 id="story-title">A thriving harvest begins with a living system.</h2>
+      <div class="story-copy">
+        <p>Inside the Bio-dome, crops grow in shared beds enriched with compost made from plant scraps. Rotating crops and planting a variety of vegetables and herbs helps keep the soil productive, supports beneficial insects, and reduces reliance on a single harvest.</p>
+        <p>Alongside soil beds, the Bio-dome uses hydroponic channels to grow leafy greens. A measured mix of water and nutrients flows past the exposed roots, then returns to a reservoir to be filtered and reused. This soil-free method helps make good use of vertical space, while composting and crop rotation keep the soil gardens healthy too.</p>
+        <div class="practices" aria-label="Sustainable farming practices in the Bio-dome">
+          <article class="practice"><span class="practice-number">01 / RESTORE</span><h3>Build living soil</h3><p>Compost returns organic matter to the beds and helps soil hold moisture and support plant roots.</p></article>
+          <article class="practice"><span class="practice-number">02 / DIVERSIFY</span><h3>Grow a mix of crops</h3><p>Crop rotation and plant variety support a more balanced growing environment across the seasons.</p></article>
+          <article class="practice"><span class="practice-number">03 / RECIRCULATE</span><h3>Reuse nutrient water</h3><p>Hydroponic channels send unused water back to a reservoir for filtering and another growing cycle.</p></article>
+        </div>
+      </div>
+    </section>
+    <footer class="closing"><span>Verdant Table / Field study 01 / New Eden, 2086</span><a href="index.html">Return to the living city ↗</a></footer>
+  </main>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const canvas = document.querySelector('#dome-model');
+    const status = document.querySelector('#model-status');
+    const container = canvas.parentElement;
+
+    function showModelError(error) {
+      console.error('Unable to load the Bio-dome 3D model.', error);
+      status.textContent = 'The 3D model could not load. Check your connection and refresh the page.';
+      status.hidden = false;
+    }
+
+    try {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('#dcebdd');
+      const camera = new THREE.PerspectiveCamera(36, 1, .1, 100);
+      camera.position.set(8, 6.5, 9);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.12;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 1.35, 0);
+      controls.enableDamping = true;
+      controls.dampingFactor = .06;
+      controls.minDistance = 7;
+      controls.maxDistance = 15;
+      controls.maxPolarAngle = Math.PI * .48;
+      controls.autoRotate = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      controls.autoRotateSpeed = .45;
+
+      scene.add(new THREE.HemisphereLight('#fff9dc', '#719477', 2.1));
+      const sun = new THREE.DirectionalLight('#fff3d6', 3);
+      sun.position.set(-6, 10, 7);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(1024, 1024);
+      scene.add(sun);
+
+      const material = (color, roughness = .78, metalness = 0) =>
+        new THREE.MeshStandardMaterial({ color, roughness, metalness });
+      const soil = material('#876749');
+      const bedEdge = material('#315e49');
+      const leaf = material('#72a968');
+      const brightLeaf = material('#add37c');
+      const glass = new THREE.MeshPhysicalMaterial({
+        color: '#a8d5c3',
+        roughness: .2,
+        metalness: .08,
+        transparent: true,
+        opacity: .2,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      const frame = new THREE.LineBasicMaterial({ color: '#477756', transparent: true, opacity: .85 });
+      const water = new THREE.MeshStandardMaterial({ color: '#78c6c1', roughness: .2, metalness: .12 });
+      const platform = new THREE.Group();
+      scene.add(platform);
+
+      function addBox(parent, size, position, meshMaterial) {
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), meshMaterial);
+        mesh.position.set(...position);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        parent.add(mesh);
+        return mesh;
+      }
+
+      function addPlant(parent, x, z, variant) {
+        const stem = new THREE.Mesh(
+          new THREE.CylinderGeometry(.025, .04, .27, 7),
+          bedEdge
+        );
+        stem.position.set(x, .4, z);
+        parent.add(stem);
+        for (let leafIndex = 0; leafIndex < 4; leafIndex++) {
+          const angle = leafIndex * Math.PI / 2 + variant * .45;
+          const leafMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(1, 10, 8),
+            (leafIndex + variant) % 2 ? leaf : brightLeaf
+          );
+          leafMesh.position.set(x + Math.cos(angle) * .1, .48 + (leafIndex % 2) * .035, z + Math.sin(angle) * .1);
+          leafMesh.scale.set(.12, .06, .075);
+          leafMesh.rotation.y = -angle;
+          leafMesh.castShadow = true;
+          parent.add(leafMesh);
+        }
+      }
+
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(4.4, 4.55, .28, 64), bedEdge);
+      base.position.y = -.02;
+      base.castShadow = true;
+      base.receiveShadow = true;
+      platform.add(base);
+      const floor = new THREE.Mesh(new THREE.CylinderGeometry(4.28, 4.28, .12, 64), material('#d9dfbd'));
+      floor.position.y = .18;
+      floor.receiveShadow = true;
+      platform.add(floor);
+
+      const domeRadius = 4.15;
+      const domeBase = .24;
+      const shell = new THREE.Mesh(
+        new THREE.SphereGeometry(domeRadius, 48, 24, 0, Math.PI * 2, 0, Math.PI / 2),
+        glass
+      );
+      shell.position.y = domeBase;
+      platform.add(shell);
+
+      const baseRing = new THREE.Mesh(new THREE.TorusGeometry(domeRadius, .07, 10, 96), bedEdge);
+      baseRing.rotation.x = Math.PI / 2;
+      baseRing.position.y = domeBase;
+      platform.add(baseRing);
+
+      for (let rib = 0; rib < 12; rib++) {
+        const longitude = (rib / 12) * Math.PI * 2;
+        const points = [];
+        for (let segment = 0; segment <= 32; segment++) {
+          const angle = (segment / 32) * Math.PI / 2;
+          points.push(new THREE.Vector3(
+            Math.sin(angle) * Math.cos(longitude) * domeRadius,
+            domeBase + Math.cos(angle) * domeRadius,
+            Math.sin(angle) * Math.sin(longitude) * domeRadius
+          ));
+        }
+        const ribLine = new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(points),
+          frame
+        );
+        platform.add(ribLine);
+      }
+
+      for (const latitude of [.36, .72]) {
+        const ringRadius = domeRadius * Math.cos(latitude);
+        const latitudeRing = new THREE.Mesh(
+          new THREE.TorusGeometry(ringRadius, .025, 6, 96),
+          frame
+        );
+        latitudeRing.rotation.x = Math.PI / 2;
+        latitudeRing.position.y = domeBase + domeRadius * Math.sin(latitude);
+        platform.add(latitudeRing);
+      }
+
+      const waterRing = new THREE.Mesh(new THREE.TorusGeometry(3.75, .075, 8, 96), water);
+      waterRing.rotation.x = Math.PI / 2;
+      waterRing.position.y = .29;
+      platform.add(waterRing);
+
+      for (let bedIndex = 0; bedIndex < 4; bedIndex++) {
+        const angle = bedIndex * Math.PI / 2 + Math.PI / 4;
+        const bed = new THREE.Group();
+        bed.position.set(Math.cos(angle) * 1.85, .3, Math.sin(angle) * 1.85);
+        bed.rotation.y = -angle;
+        platform.add(bed);
+
+        addBox(bed, [2.2, .22, .88], [0, .11, 0], bedEdge);
+        addBox(bed, [2.04, .12, .73], [0, .27, 0], soil);
+        for (let plantIndex = 0; plantIndex < 7; plantIndex++) {
+          const x = -.84 + plantIndex * .28;
+          addPlant(bed, x, -.2, plantIndex);
+          addPlant(bed, x, .2, plantIndex + 1);
+        }
+      }
+
+      const hydroponicFrame = material('#477756');
+      const nutrientWater = new THREE.MeshStandardMaterial({
+        color: '#78c6c1',
+        roughness: .18,
+        metalness: .08,
+        transparent: true,
+        opacity: .9,
+      });
+      const pipeMaterial = material('#315e49', .34, .08);
+      const reservoirMaterial = material('#f3e7cf');
+
+      function addPipe(parent, start, end, radius = .035) {
+        const from = new THREE.Vector3(...start);
+        const to = new THREE.Vector3(...end);
+        const direction = new THREE.Vector3().subVectors(to, from);
+        const pipe = new THREE.Mesh(
+          new THREE.CylinderGeometry(radius, radius, direction.length(), 8),
+          pipeMaterial
+        );
+        pipe.position.copy(from).add(to).multiplyScalar(.5);
+        pipe.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+        parent.add(pipe);
+      }
+
+      for (const side of [-1, 1]) {
+        const rackX = side * 2.75;
+        const rack = new THREE.Group();
+        rack.position.set(rackX, 0, 0);
+        platform.add(rack);
+
+        for (const z of [-.86, .86]) {
+          addPipe(rack, [0, .36, z], [0, 1.9, z], .045);
+          addPipe(rack, [-.22, .36, z], [.22, .36, z], .035);
+        }
+
+        for (let level = 0; level < 3; level++) {
+          const y = .75 + level * .48;
+          addBox(rack, [.38, .12, 1.7], [0, y, 0], hydroponicFrame);
+          addBox(rack, [.3, .045, 1.58], [0, y + .08, 0], nutrientWater);
+
+          for (let plantIndex = 0; plantIndex < 5; plantIndex++) {
+            const z = -.62 + plantIndex * .31;
+            const plug = new THREE.Mesh(
+              new THREE.CylinderGeometry(.085, .065, .1, 8),
+              soil
+            );
+            plug.position.set(0, y + .15, z);
+            rack.add(plug);
+
+            for (let leafIndex = 0; leafIndex < 4; leafIndex++) {
+              const angle = leafIndex * Math.PI / 2 + plantIndex * .6;
+              const leafMesh = new THREE.Mesh(
+                new THREE.SphereGeometry(1, 9, 7),
+                (plantIndex + leafIndex + level) % 2 ? leaf : brightLeaf
+              );
+              leafMesh.position.set(
+                Math.cos(angle) * .1,
+                y + .28 + (leafIndex % 2) * .035,
+                z + Math.sin(angle) * .1
+              );
+              leafMesh.scale.set(.11, .065, .07);
+              leafMesh.rotation.y = -angle;
+              leafMesh.castShadow = true;
+              rack.add(leafMesh);
+            }
+          }
+        }
+
+        const returnX = side * .26;
+        addPipe(rack, [side * .19, .83, .88], [returnX, .38, .88], .035);
+        addPipe(rack, [returnX, .38, .88], [returnX, .38, .72], .035);
+      }
+
+      const reservoir = new THREE.Mesh(
+        new THREE.CylinderGeometry(.4, .44, .54, 20),
+        reservoirMaterial
+      );
+      reservoir.position.set(0, .46, 3.15);
+      reservoir.castShadow = true;
+      reservoir.receiveShadow = true;
+      platform.add(reservoir);
+      const reservoirWater = new THREE.Mesh(
+        new THREE.CylinderGeometry(.34, .34, .08, 20),
+        water
+      );
+      reservoirWater.position.set(0, .75, 3.15);
+      platform.add(reservoirWater);
+
+      const centerPlanter = new THREE.Mesh(new THREE.CylinderGeometry(.48, .55, .34, 24), bedEdge);
+      centerPlanter.position.y = .4;
+      platform.add(centerPlanter);
+      for (let plantIndex = 0; plantIndex < 8; plantIndex++) {
+        const angle = plantIndex * Math.PI / 4;
+        addPlant(platform, Math.cos(angle) * .3, Math.sin(angle) * .3, plantIndex);
+      }
+
+      function resizeModel() {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        if (!width || !height) return;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      }
+      const resizeObserver = new ResizeObserver(resizeModel);
+      resizeObserver.observe(container);
+      resizeModel();
+
+      function render() {
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(render);
+      }
+      render();
+      status.hidden = true;
+    } catch (error) {
+      showModelError(error);
+    }
+  </script>
+</body>
+</html>

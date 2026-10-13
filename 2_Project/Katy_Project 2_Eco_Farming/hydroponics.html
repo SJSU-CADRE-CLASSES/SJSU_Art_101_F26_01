@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f5e9">
+  <meta name="description" content="Explore the recirculating hydroponics network that feeds New Eden, from rooftop grow beds to neighborhood farms.">
+  <title>Hydroponics | Sustainable City </title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #183b32;
+      --moss: #477756;
+      --leaf: #a9d77c;
+      --coral: #ec8064;
+      --paper: #f1f5e9;
+      --body: "Manrope", sans-serif;
+      --serif: "Playfair Display", Georgia, serif;
+      --mono: "DM Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--body); }
+    a { color: inherit; }
+    .topline { display: flex; min-height: 74px; align-items: center; justify-content: space-between; padding: 16px max(24px, calc((100vw - 1180px) / 2)); border-bottom: 1px solid #183b3222; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .5px; text-decoration: none; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 30px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: var(--ink); color: var(--leaf); font: 17px var(--serif); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #466257; font: 10px var(--mono); text-decoration: none; text-transform: uppercase; }
+    .back-link:hover { color: var(--coral); }
+    .back-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    main { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .hero { display: grid; min-height: min(690px, calc(100svh - 74px)); grid-template-columns: 1fr 1.05fr; align-items: center; gap: clamp(35px, 7vw, 100px); padding: 58px 0 72px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--moss); font: 10px var(--mono); letter-spacing: .6px; text-transform: uppercase; }
+    .eyebrow::before { width: 20px; height: 1px; background: var(--coral); content: ""; }
+    h1, h2, p { margin-top: 0; }
+    h1 { max-width: 510px; margin-bottom: 20px; font: 700 clamp(48px, 6vw, 78px)/1.02 var(--serif); letter-spacing: 0; }
+    h1 em { color: #699665; font-weight: 600; }
+    .lead { max-width: 470px; margin-bottom: 30px; color: #536d60; font-size: 15px; line-height: 1.8; }
+    .hero-link { display: inline-flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #183b3260; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .hero-link span { color: var(--coral); font-size: 18px; transition: transform .2s; }
+    .hero-link:hover span { transform: translateY(3px); }
+    .diagram { position: relative; display: grid; min-height: 430px; place-items: center; overflow: hidden; background: #dcebdd; isolation: isolate; }
+    .diagram::before, .diagram::after { position: absolute; z-index: -1; border: 1px solid #47775625; border-radius: 50%; content: ""; }
+    .diagram::before { width: 370px; aspect-ratio: 1; }
+    .diagram::after { width: 500px; aspect-ratio: 1; }
+    .diagram-label { position: absolute; top: 20px; left: 22px; color: #61796c; font: 9px var(--mono); letter-spacing: .3px; text-transform: uppercase; }
+    .rack { position: relative; display: flex; width: min(80%, 390px); height: 284px; flex-direction: column; justify-content: space-between; padding: 35px 33px 25px; border: 4px solid #477756; border-top: 0; border-radius: 0 0 4px 4px; background: #ffffff32; box-shadow: 14px 14px 0 #47775615; }
+    .rack::before, .rack::after { position: absolute; top: 0; width: 4px; height: 100%; background: #477756; content: ""; }
+    .rack::before { left: -4px; }
+    .rack::after { right: -4px; }
+    .grow-row { position: relative; display: flex; height: 43px; align-items: end; justify-content: space-around; border: 2px solid #315e49; border-radius: 3px; background: #78c6c1; }
+    .grow-row::after { position: absolute; right: -20px; bottom: 9px; width: 18px; height: 5px; border-radius: 0 4px 4px 0; background: #477756; content: ""; }
+    .plant { position: relative; width: 19px; height: 23px; border-radius: 80% 0 75% 15%; background: #72a968; transform: rotate(-27deg); }
+    .plant::before { position: absolute; top: 4px; left: 10px; width: 14px; height: 17px; border-radius: 80% 0 75% 15%; background: #add37c; content: ""; transform: rotate(55deg); }
+    .roots { position: absolute; top: 100%; left: 50%; width: 1px; height: 13px; background: #fff9e9; box-shadow: -5px 4px 0 #fff9e9, 5px 6px 0 #fff9e9; }
+    .reservoir { position: absolute; right: -62px; bottom: 5px; display: grid; width: 54px; height: 49px; place-items: center; border: 2px solid #315e49; border-radius: 3px 3px 10px 10px; background: #78c6c1; color: #183b32; font: 8px var(--mono); }
+    .pipe { position: absolute; right: -9px; bottom: 28px; width: 13px; height: 120px; border: 3px solid #477756; border-left: 0; border-radius: 0 8px 8px 0; }
+    .pipe::after { position: absolute; right: 0; bottom: -51px; width: 59px; height: 3px; background: #477756; content: ""; }
+    .diagram-note { position: absolute; right: 21px; bottom: 18px; color: #61796c; font: 9px var(--mono); text-align: right; text-transform: uppercase; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #23473735; border-bottom: 1px solid #23473735; }
+    .stat { padding: 19px 18px 19px 0; }
+    .stat + .stat { padding-left: 22px; border-left: 1px solid #23473735; }
+    .stat strong { display: block; margin-bottom: 4px; font: 700 27px var(--serif); }
+    .stat span { color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .story { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(35px, 8vw, 120px); padding: 108px 0 96px; }
+    h2 { max-width: 330px; margin-bottom: 0; font: 600 clamp(32px, 4vw, 48px)/1.1 var(--serif); letter-spacing: 0; }
+    .story-copy > p { max-width: 650px; margin-bottom: 18px; color: #536d60; font-size: 14px; line-height: 1.85; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 37px; border-top: 1px solid #23473735; }
+    .step { padding: 18px 20px 0 0; }
+    .step + .step { padding-left: 20px; border-left: 1px solid #23473735; }
+    .step-number { color: var(--coral); font: 10px var(--mono); }
+    .step h3 { margin: 10px 0 7px; font-size: 12px; }
+    .step p { margin: 0; color: #627a6e; font-size: 11px; line-height: 1.65; }
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 23px 0 28px; border-top: 1px solid #23473735; color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .closing a { color: var(--ink); text-decoration: none; }
+    .closing a:hover { color: var(--coral); }
+    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-copy { animation: appear .65s both; }
+    .diagram { animation: appear .65s .12s both; }
+    @media (max-width: 760px) {
+      .topline { min-height: 64px; padding: 13px 18px; }
+      main { padding: 0 19px; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 34px; padding: 56px 0 45px; }
+      h1 { max-width: 440px; font-size: clamp(48px, 12vw, 66px); }
+      .lead { font-size: 13px; }
+      .diagram { min-height: 340px; }
+      .rack { transform: scale(.86); }
+      .stats { grid-template-columns: 1fr; }
+      .stat, .stat + .stat { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border: 0; }
+      .stat + .stat { border-top: 1px solid #23473720; }
+      .stat strong { margin: 0; font-size: 22px; }
+      .stat span { text-align: right; }
+      .story { grid-template-columns: 1fr; gap: 24px; padding: 67px 0 61px; }
+      .steps { grid-template-columns: 1fr; }
+      .step, .step + .step { padding: 16px 0; border: 0; border-bottom: 1px solid #23473720; }
+      .step h3 { margin-top: 6px; }
+      .closing { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topline">
+    <a class="brand" href="index.html"><span class="brand-mark">V</span> Verdant Table</a>
+    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg>Back to the city</a>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">New Eden / Growing network 01</p>
+        <h1 id="page-title">Water carries the <em>harvest.</em></h1>
+        <p class="lead">Across the city, hydroponic farms grow food without soil. A carefully balanced stream carries water and nutrients past the roots, then loops back to be used again.</p>
+        <a class="hero-link" href="#how-it-works">Follow the water <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="diagram" role="img" aria-label="Diagram of leafy plants growing in stacked hydroponic channels connected to a recirculating reservoir">
+        <span class="diagram-label">One loop / many harvests</span>
+        <div class="rack" aria-hidden="true">
+          <div class="grow-row"><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i></div>
+          <div class="grow-row"><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i></div>
+          <div class="grow-row"><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i><i class="plant"><b class="roots"></b></i></div>
+          <div class="pipe"></div><div class="reservoir">FILTER<br>+ PUMP</div>
+        </div>
+        <span class="diagram-note">Nutrient water<br>returns to the roots</span>
+      </div>
+    </section>
+    <section class="stats" aria-label="City growing system facts">
+      <div class="stat"><strong>92%</strong><span>of the city's food grown nearby</span></div>
+      <div class="stat"><strong>98%</strong><span>of water recirculated</span></div>
+      <div class="stat"><strong>0.8 km</strong><span>average trip from farm to table</span></div>
+    </section>
+    <section class="story" id="how-it-works" aria-labelledby="story-title">
+      <h2 id="story-title">A city-sized farm, built from small loops.</h2>
+      <div class="story-copy">
+        <p>Instead of fields beyond the city edge, New Eden grows in stacked greenhouse towers, rooftop beds, and shared neighborhood gardens. Each site uses the same simple principle: give the roots water, oxygen, and exactly the nutrients the crop needs.</p>
+        <p>Water circulates through shallow channels, past the plants' exposed roots. Sensors keep the flow balanced; filters catch debris and the reservoir is replenished only when needed. Short routes between growers and kitchens mean the harvest can be picked at its best.</p>
+        <div class="steps" aria-label="How the hydroponic cycle works">
+          <article class="step"><span class="step-number">01 / FEED</span><h3>Mix &amp; deliver</h3><p>Stored rainwater carries dissolved nutrients to each growing bed.</p></article>
+          <article class="step"><span class="step-number">02 / GROW</span><h3>Roots take what they need</h3><p>Plants anchor above the channel while roots reach into the flowing solution.</p></article>
+          <article class="step"><span class="step-number">03 / RETURN</span><h3>Filter &amp; recirculate</h3><p>Unused water returns to a shared reservoir, ready for another pass.</p></article>
+        </div>
+      </div>
+    </section>
+    <footer class="closing"><span>Verdant Table / Field study 01 / New Eden, 2086</span><a href="index.html">Return to the living city ↗</a></footer>
+  </main>
+</body>
+</html>

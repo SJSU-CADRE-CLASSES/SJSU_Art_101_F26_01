@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1f5e9">
+  <meta name="description" content="Discover how New Eden's sustainable homes use passive design, clean energy, and careful water use to make comfortable, low-impact places to live.">
+  <title>Sustainable Homes | Sustainable City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #183b32;
+      --moss: #477756;
+      --leaf: #a9d77c;
+      --coral: #ec8064;
+      --paper: #f1f5e9;
+      --body: "Manrope", sans-serif;
+      --serif: "Playfair Display", Georgia, serif;
+      --mono: "DM Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--body); }
+    a { color: inherit; }
+    .topline { display: flex; min-height: 74px; align-items: center; justify-content: space-between; padding: 16px max(24px, calc((100vw - 1180px) / 2)); border-bottom: 1px solid #183b3222; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .5px; text-decoration: none; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 30px; aspect-ratio: 1; place-items: center; border-radius: 50%; background: var(--ink); color: var(--leaf); font: 17px var(--serif); }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: #466257; font: 10px var(--mono); text-decoration: none; text-transform: uppercase; }
+    .back-link:hover, .closing a:hover { color: var(--coral); }
+    .back-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    main { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .hero { display: grid; min-height: min(690px, calc(100svh - 74px)); grid-template-columns: 1fr 1.05fr; align-items: center; gap: clamp(35px, 7vw, 100px); padding: 58px 0 72px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--moss); font: 10px var(--mono); letter-spacing: .6px; text-transform: uppercase; }
+    .eyebrow::before { width: 20px; height: 1px; background: var(--coral); content: ""; }
+    h1, h2, p { margin-top: 0; }
+    h1 { max-width: 510px; margin-bottom: 20px; font: 700 clamp(48px, 6vw, 78px)/1.02 var(--serif); letter-spacing: 0; }
+    h1 em { color: #699665; font-weight: 600; }
+    .lead { max-width: 470px; margin-bottom: 30px; color: #536d60; font-size: 15px; line-height: 1.8; }
+    .hero-link { display: inline-flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #183b3260; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .hero-link span { color: var(--coral); font-size: 18px; transition: transform .2s; }
+    .hero-link:hover span { transform: translateY(3px); }
+    .house-scene { position: relative; display: grid; min-height: 430px; place-items: center; overflow: hidden; background: #dcebdd; isolation: isolate; }
+    .house-scene::before, .house-scene::after { position: absolute; z-index: -1; border: 1px solid #47775625; border-radius: 50%; content: ""; }
+    .house-scene::before { width: 360px; aspect-ratio: 1; }
+    .house-scene::after { width: 500px; aspect-ratio: 1; }
+    .scene-label { position: absolute; top: 20px; left: 22px; color: #61796c; font: 9px var(--mono); letter-spacing: .3px; text-transform: uppercase; }
+    .house { position: relative; width: min(72%, 340px); height: 245px; margin-top: 38px; }
+    .house-roof { position: absolute; top: 10px; left: 5%; width: 90%; height: 85px; background: #477756; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+    .solar { position: absolute; top: 55px; left: 35%; z-index: 1; display: grid; width: 34%; height: 28px; grid-template-columns: repeat(3, 1fr); gap: 3px; transform: rotate(-26deg); }
+    .solar i { border: 1px solid #f1f5e977; background: #315e49; }
+    .roof-garden { position: absolute; top: 34px; left: 9%; z-index: 1; display: flex; gap: 8px; transform: rotate(-26deg); }
+    .roof-garden i { width: 13px; height: 24px; border-radius: 80% 0 75% 15%; background: #a9d77c; transform: rotate(30deg); }
+    .house-body { position: absolute; top: 85px; right: 11%; left: 11%; height: 145px; border: 4px solid #477756; background: #f8f0d9; box-shadow: 12px 12px 0 #47775618; }
+    .window { position: absolute; top: 27px; width: 45px; height: 52px; border: 4px solid #477756; background: #8ab7a2; }
+    .window::before { position: absolute; top: 50%; right: 0; left: 0; border-top: 2px solid #477756; content: ""; }
+    .window::after { position: absolute; top: 0; bottom: 0; left: 50%; border-left: 2px solid #477756; content: ""; }
+    .window-left { left: 17%; }
+    .window-right { right: 17%; }
+    .door { position: absolute; right: calc(50% - 23px); bottom: 0; width: 46px; height: 68px; border: 4px solid #477756; border-bottom: 0; background: #df8063; }
+    .door::after { position: absolute; top: 35px; right: 5px; width: 5px; height: 5px; border-radius: 50%; background: #f1f5e9; content: ""; }
+    .rain-tank { position: absolute; right: -6%; bottom: 0; width: 39px; height: 69px; border: 3px solid #315e49; border-radius: 4px 4px 9px 9px; background: #78c6c1; }
+    .rain-tank::before { position: absolute; top: -18px; left: -17px; width: 34px; height: 20px; border-top: 3px solid #477756; border-right: 3px solid #477756; content: ""; }
+    .ground { position: absolute; right: -8%; bottom: 0; left: -8%; height: 8px; border-radius: 50%; background: #83b774; }
+    .scene-note { position: absolute; right: 21px; bottom: 18px; color: #61796c; font: 9px var(--mono); text-align: right; text-transform: uppercase; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #23473735; border-bottom: 1px solid #23473735; }
+    .principle { padding: 19px 18px 19px 0; }
+    .principle + .principle { padding-left: 22px; border-left: 1px solid #23473735; }
+    .principle strong { display: block; margin-bottom: 4px; font: 700 22px var(--serif); }
+    .principle span { color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .story { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(35px, 8vw, 120px); padding: 108px 0 96px; }
+    h2 { max-width: 330px; margin-bottom: 0; font: 600 clamp(32px, 4vw, 48px)/1.1 var(--serif); letter-spacing: 0; }
+    .story-copy > p { max-width: 650px; margin-bottom: 18px; color: #536d60; font-size: 14px; line-height: 1.85; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 37px; border-top: 1px solid #23473735; }
+    .feature { padding: 18px 20px 0 0; }
+    .feature + .feature { padding-left: 20px; border-left: 1px solid #23473735; }
+    .feature-number { color: var(--coral); font: 10px var(--mono); }
+    .feature h3 { margin: 10px 0 7px; font-size: 12px; }
+    .feature p { margin: 0; color: #627a6e; font-size: 11px; line-height: 1.65; }
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 23px 0 28px; border-top: 1px solid #23473735; color: #627a6e; font: 9px var(--mono); text-transform: uppercase; }
+    .closing a { color: var(--ink); text-decoration: none; }
+    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-copy { animation: appear .65s both; }
+    .house-scene { animation: appear .65s .12s both; }
+    @media (max-width: 760px) {
+      .topline { min-height: 64px; padding: 13px 18px; }
+      main { padding: 0 19px; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 34px; padding: 56px 0 45px; }
+      h1 { max-width: 440px; font-size: clamp(48px, 12vw, 66px); }
+      .lead { font-size: 13px; }
+      .house-scene { min-height: 340px; }
+      .house { transform: scale(.86); }
+      .principles { grid-template-columns: 1fr; }
+      .principle, .principle + .principle { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border: 0; }
+      .principle + .principle { border-top: 1px solid #23473720; }
+      .principle strong { margin: 0; font-size: 22px; }
+      .principle span { text-align: right; }
+      .story { grid-template-columns: 1fr; gap: 24px; padding: 67px 0 61px; }
+      .features { grid-template-columns: 1fr; }
+      .feature, .feature + .feature { padding: 16px 0; border: 0; border-bottom: 1px solid #23473720; }
+      .feature h3 { margin-top: 6px; }
+      .closing { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topline">
+    <a class="brand" href="index.html"><span class="brand-mark">V</span> Verdant Table</a>
+    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg>Back to the city</a>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">New Eden / Homes in balance</p>
+        <h1 id="page-title">A lighter way <em>to live.</em></h1>
+        <p class="lead">Sustainable homes make everyday comfort work with nature. Thoughtful design keeps rooms bright and comfortable, while clean energy, rainwater, and rooftop gardens help each home use fewer resources.</p>
+        <a class="hero-link" href="#how-it-works">Explore the home <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="house-scene" role="img" aria-label="Illustration of a sustainable home with solar panels, a planted roof, shaded windows, and a rainwater tank">
+        <span class="scene-label">A home / Part of a living neighborhood</span>
+        <div class="house" aria-hidden="true">
+          <div class="house-roof"></div>
+          <div class="solar"><i></i><i></i><i></i></div>
+          <div class="roof-garden"><i></i><i></i><i></i></div>
+          <div class="house-body">
+            <div class="window window-left"></div>
+            <div class="window window-right"></div>
+            <div class="door"></div>
+          </div>
+          <div class="rain-tank"></div>
+          <div class="ground"></div>
+        </div>
+        <span class="scene-note">Comfort inside<br>Care beyond the front door</span>
+      </div>
+    </section>
+    <section class="principles" aria-label="Sustainable home principles">
+      <div class="principle"><strong>Use less energy</strong><span>Designed around daylight</span></div>
+      <div class="principle"><strong>Keep water moving</strong><span>Rain captured and reused</span></div>
+      <div class="principle"><strong>Grow at home</strong><span>Green roofs and gardens</span></div>
+    </section>
+    <section class="story" id="how-it-works" aria-labelledby="story-title">
+      <h2 id="story-title">Good homes are part of a good neighborhood.</h2>
+      <div class="story-copy">
+        <p>A sustainable home starts with its shape and setting. Windows bring in natural light, shade helps manage summer heat, and insulation keeps indoor temperatures more comfortable through changing seasons. These passive choices can reduce the need for heating, cooling, and artificial lighting.</p>
+        <p>Solar panels provide renewable electricity, while efficient fixtures and rainwater collection help make careful use of water. Green roofs and small gardens create space for plants close to home, support local biodiversity, and bring neighbors together around shared growing spaces.</p>
+        <div class="features" aria-label="Features of a sustainable home">
+          <article class="feature"><span class="feature-number">01 / DESIGN</span><h3>Work with the weather</h3><p>Orientation, shade, daylight, and insulation make indoor spaces comfortable with less energy.</p></article>
+          <article class="feature"><span class="feature-number">02 / RESOURCES</span><h3>Make every drop count</h3><p>Efficient fittings and captured rainwater can support gardens and reduce demand on city supplies.</p></article>
+          <article class="feature"><span class="feature-number">03 / COMMUNITY</span><h3>Leave room to grow</h3><p>Roof gardens and shared courtyards connect homes to food, nature, and one another.</p></article>
+        </div>
+      </div>
+    </section>
+    <footer class="closing"><span>Verdant Table / Field study 01 / New Eden, 2086</span><a href="index.html">Return to the living city ↗</a></footer>
+  </main>
+</body>
+</html>
