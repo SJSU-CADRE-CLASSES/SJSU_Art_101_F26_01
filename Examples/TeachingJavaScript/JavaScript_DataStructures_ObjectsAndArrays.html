@@ -1,0 +1,337 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Learn JavaScript objects and arrays with art examples, interactive demos, and practice exercises. A companion to Eloquent JavaScript Chapter 4."><title>JavaScript Data Structures: Objects and Arrays</title><style>
+    :root {
+      --ink:#14213d; --paper:#fff8ea; --cream:#f4e9d3; --teal:#197d7d;
+      --gold:#f2b84b; --green:#3f8c5d; --code:#172033; --white:#fff;
+      --muted:#606675; --line:#ded5c4;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:18px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    a { color:var(--teal); }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,pre:focus-visible { outline:3px solid var(--teal); outline-offset:4px; }
+    header { padding:52px max(24px,calc((100vw - 1120px)/2)); color:white; background:var(--ink); }
+    header p { max-width:760px; margin:0; color:var(--cream); }
+    h1 { margin:0 0 16px; font-size:clamp(2.4rem,6vw,4.8rem); line-height:1.05; }
+    h2 { margin:0 0 14px; font-size:clamp(1.7rem,3vw,2.5rem); line-height:1.15; }
+    h3 { font-size:1.25rem; line-height:1.25; margin:30px 0 14px; }
+    p { margin:0 0 16px; }
+    nav { position:sticky; top:0; z-index:10; display:flex; gap:10px; overflow-x:auto; padding:12px max(20px,calc((100vw - 1120px)/2)); background:rgba(255,248,234,.97); border-bottom:1px solid #d7cdb9; backdrop-filter:blur(10px); }
+    nav a { flex:0 0 auto; color:var(--ink); text-decoration:none; font-weight:700; font-size:16px; padding:7px 11px; border-radius:999px; background:var(--cream); }
+    nav a:hover { background:var(--gold); }
+    .article { width:min(1120px,calc(100% - 32px)); margin:36px auto 80px; }
+    .section { margin:34px 0; padding:clamp(22px,4vw,44px); background:white; border:1px solid var(--line); border-radius:20px; box-shadow:0 12px 35px rgba(20,33,61,.08); scroll-margin-top:14px; }
+    .section-number { color:var(--teal); font-size:14px; font-weight:800; letter-spacing:.06em; margin-bottom:10px; }
+    code { font:.91em/1.5 Consolas,Monaco,monospace; }
+    p code,li code,td code { padding:2px 4px; background:var(--cream); border-radius:3px; }
+    .reminders { padding-left:24px; margin:16px 0; }
+    .reminders li { margin:9px 0; }
+    .explain,.note { margin:18px 0; padding:18px 20px; border-left:6px solid var(--teal); background:#eef8f6; border-radius:8px; }
+    .note { border-color:var(--green); background:#eef8ef; font-size:16px; }
+    .codebox { margin:18px 0; background:var(--code); border-radius:14px; overflow:hidden; }
+    .codebar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px 0 24px; color:#e4decd; font:14px/1.5 Consolas,Monaco,monospace; }
+    .copy { flex-shrink:0; padding:7px 11px; border:0; border-radius:8px; color:var(--ink); background:var(--gold); font:800 14px/1.5 system-ui; min-width:72px; }
+    .copy:hover { background:#ffd77e; }
+    pre { overflow-x:auto; margin:0; padding:20px 24px 24px; color:#f7f2e8; font:16px/1.55 Consolas,Monaco,monospace; white-space:pre; tab-size:2; }
+    pre code { font:inherit; }
+    .table-scroll { overflow-x:auto; margin:20px 0; }
+    table { width:100%; border-collapse:collapse; font-size:16px; }
+    th,td { padding:11px; border-bottom:1px solid #ddd3c0; text-align:left; vertical-align:top; }
+    th { color:var(--teal); }
+    td:first-child { font-weight:600; }
+    .chain { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:24px 0; }
+    .chain div { padding:18px; background:var(--cream); border-radius:12px; overflow-wrap:anywhere; }
+    .chain small { display:block; font-size:14px; color:var(--muted); }
+    .chain code { display:block; font-size:16px; margin:7px 0; }
+    .chain b { font-size:25px; display:block; }
+    .demo { margin:22px 0; padding:22px; background:var(--cream); border-radius:14px; }
+    .demo h3 { margin:0 0 16px; }
+    .fields { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .field label { display:block; margin:12px 0 7px; font-weight:800; font-size:16px; }
+    .field input { width:min(100%,420px); padding:11px 12px; border:2px solid #aeb3bf; border-radius:8px; color:var(--ink); background:white; min-width:0; }
+    .run { margin-top:16px; padding:11px 18px; border:0; border-radius:8px; color:white; background:var(--teal); font-weight:800; }
+    .run:hover { background:#116565; }
+    .demo-result { min-height:2em; margin-top:18px; padding:14px; background:white; border-radius:8px; font-weight:750; }
+    .small { font-size:15px; color:var(--muted); }
+    .trace { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; }
+    .trace div { border-top:2px solid var(--teal); padding:12px 0; }
+    .trace span { display:block; color:var(--muted); font-size:14px; }
+    .trace strong { font:700 22px Consolas,Monaco,monospace; }
+    details { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:17px 0; margin:22px 0; }
+    summary { cursor:pointer; font-weight:700; color:var(--teal); }
+    details .codebox { margin-bottom:0; }
+    .sources { margin-top:36px; font-size:14px; color:var(--muted); }
+    .sources p { margin:8px 0; }
+    .footer { padding:0 24px 32px; text-align:center; color:var(--muted); font-size:14px; }
+    .skip { position:absolute; left:-9999px; top:8px; background:white; padding:10px; z-index:30; }
+    .skip:focus { left:10px; }
+    @media(max-width:760px) {
+      header { padding:36px 24px; }
+      .article { margin-top:24px; }
+      .section { margin:24px 0; }
+      .fields,.chain,.trace { grid-template-columns:1fr; }
+      .chain { gap:10px; }
+      .codebar { padding-left:16px; }
+      pre { padding:18px 16px 22px; }
+      .demo { padding:20px 16px; }
+    }
+    @media print {
+      nav,.copy,.run,.skip { display:none; }
+      body { background:white; font-size:12pt; }
+      header { padding:24px 0; color:black; background:white; }
+      header p { color:black; }
+      .article { width:100%; margin:0; }
+      .section { box-shadow:none; break-inside:auto; border:0; padding:20px 0; }
+      .codebox { break-inside:avoid; }
+      pre { font-size:10pt; white-space:pre-wrap; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  #toggle {padding:11px 18px;border:0;border-radius:8px;background:var(--teal);color:white;font-weight:700} #gallery li {margin:12px 0} #palette-state {color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;padding:14px 0;font-size:16px} details>p {margin-top:16px} @media print {details {display:block} details::details-content {content-visibility:visible} #toggle {display:none}}</style></head><body><a class="skip" href="#content">Skip to lesson</a><header><p>JAVASCRIPT / A CREATIVE CODING LESSON</p><h1>Data Structures:<br>Objects and Arrays</h1><p>Organize a palette, describe an artwork, and build a student exhibition. Explanations, copy-ready code, and interactive examples.</p></header><nav aria-label="Lesson sections"><a href="#start">Overview</a><a href="#arrays">Arrays</a><a href="#methods">Methods</a><a href="#objects">Objects</a><a href="#nested">Nested data</a><a href="#loops">Loops</a><a href="#references">Shared references</a><a href="#gallery-demo">Gallery</a><a href="#practice">Practice</a><a href="#reference">Reference</a></nav><main id="content" class="article"><section id="start" class="section"><div class="section-number">00 / DATA STRUCTURES</div><h2>From individual values to collections</h2><p>You already know how to store a value, make a decision, repeat instructions, and call a function. Now imagine building a webpage for a student exhibition: each artwork needs a title, a color, and a display status. The exhibition needs a list of artworks.</p><div class="chain"><div><small>One value</small><code>"Night Garden"</code>A title</div><div><small>One object</small><code>{title: "Night Garden"}</code>A record about an artwork</div><div><small>One array</small><code>[artwork1, artwork2]</code>A sequence of artworks</div></div><p><strong>By the end:</strong> build and edit a collection, retrieve a nested value, loop through records, and explain why two variables can change the same object.</p><p class="note">Run each JavaScript block separately in your browser’s developer console. Reload between examples if the console reports that a name has already been declared. The live demos run directly on this page. Expand the gallery’s complete HTML example to make your own file.</p></section><section id="arrays" class="section"><div class="section-number">01 / DATA STRUCTURES</div><h2>Arrays: an ordered collection</h2><p>An array stores a sequence of values. Indexes start at zero; <code>length</code> gives the number of elements.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const palette = [&quot;coral&quot;, &quot;teal&quot;, &quot;gold&quot;];
+console.log(palette[0]);                  // coral
+console.log(palette[2]);                  // gold
+console.log(palette.length);              // 3
+console.log(palette[palette.length - 1]); // gold
+console.log(palette[3]);                  // undefined
+
+palette[1] = &quot;navy&quot;;
+console.log(palette); // [&quot;coral&quot;, &quot;navy&quot;, &quot;gold&quot;]</code></pre></div><div class="chain"><div><small>Index 0</small><b>coral</b>First element</div><div><small>Index 1</small><b>teal</b>Second element</div><div><small>Index 2</small><b>gold</b>Third element</div></div><p class="explain">Predict first: what does <code>palette[1]</code> contain after the assignment? What is the last valid index when the length is 5?</p><details><summary>Check your prediction</summary><p>It contains <code>"navy"</code>. A five-element array has indexes 0 through 4.</p></details></section><section id="methods" class="section"><div class="section-number">02 / DATA STRUCTURES</div><h2>Change and inspect a palette</h2><p>Methods are functions accessed through a value. <code>push</code> adds at the end; <code>pop</code> removes and returns the last element.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const colors = [&quot;coral&quot;, &quot;teal&quot;];
+const size = colors.push(&quot;gold&quot;);
+console.log(size);                    // 3 (new length)
+const removed = colors.pop();
+console.log(removed);                 // gold
+console.log(colors.includes(&quot;teal&quot;)); // true
+console.log(colors.indexOf(&quot;pink&quot;));  // -1 (not found)
+console.log(colors.slice(0, 1));       // [&quot;coral&quot;]
+console.log(colors.join(&quot; + &quot;));       // coral + teal
+console.log(colors);                  // [&quot;coral&quot;, &quot;teal&quot;]</code></pre></div><p class="note"><code>slice(0, 1)</code> leaves the palette intact. To remove an element at a chosen index, use <code>colors.splice(index, 1)</code>. Avoid <code>delete colors[index]</code>: it leaves an empty slot.</p><div class="demo"><h3>Try it: palette stack</h3><div class="field"><label for="color-name">Color name to add</label><input id="color-name" value="gold" maxlength="30"></div><button class="run" id="push" type="button">push(color)</button> <button class="run" id="pop" type="button">pop()</button> <button class="run" id="reset" type="button">Reset</button><div id="palette-result" class="demo-result" role="status"></div><pre id="palette-state" aria-label="Current array"></pre></div></section><section id="objects" class="section"><div class="section-number">03 / DATA STRUCTURES</div><h2>Objects: named information</h2><p>An object groups named properties. Use dot notation for a fixed name and brackets for a name stored in a variable.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const artwork = {
+  title: &quot;Night Garden&quot;,
+  year: 2026,
+  displayed: false,
+  &quot;main color&quot;: &quot;teal&quot;
+};
+
+console.log(artwork.title);         // Night Garden
+console.log(artwork[&quot;main color&quot;]); // teal
+const field = &quot;year&quot;;
+console.log(artwork[field]);        // 2026
+console.log(artwork.field);         // undefined
+
+artwork.displayed = true; // Update
+artwork.medium = &quot;print&quot;; // Add
+delete artwork.year;     // Remove
+console.log(Object.keys(artwork));
+// [&quot;title&quot;, &quot;displayed&quot;, &quot;main color&quot;, &quot;medium&quot;]</code></pre></div><p class="explain">The punctuation has a job: braces enclose the record, a colon connects a key to its value, and commas separate properties. <code>artwork.field</code> asks for a property literally named <code>field</code>.</p></section><section id="nested" class="section"><div class="section-number">04 / DATA STRUCTURES</div><h2>Combine them: an array of objects</h2><p>Arrays can contain objects, and object properties can contain arrays. Read a nested expression one step at a time.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const exhibition = [
+  {title: &quot;Night Garden&quot;, tags: [&quot;print&quot;, &quot;nature&quot;], displayed: true},
+  {title: &quot;Signal&quot;, tags: [&quot;sound&quot;, &quot;digital&quot;], displayed: false}
+];
+
+console.log(exhibition[0].title);   // Night Garden
+console.log(exhibition[1].tags[0]); // sound
+exhibition[1].tags.push(&quot;interactive&quot;);
+console.log(exhibition[1].tags.length); // 3</code></pre></div><div class="chain"><div><small>1. exhibition[1]</small>Get the second artwork.</div><div><small>2. .tags</small>Get that artwork’s tags array.</div><div><small>3. [0]</small>Get its first tag: “sound”.</div></div><p class="note">Check an index before reading deeper. Here, <code>exhibition[2]</code> is undefined; trying <code>exhibition[2].title</code> throws a TypeError.</p></section><section id="loops" class="section"><div class="section-number">05 / DATA STRUCTURES</div><h2>Use functions and loops with records</h2><p><code>for...of</code> visits array elements. A function can receive the collection and return a result.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function getDisplayedTitles(works) {
+  const titles = [];
+  for (const work of works) {
+    if (work.displayed) {
+      titles.push(work.title);
+    }
+  }
+  return titles;
+}
+
+const works = [
+  {title: &quot;Night Garden&quot;, displayed: true},
+  {title: &quot;Signal&quot;, displayed: false},
+  {title: &quot;Drift&quot;, displayed: true}
+];
+console.log(getDisplayedTitles(works));
+// [&quot;Night Garden&quot;, &quot;Drift&quot;]</code></pre></div><p>Trace it: the first artwork contributes a title, the second is skipped, and the third contributes a title. The function returns a new array for the caller to use.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const titles = [&quot;Night Garden&quot;, &quot;Signal&quot;];
+for (let i = 0; i &lt; titles.length; i++) {
+  console.log(i + &quot;: &quot; + titles[i]);
+}
+// 0: Night Garden
+// 1: Signal</code></pre></div><p class="note">Use an index loop when you need the position. The condition is <code>i &lt; titles.length</code>; using <code>&lt;=</code> would visit one position beyond the end.</p></section><section id="references" class="section"><div class="section-number">06 / DATA STRUCTURES</div><h2>const does not freeze an object</h2><p>Objects are mutable. Assigning an object to another variable shares its identity. A <code>const</code> binding cannot be reassigned, but its object can change.</p><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const original = {title: &quot;Drift&quot;, tags: [&quot;ink&quot;]};
+const shared = original;
+shared.title = &quot;Drift II&quot;;
+console.log(original.title);      // Drift II
+console.log(shared === original); // true
+console.log({title: &quot;Drift&quot;} === {title: &quot;Drift&quot;}); // false
+
+const copy = {...original}; // Shallow copy
+copy.title = &quot;Study&quot;;
+copy.tags.push(&quot;paper&quot;);
+console.log(original.title); // Drift II
+console.log(original.tags);  // [&quot;ink&quot;, &quot;paper&quot;]
+
+// original = {}; // TypeError if uncommented</code></pre></div><p class="explain">In this artwork example, spreading creates a new outer record, but both records still use the same tags array. Use <code>{...original, tags: [...original.tags]}</code> to copy that array too. Objects inside a copied array would still be shared.</p><h3>Functions can edit a shared object</h3><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>function rename(work, newTitle) {
+  work.title = newTitle;
+}
+const piece = {title: &quot;Untitled&quot;};
+rename(piece, &quot;After Rain&quot;);
+console.log(piece.title); // After Rain</code></pre></div><p>The parameter receives the object reference as its value. Editing <code>work.title</code> reaches the same record as <code>piece.title</code>. Reassigning the parameter itself would only change the local binding.</p></section><section id="gallery-demo" class="section"><div class="section-number">07 / DATA STRUCTURES</div><h2>Complete webpage: student exhibition</h2><p>Keep artwork data in one array. Let one rendering function rebuild the visible list when the filter changes.</p><div class="demo"><h3>Live exhibition</h3><button id="toggle" type="button">Show displayed only</button>
+<p id="count" role="status"></p>
+<ul id="gallery"></ul></div><p>The condition <code>!displayedOnly || artwork.displayed</code> accepts every record when the filter is off, or just displayed records when it is on. <code>replaceChildren()</code> clears the previous list so repeated clicks do not duplicate entries.</p><details><summary>Copy the complete HTML file</summary><p>Save this as <code>index.html</code> and open it in a browser. Add your own artwork object inside <code>artworks</code>, then reload.</p><div class="codebox"><div class="codebar"><span>HTML + JavaScript · complete file</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;Student Exhibition&lt;/title&gt;
+  &lt;style&gt;
+    body { max-width: 700px; margin: 40px auto; padding: 20px;
+           font: 18px/1.6 system-ui; color: #14213d; background: #fff8ea; }
+    button { font: inherit; padding: 10px; cursor: pointer; }
+    li { margin: 12px 0; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Student Exhibition&lt;/h1&gt;
+&lt;button id=&quot;toggle&quot; type=&quot;button&quot;&gt;Show displayed only&lt;/button&gt;
+&lt;p id=&quot;count&quot; role=&quot;status&quot;&gt;&lt;/p&gt;
+&lt;ul id=&quot;gallery&quot;&gt;&lt;/ul&gt;
+&lt;script&gt;
+const artworks = [
+  {title: &quot;Night Garden&quot;, medium: &quot;Print&quot;, displayed: true},
+  {title: &quot;Signal&quot;, medium: &quot;Sound&quot;, displayed: false},
+  {title: &quot;Drift&quot;, medium: &quot;Drawing&quot;, displayed: true}
+];
+let displayedOnly = false;
+
+function renderGallery() {
+  const list = document.querySelector(&quot;#gallery&quot;);
+  list.replaceChildren();
+  let visibleCount = 0;
+
+  for (const artwork of artworks) {
+    if (!displayedOnly || artwork.displayed) {
+      const item = document.createElement(&quot;li&quot;);
+      item.textContent = artwork.title + &quot; — &quot; + artwork.medium;
+      list.append(item);
+      visibleCount++;
+    }
+  }
+  document.querySelector(&quot;#count&quot;).textContent =
+    visibleCount + &quot; of &quot; + artworks.length + &quot; artworks shown&quot;;
+  const button = document.querySelector(&quot;#toggle&quot;);
+  button.textContent = displayedOnly ? &quot;Show all artworks&quot; : &quot;Show displayed only&quot;;
+  button.setAttribute(&quot;aria-pressed&quot;, String(displayedOnly));
+}
+
+document.querySelector(&quot;#toggle&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+  displayedOnly = !displayedOnly;
+  renderGallery();
+});
+renderGallery();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div></details></section><section id="practice" class="section"><div class="section-number">08 / DATA STRUCTURES</div><h2>Practice: make a studio inventory</h2><p>Create an array named <code>supplies</code> with three objects. Each needs a <code>name</code> and a numeric <code>quantity</code>.</p><ol><li>Print the second supply’s name.</li><li>Add another supply with <code>push()</code>.</li><li>Write a function that returns the total quantity.</li><li>Change one quantity and run the function again.</li></ol><details><summary>One possible solution</summary><div class="codebox"><div class="codebar"><span>JavaScript</span><button class="copy" type="button">Copy</button></div><pre tabindex="0"><code>const supplies = [
+  {name: &quot;Brushes&quot;, quantity: 4},
+  {name: &quot;Markers&quot;, quantity: 6},
+  {name: &quot;Sketchbooks&quot;, quantity: 2}
+];
+console.log(supplies[1].name); // Markers
+supplies.push({name: &quot;Erasers&quot;, quantity: 3});
+
+function totalQuantity(items) {
+  let total = 0;
+  for (const item of items) {
+    total = total + item.quantity;
+  }
+  return total;
+}
+console.log(totalQuantity(supplies)); // 15
+supplies[0].quantity = 5;
+console.log(totalQuantity(supplies)); // 16</code></pre></div></details><h3>Explain before you run</h3><ul><li>How do <code>[]</code> and <code>{}</code> help describe an exhibition?</li><li>Why is <code>supplies[supplies.length]</code> undefined?</li><li>Does <code>const backup = supplies</code> make an independent copy?</li></ul><details><summary>Check your understanding</summary><p>An array holds the sequence of artworks; an object holds one artwork’s named properties. The length is one greater than the last index in this inventory. Assigning <code>supplies</code> shares the array, so edits through <code>backup</code> affect that same array.</p></details></section><section id="reference" class="section"><div class="section-number">09 / DATA STRUCTURES</div><h2>Quick reference & reading</h2><div class="table-scroll"><table><thead><tr><th>Task</th><th>Example</th></tr></thead><tbody><tr><td>Create a list</td><td><code>const items = [];</code></td></tr><tr><td>Create a record</td><td><code>const piece = {title: "Drift"};</code></td></tr><tr><td>Read / update</td><td><code>items[0]</code> / <code>piece.title = "Study";</code></td></tr><tr><td>Add / remove at end</td><td><code>items.push(piece)</code> / <code>items.pop()</code></td></tr><tr><td>Visit records</td><td><code>for (const item of items) { /* use item */ }</code></td></tr><tr><td>Identify an array</td><td><code>Array.isArray(items)</code> returns true</td></tr></tbody></table></div><p class="note"><code>typeof []</code> returns <code>"object"</code>. Use <code>Array.isArray()</code> when you specifically need to check for an array.</p><div class="sources"><p>Textbook reference: Marijn Haverbeke, <a href="https://eloquentjavascript.net/04_data.html#c-UXPbyGFVIB">Eloquent JavaScript, 4th edition, Chapter 4: Data Structures: Objects and Arrays</a>. Read “Datasets,” “Properties,” “Methods,” “Objects,” “Mutability,” “Array loops,” and “Further arrayology” alongside this lesson.</p><p>This introductory companion uses original studio examples and exercises. Continue in the chapter for rest parameters, destructuring, JSON, and its longer journal-analysis example.</p></div></section></main><footer class="footer">JavaScript learning reference · Objects and Arrays</footer><script>const palette = ["coral", "teal"];
+function showPalette(message) {
+  document.querySelector("#palette-state").textContent =
+    JSON.stringify(palette) + "\nlength: " + palette.length +
+    "\n" + palette.map((color, index) => index + ": " + color).join("\n");
+  document.querySelector("#palette-result").textContent = message;
+}
+document.querySelector("#push").addEventListener("click", () => {
+  const input = document.querySelector("#color-name");
+  const name = input.value.trim();
+  if (!name) { showPalette("Enter a color name first."); input.focus(); return; }
+  const length = palette.push(name);
+  showPalette("push returned " + length + " (the new length).");
+});
+document.querySelector("#pop").addEventListener("click", () => {
+  const removed = palette.pop();
+  showPalette("pop returned " + (removed === undefined ? "undefined (the array was empty)." : JSON.stringify(removed) + "."));
+});
+document.querySelector("#reset").addEventListener("click", () => {
+  palette.length = 0;
+  palette.push("coral", "teal");
+  showPalette("Reset to two colors.");
+});
+showPalette("Start with two colors. Add a color or remove the last one.");
+const artworks = [
+  {title: "Night Garden", medium: "Print", displayed: true},
+  {title: "Signal", medium: "Sound", displayed: false},
+  {title: "Drift", medium: "Drawing", displayed: true}
+];
+let displayedOnly = false;
+
+function renderGallery() {
+  const list = document.querySelector("#gallery");
+  list.replaceChildren();
+  let visibleCount = 0;
+
+  for (const artwork of artworks) {
+    if (!displayedOnly || artwork.displayed) {
+      const item = document.createElement("li");
+      item.textContent = artwork.title + " — " + artwork.medium;
+      list.append(item);
+      visibleCount++;
+    }
+  }
+  document.querySelector("#count").textContent =
+    visibleCount + " of " + artworks.length + " artworks shown";
+  const button = document.querySelector("#toggle");
+  button.textContent = displayedOnly ? "Show all artworks" : "Show displayed only";
+  button.setAttribute("aria-pressed", String(displayedOnly));
+}
+
+document.querySelector("#toggle").addEventListener("click", () => {
+  displayedOnly = !displayedOnly;
+  renderGallery();
+});
+renderGallery();
+    async function copyCode(button) {
+      const code = button.closest(".codebox").querySelector("code");
+      const text = code.textContent;
+      const label = button.textContent;
+      let copied = false;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          copied = true;
+        }
+      } catch (_) { /* Local-file and denied-clipboard fallback below. */ }
+      if (!copied) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.cssText = "position:fixed;left:-9999px;top:0";
+        document.body.append(textarea);
+        textarea.select();
+        copied = document.execCommand("copy");
+        textarea.remove();
+      }
+      if (copied) {
+        button.textContent = "Copied";
+      } else {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        button.textContent = "Press Ctrl+C";
+      }
+      button.focus({ preventScroll: true });
+      window.setTimeout(() => { button.textContent = label; }, 2000);
+    }
+
+    document.querySelectorAll(".copy").forEach((button) => {
+      button.addEventListener("click", () => copyCode(button));
+    });
+</script></body></html>
